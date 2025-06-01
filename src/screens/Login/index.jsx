@@ -1,6 +1,6 @@
 import {confirmSignIn, signIn, signUp} from 'aws-amplify/auth';
-import React, {useState, useCallback, memo} from 'react';
-import {Text, View, useWindowDimensions} from 'react-native';
+import React, {useState, useCallback, memo, useRef} from 'react';
+import {Text, View, Animated} from 'react-native';
 import {Banners} from '../../assets/banners';
 import {Icons} from '../../assets/icons';
 import Button from '../../components/elements/Button';
@@ -121,6 +121,47 @@ const LoginScreen = () => {
   const [isResendOtpEnabled, setIsResendOtpEnabled] = useState(false);
   const [resendOtpCounter, setResendOtpCounter] = useState(0);
 
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  // Handle animations when step changes
+  const animateTransition = useCallback(
+    newStep => {
+      // Fade out current content
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setStep(newStep);
+        // Reset slide position for new content
+        slideAnim.setValue(50);
+        // Fade in new content
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      });
+    },
+    [fadeAnim, slideAnim],
+  );
+
   // Memoized handlers
   const handlePhoneChange = useCallback(text => {
     setPhone(text);
@@ -133,10 +174,10 @@ const LoginScreen = () => {
   }, []);
 
   const handleChangeNumber = useCallback(() => {
-    setStep(1);
+    animateTransition(1);
     setOtp('');
     setOtpError('');
-  }, []);
+  }, [animateTransition]);
 
   const handleLogin = useCallback(async () => {
     setPhoneError('');
@@ -182,7 +223,7 @@ const LoginScreen = () => {
         signInResult?.nextStep?.signInStep ===
         'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE'
       ) {
-        setStep(2);
+        animateTransition(2);
         setIsResendOtpEnabled(false);
         setResendOtpCounter(30);
 
@@ -203,7 +244,7 @@ const LoginScreen = () => {
     } finally {
       setLoading(false);
     }
-  }, [phone]);
+  }, [phone, animateTransition]);
 
   const handleResendOtp = useCallback(async () => {
     if (!isResendOtpEnabled || loading) {
@@ -275,33 +316,43 @@ const LoginScreen = () => {
         <Banners.LoginBanner width="100%" height="100%" />
       </View>
       <View className="flex p-5 flex-col gap-10 items-center justify-center bg-white mt-[-80px] rounded-t-[3rem]">
-        <LoginHeader
-          title={
-            step === 1 ? "India's #1 Creator Lifestyle App" : 'OTP Verification'
-          }
-        />
-        {step === 1 ? (
-          <PhoneStep
-            phone={phone}
-            setPhone={handlePhoneChange}
-            phoneError={phoneError}
-            loading={loading}
-            handleLogin={handleLogin}
+        <Animated.View
+          className="w-full"
+          style={{
+            opacity: fadeAnim,
+            transform: [{translateY: slideAnim}],
+          }}>
+          <LoginHeader
+            title={
+              step === 1
+                ? "India's #1 Creator Lifestyle App"
+                : 'OTP Verification'
+            }
           />
-        ) : (
-          <OTPStep
-            phone={phone}
-            otp={otp}
-            setOtp={handleOtpChange}
-            otpError={otpError}
-            loading={loading}
-            handleVerifyOtp={handleVerifyOtp}
-            handleChangeNumber={handleChangeNumber}
-            handleResendOtp={handleResendOtp}
-            resendOtpCounter={resendOtpCounter}
-            isResendOtpEnabled={isResendOtpEnabled}
-          />
-        )}
+
+          {step === 1 ? (
+            <PhoneStep
+              phone={phone}
+              setPhone={handlePhoneChange}
+              phoneError={phoneError}
+              loading={loading}
+              handleLogin={handleLogin}
+            />
+          ) : (
+            <OTPStep
+              phone={phone}
+              otp={otp}
+              setOtp={handleOtpChange}
+              otpError={otpError}
+              loading={loading}
+              handleVerifyOtp={handleVerifyOtp}
+              handleChangeNumber={handleChangeNumber}
+              handleResendOtp={handleResendOtp}
+              resendOtpCounter={resendOtpCounter}
+              isResendOtpEnabled={isResendOtpEnabled}
+            />
+          )}
+        </Animated.View>
       </View>
     </View>
   );
