@@ -1,15 +1,16 @@
-import {confirmSignIn, signIn, signUp} from 'aws-amplify/auth';
-import React, {useState, useCallback, memo, useRef} from 'react';
-import {Text, View, Animated} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {confirmSignIn, getCurrentUser, signIn, signUp} from 'aws-amplify/auth';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {Animated, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {Banners} from '../../assets/banners';
 import {Icons} from '../../assets/icons';
 import Button from '../../components/elements/Button';
 import OTPInput from '../../components/elements/OTPInput';
 import PhoneInput from '../../components/elements/PhoneInput';
-import {generateTempPassword, formatPhoneNumber} from '../../utility/helper';
-import {useNavigation} from '@react-navigation/native';
+import {fetchInfluencerById} from '../../store/slices/onBoarding';
+import {formatPhoneNumber, generateTempPassword} from '../../utility/helper';
 
-// Extracted components for better organization
 const LoginHeader = memo(({title}) => (
   <View className="flex-col items-center gap-2">
     <Icons.MywallLogo height={90} width={90} />
@@ -112,7 +113,9 @@ const OTPStep = memo(
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const {onBoarding} = useSelector(state => state?.onBoarding);
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState('');
   const [phoneError, setPhoneError] = useState('');
@@ -120,6 +123,7 @@ const LoginScreen = () => {
   const [otpError, setOtpError] = useState('');
   const [isResendOtpEnabled, setIsResendOtpEnabled] = useState(false);
   const [resendOtpCounter, setResendOtpCounter] = useState(0);
+  console.log('onBoarding login screen', onBoarding);
 
   // Animation values
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -181,14 +185,13 @@ const LoginScreen = () => {
 
   const handleLogin = useCallback(async () => {
     setPhoneError('');
+    setIsLoading(true);
 
     const cleanPhone = phone.replace(/\s+/g, '');
     if (cleanPhone.length !== 10) {
       setPhoneError('Please enter a valid 10-digit phone number');
       return;
     }
-
-    setLoading(true);
 
     try {
       const formattedPhone = formatPhoneNumber(cleanPhone);
@@ -242,16 +245,16 @@ const LoginScreen = () => {
       console.error('Login error:', error);
       setPhoneError(error.message || 'Something went wrong. Please try again.');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [phone, animateTransition]);
 
   const handleResendOtp = useCallback(async () => {
-    if (!isResendOtpEnabled || loading) {
+    if (!isResendOtpEnabled || isLoading) {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phone.replace(/\s+/g, ''));
       await signIn({
@@ -278,23 +281,29 @@ const LoginScreen = () => {
       console.error('Resend OTP error:', error);
       setOtpError(error.message || 'Failed to resend OTP. Please try again.');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  }, [isResendOtpEnabled, loading, phone]);
+  }, [isResendOtpEnabled, isLoading, phone]);
 
   const handleVerifyOtp = useCallback(async () => {
-    if (!otp || loading) {
+    if (!otp || isLoading) {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
     try {
       const result = await confirmSignIn({
         challengeResponse: otp,
       });
 
       if (result?.isSignedIn || result?.signInStep === 'DONE') {
-        navigation.replace('Main');
+        const loggedInUser = await getCurrentUser();
+        console.log('login user', loggedInUser);
+        await dispatch(
+          fetchInfluencerById(
+            `${loggedInUser?.username}::${loggedInUser?.username}`,
+          ),
+        );
       } else {
         setOtpError('Invalid OTP. Please try again.');
       }
@@ -306,9 +315,18 @@ const LoginScreen = () => {
         setOtpError(error.message || 'Invalid OTP. Please try again.');
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  }, [otp, loading, navigation]);
+  }, [otp, isLoading, dispatch]);
+
+  // Handle navigation based on onBoarding status
+  useEffect(() => {
+    if (onBoarding?.profileStatusCode === 'step1') {
+      navigation.replace('IgUsername');
+    } else if (onBoarding?.profileStatusCode === 'done') {
+      navigation.replace('Main');
+    }
+  }, [onBoarding?.profileStatusCode, navigation]);
 
   return (
     <View className="flex-1 bg-white">
@@ -335,7 +353,7 @@ const LoginScreen = () => {
               phone={phone}
               setPhone={handlePhoneChange}
               phoneError={phoneError}
-              loading={loading}
+              loading={isLoading}
               handleLogin={handleLogin}
             />
           ) : (
@@ -344,7 +362,7 @@ const LoginScreen = () => {
               otp={otp}
               setOtp={handleOtpChange}
               otpError={otpError}
-              loading={loading}
+              loading={isLoading}
               handleVerifyOtp={handleVerifyOtp}
               handleChangeNumber={handleChangeNumber}
               handleResendOtp={handleResendOtp}

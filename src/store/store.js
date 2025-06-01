@@ -2,18 +2,18 @@ import {configureStore} from '@reduxjs/toolkit';
 import {combineReducers} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import userReducer from './slices/userSlice';
+import onBoardingReducer from './slices/onBoarding';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['onBoarding'],
 };
 
 export const RESET_APP_STATE = 'RESET_APP_STATE';
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  onBoarding: onBoardingReducer,
 });
 
 const rootReducerWithReset = (state, action) => {

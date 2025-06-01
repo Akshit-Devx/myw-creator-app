@@ -12,6 +12,7 @@ import IgStory from './igStory.svg';
 import MywallLogoWithName from './mywallIcon.svg';
 import MywallLogo from './mywallLogo.svg';
 import UnFilledStar from './unFilledStar.svg';
+import IgRoundedIcon from './igRoundedIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -28,4 +29,5 @@ export const Icons = {
   MywallLogoWithName,
   MywallLogo,
   CampaignIcon,
+  IgRoundedIcon,
 };

@@ -3,12 +3,14 @@ import {Text, View} from 'react-native';
 import Button from '../../components/elements/Button';
 import {signOut} from 'aws-amplify/auth';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {resetStore} from '../../store/store';
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {onBoarding} = useSelector(state => state?.onBoarding);
+  console.log('onBoarding', onBoarding);
 
   const handleLogout = async () => {
     try {

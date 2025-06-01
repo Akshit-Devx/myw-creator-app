@@ -1,7 +1,6 @@
-import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {getCurrentUser} from 'aws-amplify/auth';
-import React, {useEffect} from 'react';
+import React from 'react';
+import IgUsernameScreen from '../../../screens/IgUsername';
 import LoginScreen from '../../../screens/Login';
 import SplashScreen from '../../../screens/SplashScreen';
 
@@ -14,6 +13,7 @@ const AuthStack = () => {
       initialRouteName="Splash">
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="IgUsername" component={IgUsernameScreen} />
     </Stack.Navigator>
   );
 };
