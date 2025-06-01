@@ -12,7 +12,7 @@ const SplashScreen = () => {
       try {
         const user = await getCurrentUser();
         if (user) {
-          navigation.replace('Tab');
+          navigation.replace('Main');
         }
       } catch (error) {
         console.log('Error', error);

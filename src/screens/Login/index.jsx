@@ -140,7 +140,7 @@ const LoginScreen = () => {
       });
       console.log('OTP verification result:', result);
       if (result?.isSignedIn || result?.signInStep === 'DONE') {
-        navigation.replace('Tab');
+        navigation.replace('Main');
         // Handle successful verification here
       } else {
         setOtpError('Invalid OTP. Please try again.');

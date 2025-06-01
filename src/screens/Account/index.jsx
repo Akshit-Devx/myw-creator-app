@@ -14,7 +14,10 @@ const AccountScreen = () => {
     try {
       await signOut();
       dispatch(resetStore());
-      navigation.replace('Login');
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Auth', params: {screen: 'Login'}}],
+      });
     } catch (error) {
       console.log('Error:', error);
     }
