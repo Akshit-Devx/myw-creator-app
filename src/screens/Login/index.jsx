@@ -21,10 +21,8 @@ const LoginScreen = () => {
   const [resendOtpCounter, setResendOtpCounter] = useState(0);
 
   const handleLogin = async () => {
-    // Clear any previous errors
     setPhoneError('');
 
-    // Validate phone number length (excluding spaces)
     const cleanPhone = phone.replace(/\s+/g, '');
     if (cleanPhone.length !== 10) {
       setPhoneError('Please enter a valid 10-digit phone number');
@@ -37,7 +35,6 @@ const LoginScreen = () => {
       console.log('Attempting login with:', formattedPhone);
 
       try {
-        // Try signing up first
         const signUpResult = await signUp({
           username: formattedPhone,
           password: 'Test@1234',
@@ -49,11 +46,9 @@ const LoginScreen = () => {
         });
         console.log('SignUp result:', signUpResult);
       } catch (signUpError) {
-        // If user already exists, this error is expected
         console.log('SignUp error (might be expected):', signUpError);
       }
 
-      // Proceed with sign in
       const signInResult = await signIn({
         username: formattedPhone,
         options: {
@@ -65,7 +60,6 @@ const LoginScreen = () => {
         signInResult?.nextStep?.signInStep ===
         'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE'
       ) {
-        // Move to OTP screen
         setStep(2);
         setIsResendOtpEnabled(false);
         setResendOtpCounter(30);
@@ -104,9 +98,8 @@ const LoginScreen = () => {
       });
       console.log('Resend OTP result:', result);
 
-      // Start cooldown timer
       setIsResendOtpEnabled(false);
-      setResendOtpCounter(30); // 30 seconds cooldown
+      setResendOtpCounter(30);
 
       const timer = setInterval(() => {
         setResendOtpCounter(prev => {
@@ -141,7 +134,6 @@ const LoginScreen = () => {
       console.log('OTP verification result:', result);
       if (result?.isSignedIn || result?.signInStep === 'DONE') {
         navigation.replace('Main');
-        // Handle successful verification here
       } else {
         setOtpError('Invalid OTP. Please try again.');
       }
