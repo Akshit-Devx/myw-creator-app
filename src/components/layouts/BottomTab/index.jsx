@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-// import {Icons} from '../../../assets/images/icons';
+import {Icons} from '../../../assets/icons';
 
 const TabItem = memo(({label, icon, activeIcon, isFocused, onPress}) => {
   const isQrScanner = label === 'QrScanner';
@@ -28,31 +28,27 @@ const TabItem = memo(({label, icon, activeIcon, isFocused, onPress}) => {
 });
 
 const BottomTab = ({state, descriptors, navigation}) => {
-  // const tabIcons = useMemo(
-  //   () => ({
-  //     Home: {
-  //       default: <Icons.Home width={24} height={24} />,
-  //       active: <Icons.HomeActive width={24} height={24} />,
-  //     },
-  //     Bookings: {
-  //       default: <Icons.Bookings width={24} height={24} />,
-  //       active: <Icons.BookingsActive width={24} height={24} />,
-  //     },
-  //     History: {
-  //       default: <Icons.History width={24} height={24} />,
-  //       active: <Icons.HistoryActive width={24} height={24} />,
-  //     },
-  //     Profile: {
-  //       default: <Icons.Profile width={24} height={24} />,
-  //       active: <Icons.ProfileActive width={24} height={24} />,
-  //     },
-  //     QrScanner: {
-  //       default: <Icons.QrScanner width={56} height={56} />,
-  //       active: <Icons.QrScanner width={56} height={56} />,
-  //     },
-  //   }),
-  //   [],
-  // );
+  const tabIcons = useMemo(
+    () => ({
+      Explore: {
+        default: <Icons.ExploreInactive width={24} height={24} />,
+        active: <Icons.ExploreActive width={24} height={24} />,
+      },
+      'My Collabs': {
+        default: <Icons.CollabInactive width={24} height={24} />,
+        active: <Icons.CollabActive width={24} height={24} />,
+      },
+      'Link-in-bio': {
+        default: <Icons.LinkInBioInactive width={24} height={24} />,
+        active: <Icons.LinkInBioActive width={24} height={24} />,
+      },
+      Analytics: {
+        default: <Icons.AnalyticsInactive width={24} height={24} />,
+        active: <Icons.AnalyticsActive width={24} height={24} />,
+      },
+    }),
+    [],
+  );
 
   return (
     <View className="flex-row bg-white border-t border-gray-200">
@@ -77,8 +73,8 @@ const BottomTab = ({state, descriptors, navigation}) => {
           <TabItem
             key={route.key}
             label={label}
-            // icon={tabIcons[route.name].default}
-            // activeIcon={tabIcons[route.name].active}
+            icon={tabIcons[route.name].default}
+            activeIcon={tabIcons[route.name].active}
             isFocused={isFocused}
             onPress={onPress}
           />

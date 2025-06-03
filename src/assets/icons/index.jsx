@@ -13,6 +13,15 @@ import MywallLogoWithName from './mywallIcon.svg';
 import MywallLogo from './mywallLogo.svg';
 import UnFilledStar from './unFilledStar.svg';
 import IgRoundedIcon from './igRoundedIcon.svg';
+import InvitesIcon from './invitesIcon.svg';
+import AnalyticsInactive from './analyticsInactive.svg';
+import AnalyticsActive from './analyticsActive.svg';
+import CollabInactive from './collabInactive.svg';
+import CollabActive from './collabActive.svg';
+import ExploreInactive from './exploreInactive.svg';
+import ExploreActive from './exploreActive.svg';
+import LinkInBioInactive from './linkInBioInactive.svg';
+import LinkInBioActive from './linkInBioActive.svg';
 
 export const Icons = {
   BackIcon,
@@ -30,4 +39,13 @@ export const Icons = {
   MywallLogo,
   CampaignIcon,
   IgRoundedIcon,
+  InvitesIcon,
+  AnalyticsInactive,
+  AnalyticsActive,
+  CollabInactive,
+  CollabActive,
+  ExploreInactive,
+  ExploreActive,
+  LinkInBioInactive,
+  LinkInBioActive,
 };
