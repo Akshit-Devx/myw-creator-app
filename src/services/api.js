@@ -68,3 +68,127 @@ export const getIgData = /* GraphQL */ `
     }
   }
 `;
+
+export const getCampaignInvitationsByInfluencerId = /* GraphQL */ `
+  query GetCampaignInvitationsByInfluencerId(
+    $influencerId: ID!
+    $isInviteNotified: Boolean
+  ) {
+    getCampaignInvitationsByInfluencerId(
+      influencerId: $influencerId
+      isInviteNotified: $isInviteNotified
+    ) {
+      brandId
+      campaignId
+      collaborationId
+      influencerId
+      status
+      isInviteNotified
+      banner
+      campaignName
+      campaignType
+      campaignCategory
+      brandRating
+    }
+  }
+`;
+
+export const filterCampaign = /* GraphQL */ `
+  query FilterCampaign($input: SyncFilterCampaignInput) {
+    filterCampaign(input: $input) {
+      items {
+        id
+        brandId
+        brandName
+        brandLogo
+        type
+        isFeatured
+        hasFastApproval
+        featuredBanner
+        banner
+        featuredBanner
+        type
+        stores
+        storesData {
+          id
+          storeType
+          name
+          address
+          locality
+          city
+          state
+          country
+          pincode
+          logo
+          avgPrice
+          storeType
+          categories
+          services
+          establishmentType
+          availability {
+            day
+            openTime
+            closeTime
+          }
+          storeMedia {
+            name
+            media
+          }
+        }
+        name
+        category
+        description
+        maxInfluencersPerDay
+        status
+        isAgreementAccepted
+        verificationStatus
+        verifiedAt
+        isArchived
+        isFeatured
+        suggestionListId
+        createdAt
+        updatedAt
+        requirements {
+          platform
+          creatorType {
+            minFollowers
+            maxFollowers
+            allowedGuests
+            autoRequestApproval
+            autoDeliverablesApproval
+            offerPercentage
+            isAmtLimit
+            uptoAmount
+            offerings {
+              name
+              description
+            }
+            stayDuration {
+              days
+              nights
+            }
+            deliverables {
+              reels
+              posts
+              stories
+              shorts
+            }
+          }
+          references {
+            name
+            description
+            links
+          }
+          isNegotiable
+        }
+      }
+      pagination {
+        total
+        page
+        size
+        totalPages
+        nextToken
+      }
+    }
+  }
+`;

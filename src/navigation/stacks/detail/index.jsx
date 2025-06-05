@@ -1,8 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import AccountScreen from '../../../screens/Account';
-import {useNavigation} from '@react-navigation/native';
 import HeaderBackButton from '../../../components/common/HeaderBackButton';
+import AccountScreen from '../../../screens/Account';
+import InvitesScreen from '../../../screens/Invites';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,11 @@ const DetailStack = () => {
         name="Account"
         component={AccountScreen}
         options={getScreenOptions('Account', navigation)}
+      />
+      <Stack.Screen
+        name="Invites"
+        component={InvitesScreen}
+        options={getScreenOptions('Invites', navigation)}
       />
     </Stack.Navigator>
   );

@@ -1,5 +1,10 @@
 import {generateClient} from 'aws-amplify/api';
-import {getIgData, getInfluencer} from './api';
+import {
+  filterCampaign,
+  getCampaignInvitationsByInfluencerId,
+  getIgData,
+  getInfluencer,
+} from './api';
 
 const client = generateClient();
 
@@ -31,6 +36,38 @@ export const getIgDataAPI = async input => {
     });
     console.log('response', response);
     return response?.data?.getIgData;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getCampaignInvitationsByInfluencerIdAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: getCampaignInvitationsByInfluencerId,
+      variables: {
+        input,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getIgData;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const filterCampaignAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: filterCampaign,
+      variables: {
+        input,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.filterCampaign;
   } catch (error) {
     console.error('Error:', error);
     throw error;

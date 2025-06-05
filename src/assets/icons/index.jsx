@@ -22,6 +22,13 @@ import ExploreInactive from './exploreInactive.svg';
 import ExploreActive from './exploreActive.svg';
 import LinkInBioInactive from './linkInBioInactive.svg';
 import LinkInBioActive from './linkInBioActive.svg';
+import ExploreIcon from './exploreIcon.svg';
+import ForYouIcon from './forYouIcon.svg';
+import HotelIcon from './hotelIcon.svg';
+import RestaurantIcon from './restaurantIcon.svg';
+import SalonIcon from './salonIcon.svg';
+import LeftGradientLine from './leftGradientLine.svg';
+import RightGradientLine from './rightGradientLine.svg';
 
 export const Icons = {
   BackIcon,
@@ -48,4 +55,11 @@ export const Icons = {
   ExploreActive,
   LinkInBioInactive,
   LinkInBioActive,
+  ExploreIcon,
+  ForYouIcon,
+  HotelIcon,
+  RestaurantIcon,
+  SalonIcon,
+  LeftGradientLine,
+  RightGradientLine,
 };
