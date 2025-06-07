@@ -1,48 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, FlatList} from 'react-native';
-import CampaignTypeButton from '../../common/CampaignTypeButton';
+import {FlatList, Text, View} from 'react-native';
 import {Icons} from '../../../assets/icons';
-import {convertToTitleCase} from '../../../utility/helper';
 import {filterCampaignAPI} from '../../../services/handleApi';
+import {convertToTitleCase} from '../../../utility/helper';
+import BarterCampaignCard from '../../cards/BarterCampaign';
 import FeaturedCampaignBarterCard from '../../cards/FeaturedCampaignBarter';
 import FeaturedCampaignOfferCard from '../../cards/FeaturedCampaignOffer';
-import {ScrollView} from 'react-native-gesture-handler';
-import BarterCampaignCard from '../../cards/BarterCampaign';
 import OfferCampaignCard from '../../cards/OfferCampaign';
+import CampaignTypeButton from '../../common/CampaignTypeButton';
 
 const RestaurantsCampaignsSection = () => {
   const [selectedType, setSelectedType] = useState('BARTER');
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
-  const [featuredCampaignsPagination, setFeaturedCampaignsPagination] =
-    useState({
-      total: 0,
-      page: 1,
-      size: 10,
-      totalPages: 1,
-      nextToken: null,
-    });
   const [campaigns, setCampaigns] = useState([]);
-  const [campaignsPagination, setCampaignsPagination] = useState({
-    total: 0,
-    page: 1,
-    size: 10,
-    totalPages: 1,
-    nextToken: null,
-  });
 
   useEffect(() => {
-    fetchCampaigns(true);
+    fetchFeaturedCampaigns();
+    fetchNonFeaturedCampaigns();
   }, [selectedType]);
 
-  const fetchCampaigns = async (resetData = true) => {
+  const fetchFeaturedCampaigns = async () => {
     try {
-      // Fetch Featured Campaigns
       const featuredCampaignsResponse = await filterCampaignAPI({
         type: selectedType || 'BARTER',
         category: 'RESTAURANTS',
         isFeatured: true,
-        size: 10,
-        page: featuredCampaignsPagination.page,
+        size: 50,
+        page: 1,
       });
 
       const transformedFeaturedCampaigns =
@@ -53,20 +37,20 @@ const RestaurantsCampaignsSection = () => {
           }));
         });
 
-      setFeaturedCampaigns(prevCampaigns =>
-        resetData
-          ? transformedFeaturedCampaigns
-          : [...prevCampaigns, ...transformedFeaturedCampaigns],
-      );
-      setFeaturedCampaignsPagination(featuredCampaignsResponse.pagination);
+      setFeaturedCampaigns(transformedFeaturedCampaigns);
+    } catch (error) {
+      console.error('Error fetching campaigns:', error);
+    }
+  };
 
-      // Fetch Non-Featured Campaigns
+  const fetchNonFeaturedCampaigns = async () => {
+    try {
       const campaignsResponse = await filterCampaignAPI({
         type: selectedType || 'BARTER',
         category: 'RESTAURANTS',
         isFeatured: false,
-        size: 10,
-        page: campaignsPagination.page,
+        size: 50,
+        page: 1,
       });
 
       const transformedCampaigns = campaignsResponse.items.flatMap(campaign => {
@@ -76,16 +60,12 @@ const RestaurantsCampaignsSection = () => {
         }));
       });
 
-      setCampaigns(prevCampaigns =>
-        resetData
-          ? transformedCampaigns
-          : [...prevCampaigns, ...transformedCampaigns],
-      );
-      setCampaignsPagination(campaignsResponse.pagination);
+      setCampaigns(transformedCampaigns);
     } catch (error) {
       console.error('Error fetching campaigns:', error);
     }
   };
+
   console.log('featuredCampaigns', featuredCampaigns);
   console.log('campaigns', campaigns);
 
@@ -109,16 +89,6 @@ const RestaurantsCampaignsSection = () => {
           contentContainerClassName="gap-5 px-1"
           data={featuredCampaigns}
           keyExtractor={(item, index) => item.id + index}
-          onEndReached={() => {
-            if (campaignsPagination.page < campaignsPagination.totalPages) {
-              setCampaignsPagination(prev => ({
-                ...prev,
-                page: prev.page + 1,
-              }));
-              fetchCampaigns(false);
-            }
-          }}
-          onEndReachedThreshold={0.5}
           renderItem={({item: campaign}) =>
             selectedType === 'BARTER' ? (
               <FeaturedCampaignBarterCard campaign={campaign} />
@@ -142,16 +112,6 @@ const RestaurantsCampaignsSection = () => {
           contentContainerClassName="gap-5 px-1"
           data={campaigns}
           keyExtractor={(item, index) => item.id + index}
-          onEndReached={() => {
-            if (campaignsPagination.page < campaignsPagination.totalPages) {
-              setCampaignsPagination(prev => ({
-                ...prev,
-                page: prev.page + 1,
-              }));
-              fetchCampaigns(false);
-            }
-          }}
-          onEndReachedThreshold={0.5}
           renderItem={({item: campaign}) =>
             selectedType === 'BARTER' ? (
               <BarterCampaignCard campaign={campaign} />
