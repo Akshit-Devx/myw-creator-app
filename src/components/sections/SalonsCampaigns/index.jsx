@@ -85,73 +85,69 @@ const SalonsCampaignsSection = () => {
         setSelectedType={setSelectedType}
       />
 
-      {!!featuredCampaigns.length && (
-        <View className="flex-col gap-8">
-          <View className="flex-row justify-center items-center gap-2">
-            <Icons.LeftGradientLine height={24} width={60} />
-            <Text className="text-center text-xl font-semibold">
-              Featured {convertToTitleCase(selectedType)}s
-            </Text>
-            <Icons.RightGradientLine height={24} width={60} />
-          </View>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerClassName="gap-5 px-1"
-            data={isLoadingFeatured ? [1, 2, 3] : featuredCampaigns}
-            keyExtractor={(item, index) =>
-              isLoadingFeatured ? `skeleton-${index}` : item.id + index
-            }
-            renderItem={({item: campaign}) =>
-              isLoadingFeatured ? (
-                selectedType === 'BARTER' ? (
-                  <FeaturedCampaignBarterCardSkeleton />
-                ) : (
-                  <FeaturedCampaignOfferCardSkeleton />
-                )
-              ) : selectedType === 'BARTER' ? (
-                <FeaturedCampaignBarterCard campaign={campaign} />
-              ) : (
-                <FeaturedCampaignOfferCard campaign={campaign} />
-              )
-            }
-          />
+      <View className="flex-col gap-8">
+        <View className="flex-row justify-center items-center gap-2">
+          <Icons.LeftGradientLine height={24} width={60} />
+          <Text className="text-center text-xl font-semibold">
+            Featured {convertToTitleCase(selectedType)}s
+          </Text>
+          <Icons.RightGradientLine height={24} width={60} />
         </View>
-      )}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="gap-5 px-1"
+          data={isLoadingFeatured ? [1, 2, 3] : featuredCampaigns}
+          keyExtractor={(item, index) =>
+            isLoadingFeatured ? `skeleton-${index}` : item.id + index
+          }
+          renderItem={({item: campaign}) =>
+            isLoadingFeatured ? (
+              selectedType === 'BARTER' ? (
+                <FeaturedCampaignBarterCardSkeleton />
+              ) : (
+                <FeaturedCampaignOfferCardSkeleton />
+              )
+            ) : selectedType === 'BARTER' ? (
+              <FeaturedCampaignBarterCard campaign={campaign} />
+            ) : (
+              <FeaturedCampaignOfferCard campaign={campaign} />
+            )
+          }
+        />
+      </View>
 
-      {!!campaigns.length && (
-        <View className="flex-col gap-8">
-          <View className="flex-row justify-center items-center gap-2">
-            <Icons.LeftGradientLine height={24} width={60} />
-            <Text className="text-center text-xl font-semibold">
-              {convertToTitleCase(selectedType)}s
-            </Text>
-            <Icons.RightGradientLine height={24} width={60} />
-          </View>
-          <FlatList
-            vertical
-            showsVerticalScrollIndicator={false}
-            contentContainerClassName="gap-5 px-1"
-            data={isLoadingCampaigns ? [1, 2, 3, 4] : campaigns}
-            keyExtractor={(item, index) =>
-              isLoadingCampaigns ? `skeleton-${index}` : item.id + index
-            }
-            renderItem={({item: campaign}) =>
-              isLoadingCampaigns ? (
-                selectedType === 'BARTER' ? (
-                  <BarterCampaignCardSkeleton />
-                ) : (
-                  <OfferCampaignCardSkeleton />
-                )
-              ) : selectedType === 'BARTER' ? (
-                <BarterCampaignCard campaign={campaign} />
-              ) : (
-                <OfferCampaignCard campaign={campaign} />
-              )
-            }
-          />
+      <View className="flex-col gap-8">
+        <View className="flex-row justify-center items-center gap-2">
+          <Icons.LeftGradientLine height={24} width={60} />
+          <Text className="text-center text-xl font-semibold">
+            {convertToTitleCase(selectedType)}s
+          </Text>
+          <Icons.RightGradientLine height={24} width={60} />
         </View>
-      )}
+        <FlatList
+          vertical
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="gap-5 px-1"
+          data={isLoadingCampaigns ? [1, 2, 3, 4] : campaigns}
+          keyExtractor={(item, index) =>
+            isLoadingCampaigns ? `skeleton-${index}` : item.id + index
+          }
+          renderItem={({item: campaign}) =>
+            isLoadingCampaigns ? (
+              selectedType === 'BARTER' ? (
+                <BarterCampaignCardSkeleton />
+              ) : (
+                <OfferCampaignCardSkeleton />
+              )
+            ) : selectedType === 'BARTER' ? (
+              <BarterCampaignCard campaign={campaign} />
+            ) : (
+              <OfferCampaignCard campaign={campaign} />
+            )
+          }
+        />
+      </View>
     </View>
   );
 };
