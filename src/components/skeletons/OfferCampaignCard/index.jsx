@@ -7,7 +7,10 @@ const OfferCampaignCardSkeleton = () => {
 
   return (
     <View className="relative rounded-xl overflow-hidden border border-gray-200">
-      <AnimatedView className="w-full h-[280px] bg-gray-50" style={{opacity}} />
+      <AnimatedView
+        className="w-[340px] h-[200px] bg-gray-50"
+        style={{opacity}}
+      />
       <AnimatedView
         className="absolute top-0 left-0 w-[60px] h-6 bg-gray-200 rounded-br-lg"
         style={{opacity}}

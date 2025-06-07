@@ -29,7 +29,7 @@ const BarterCampaignCard = ({campaign}) => {
       {mediaType === 'video' ? (
         <Video
           source={{uri: getBrandMediaURL(campaign.banner)}}
-          style={{width: '100%', height: 300}}
+          style={{width: 340, height: 250}}
           resizeMode="cover"
           repeat
           muted
@@ -41,7 +41,7 @@ const BarterCampaignCard = ({campaign}) => {
       ) : (
         <Image
           source={{uri: getBrandMediaURL(campaign.banner)}}
-          style={{width: '100%', height: 300, objectFit: 'cover'}}
+          style={{width: 340, height: 250, objectFit: 'cover'}}
         />
       )}
       <View className="absolute top-2 left-2 rounded-xl overflow-hidden">

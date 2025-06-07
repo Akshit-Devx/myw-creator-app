@@ -19,7 +19,7 @@ const OfferCampaignCard = ({campaign}) => {
       {mediaType === 'video' ? (
         <Video
           source={{uri: getBrandMediaURL(campaign.banner)}}
-          style={{width: '100%', height: 280}}
+          style={{width: 340, height: 200}}
           resizeMode="cover"
           repeat
           muted
@@ -31,7 +31,7 @@ const OfferCampaignCard = ({campaign}) => {
       ) : (
         <Image
           source={{uri: getBrandMediaURL(campaign.banner)}}
-          style={{width: '100%', height: 280, objectFit: 'cover'}}
+          style={{width: 340, height: 200, objectFit: 'cover'}}
         />
       )}
       <Text className="absolute top-0 left-0 text-white font-bold text-md bg-[#f90] px-2 py-1 rounded-br-lg">
