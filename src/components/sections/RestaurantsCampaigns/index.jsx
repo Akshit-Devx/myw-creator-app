@@ -8,11 +8,17 @@ import FeaturedCampaignBarterCard from '../../cards/FeaturedCampaignBarter';
 import FeaturedCampaignOfferCard from '../../cards/FeaturedCampaignOffer';
 import OfferCampaignCard from '../../cards/OfferCampaign';
 import CampaignTypeButton from '../../common/CampaignTypeButton';
+import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
+import FeaturedCampaignBarterCardSkeleton from '../../skeletons/FeaturedCampaignBarterCard';
+import FeaturedCampaignOfferCardSkeleton from '../../skeletons/FeaturedCampaignOfferCard';
+import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
 
 const RestaurantsCampaignsSection = () => {
   const [selectedType, setSelectedType] = useState('BARTER');
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
+  const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);
+  const [isLoadingCampaigns, setIsLoadingCampaigns] = useState(true);
 
   useEffect(() => {
     fetchFeaturedCampaigns();
@@ -20,6 +26,7 @@ const RestaurantsCampaignsSection = () => {
   }, [selectedType]);
 
   const fetchFeaturedCampaigns = async () => {
+    setIsLoadingFeatured(true);
     try {
       const featuredCampaignsResponse = await filterCampaignAPI({
         type: selectedType || 'BARTER',
@@ -40,10 +47,13 @@ const RestaurantsCampaignsSection = () => {
       setFeaturedCampaigns(transformedFeaturedCampaigns);
     } catch (error) {
       console.error('Error fetching campaigns:', error);
+    } finally {
+      setIsLoadingFeatured(false);
     }
   };
 
   const fetchNonFeaturedCampaigns = async () => {
+    setIsLoadingCampaigns(true);
     try {
       const campaignsResponse = await filterCampaignAPI({
         type: selectedType || 'BARTER',
@@ -63,6 +73,8 @@ const RestaurantsCampaignsSection = () => {
       setCampaigns(transformedCampaigns);
     } catch (error) {
       console.error('Error fetching campaigns:', error);
+    } finally {
+      setIsLoadingCampaigns(false);
     }
   };
 
@@ -87,10 +99,18 @@ const RestaurantsCampaignsSection = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerClassName="gap-5 px-1"
-          data={featuredCampaigns}
-          keyExtractor={(item, index) => item.id + index}
+          data={isLoadingFeatured ? [1, 2, 3] : featuredCampaigns}
+          keyExtractor={(item, index) =>
+            isLoadingFeatured ? `skeleton-${index}` : item.id + index
+          }
           renderItem={({item: campaign}) =>
-            selectedType === 'BARTER' ? (
+            isLoadingFeatured ? (
+              selectedType === 'BARTER' ? (
+                <FeaturedCampaignBarterCardSkeleton />
+              ) : (
+                <FeaturedCampaignOfferCardSkeleton />
+              )
+            ) : selectedType === 'BARTER' ? (
               <FeaturedCampaignBarterCard campaign={campaign} />
             ) : (
               <FeaturedCampaignOfferCard campaign={campaign} />
@@ -110,10 +130,18 @@ const RestaurantsCampaignsSection = () => {
           vertical
           showsVerticalScrollIndicator={false}
           contentContainerClassName="gap-5 px-1"
-          data={campaigns}
-          keyExtractor={(item, index) => item.id + index}
+          data={isLoadingCampaigns ? [1, 2, 3, 4] : campaigns}
+          keyExtractor={(item, index) =>
+            isLoadingCampaigns ? `skeleton-${index}` : item.id + index
+          }
           renderItem={({item: campaign}) =>
-            selectedType === 'BARTER' ? (
+            isLoadingCampaigns ? (
+              selectedType === 'BARTER' ? (
+                <BarterCampaignCardSkeleton />
+              ) : (
+                <OfferCampaignCardSkeleton />
+              )
+            ) : selectedType === 'BARTER' ? (
               <BarterCampaignCard campaign={campaign} />
             ) : (
               <OfferCampaignCard campaign={campaign} />
