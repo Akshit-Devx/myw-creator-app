@@ -1,6 +1,7 @@
 import {generateClient} from 'aws-amplify/api';
 import {
   filterCampaign,
+  getCampaign,
   getCampaignInvitationsByInfluencerId,
   getIgData,
   getInfluencer,
@@ -68,6 +69,22 @@ export const filterCampaignAPI = async input => {
       authMode: 'userPool',
     });
     return response?.data?.filterCampaign;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getCampaignByIdAPI = async id => {
+  try {
+    const response = await client.graphql({
+      query: getCampaign,
+      variables: {
+        id,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getCampaign;
   } catch (error) {
     console.error('Error:', error);
     throw error;

@@ -1,5 +1,7 @@
 import {Icons} from '../assets/icons';
 
+export const CAMPAIGN_CATEGORIES_LIST = ['RESTAURANTS', 'SALONS', 'RESORTS'];
+
 export const CAMPAIGN_CATEGORIES = [
   {
     id: 'TRENDING',

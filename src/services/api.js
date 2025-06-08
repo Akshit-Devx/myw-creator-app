@@ -192,3 +192,85 @@ export const filterCampaign = /* GraphQL */ `
     }
   }
 `;
+
+export const getCampaign = /* GraphQL */ `
+  query GetCampaign($id: ID!) {
+    getCampaign(id: $id) {
+      id
+      brandId
+      brandName
+      brandLogo
+      banner
+      featuredBanner
+      hasFastApproval
+      type
+      stores
+      storesData {
+        id
+        name
+        address
+        locality
+        city
+        state
+        country
+        pincode
+        logo
+        avgPrice
+        storeType
+        categories
+        services
+        establishmentType
+      }
+      name
+      category
+      description
+      maxInfluencersPerDay
+      requirements {
+        platform
+        isNegotiable
+        creatorType {
+          minFollowers
+          maxFollowers
+          allowedGuests
+          autoRequestApproval
+          autoDeliverablesApproval
+          offerPercentage
+          isAmtLimit
+          uptoAmount
+          offerings {
+            name
+            description
+          }
+          stayDuration {
+            days
+            nights
+          }
+          deliverables {
+            reels
+            posts
+            stories
+            shorts
+          }
+        }
+        references {
+          name
+          description
+          links
+        }
+      }
+      availability {
+        day
+        openTime
+        closeTime
+      }
+      status
+      isAgreementAccepted
+      verificationStatus
+      verifiedAt
+      isArchived
+      isFeatured
+      createdAt
+      updatedAt
+    }
+  }
+`;
