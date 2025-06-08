@@ -23,7 +23,6 @@ const CampaignAboutSection = ({campaignData, followers}) => {
     'INSTAGRAM',
     followers,
   );
-  console.log('reqData', reqData);
   return (
     <View className="p-5 flex-col gap-5">
       <View className="border border-gray-200 rounded-lg p-4 flex-col gap-3">
@@ -291,7 +290,6 @@ const CampaignDetailsScreen = ({route}) => {
     setLoading(true);
     try {
       const response = await getCampaignByIdAPI(campaignId);
-      console.log('response', response);
 
       const matchingStore = (response?.storesData || []).find(
         store => store.id === storeId,
@@ -303,13 +301,11 @@ const CampaignDetailsScreen = ({route}) => {
 
       setCampaignData(transformedCampaign);
     } catch (error) {
-      console.log('Error:', error);
+      console.error('Error:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  console.log('campaignData', campaignData);
 
   const mediaType = getMediaTypeFromPath(campaignData?.banner);
 
