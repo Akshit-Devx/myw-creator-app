@@ -27,7 +27,6 @@ export const getInfluencerByIdAPI = async id => {
 
 export const getIgDataAPI = async input => {
   try {
-    console.log('input', input);
     const response = await client.graphql({
       query: getIgData,
       variables: {
@@ -35,7 +34,6 @@ export const getIgDataAPI = async input => {
       },
       authMode: 'userPool',
     });
-    console.log('response', response);
     return response?.data?.getIgData;
   } catch (error) {
     console.error('Error:', error);

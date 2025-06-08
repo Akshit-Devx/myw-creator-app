@@ -40,7 +40,6 @@ const SplashScreen = () => {
   const handleAuth = useCallback(async () => {
     try {
       const user = await getCurrentUser();
-      console.log('splash user', user);
       await checkAuthState(user, onBoarding, dispatch, navigation);
     } catch (error) {
       console.error('Auth error:', error);

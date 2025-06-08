@@ -11,11 +11,10 @@ export const fetchInfluencerById = createAsyncThunk(
   'onBoarding/fetchInfluencerById',
   async id => {
     try {
-      console.log('id', id);
       const response = await getInfluencerByIdAPI(id);
       return response;
     } catch (error) {
-      console.log('Error', error);
+      console.error('Error', error);
     }
   },
 );

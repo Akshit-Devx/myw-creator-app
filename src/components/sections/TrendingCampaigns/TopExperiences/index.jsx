@@ -71,7 +71,7 @@ const TopExperiencesSection = () => {
       }));
       setCampaigns(transformedResponse);
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
     } finally {
       setLoading(false);
     }

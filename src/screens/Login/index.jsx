@@ -123,7 +123,6 @@ const LoginScreen = () => {
   const [otpError, setOtpError] = useState('');
   const [isResendOtpEnabled, setIsResendOtpEnabled] = useState(false);
   const [resendOtpCounter, setResendOtpCounter] = useState(0);
-  console.log('onBoarding login screen', onBoarding);
 
   // Animation values
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -298,7 +297,6 @@ const LoginScreen = () => {
 
       if (result?.isSignedIn || result?.signInStep === 'DONE') {
         const loggedInUser = await getCurrentUser();
-        console.log('login user', loggedInUser);
         await dispatch(
           fetchInfluencerById(
             `${loggedInUser?.username}::${loggedInUser?.username}`,

@@ -38,7 +38,7 @@ const GoaGatewaySection = () => {
       }));
       setCampaigns(transformedCampaigns);
     } catch (error) {
-      console.log('Error:', error);
+      console.error('Error:', error);
     }
   };
 

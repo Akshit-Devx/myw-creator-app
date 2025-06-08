@@ -20,7 +20,6 @@ const internationalBeachStaysList = [
 ];
 
 const campaignCard = campaign => {
-  console.log('campaign', campaign);
   const mediaType = getMediaTypeFromPath(campaign.banner);
   return (
     <View className="border border-gray-200 rounded-xl overflow-hidden">
@@ -87,14 +86,12 @@ const InternationalBeachStaysSection = () => {
   const fetchCampaigns = async () => {
     setLoading(true);
     try {
-      console.log('fetching...');
       const response = await Promise.all(
         internationalBeachStaysList?.map(id => getCampaignByIdAPI(id)),
       );
-      console.log('response', response);
       setCampaigns(response);
     } catch (error) {
-      console.log('Error:', error);
+      console.error('Error:', error);
     } finally {
       setLoading(false);
     }

@@ -10,7 +10,6 @@ const AccountScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {onBoarding} = useSelector(state => state?.onBoarding);
-  console.log('onBoarding', onBoarding);
 
   const handleLogout = async () => {
     try {
@@ -21,7 +20,7 @@ const AccountScreen = () => {
         routes: [{name: 'Auth', params: {screen: 'Login'}}],
       });
     } catch (error) {
-      console.log('Error:', error);
+      console.error('Error:', error);
     }
   };
 
