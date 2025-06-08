@@ -220,6 +220,15 @@ export const getCampaign = /* GraphQL */ `
         categories
         services
         establishmentType
+        storeMedia {
+          name
+          media
+        }
+        availability {
+          day
+          openTime
+          closeTime
+        }
       }
       name
       category

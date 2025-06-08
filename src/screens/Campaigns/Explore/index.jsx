@@ -22,11 +22,13 @@ const CategoryButton = ({category, isSelected, onPress}) => (
 );
 
 const ExploreScreen = () => {
-  const [selectedCategory, setSelectedCategory] = useState('TRENDING');
+  const [selectedCategory, setSelectedCategory] = useState('RESTAURANTS');
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="flex-1 flex-col gap-7 bg-white p-5">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="bg-white h-full">
+      <View className="flex-1 flex-col gap-7 p-5">
         <View>
           <ScrollView
             horizontal

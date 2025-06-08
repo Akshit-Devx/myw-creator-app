@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
 import {
   formatNumber,
@@ -9,13 +9,25 @@ import {
   getMaxUptoAmount,
   getMediaTypeFromPath,
 } from '../../../utility/helper';
+import {useNavigation} from '@react-navigation/native';
 
 const OfferCampaignCard = ({campaign}) => {
+  const navigation = useNavigation();
   const mediaType = getMediaTypeFromPath(campaign?.banner);
   const maxUptoAmount = getMaxUptoAmount(campaign?.requirements);
 
   return (
-    <View className="relative rounded-xl overflow-hidden border border-gray-200">
+    <TouchableOpacity
+      className="relative rounded-xl overflow-hidden"
+      onPress={() =>
+        navigation.navigate('Detail', {
+          screen: 'CampaignDetails',
+          params: {
+            campaignId: campaign.id,
+            storeId: campaign?.storeData?.id,
+          },
+        })
+      }>
       {mediaType === 'video' ? (
         <Video
           source={{uri: getBrandMediaURL(campaign.banner)}}
@@ -64,7 +76,7 @@ const OfferCampaignCard = ({campaign}) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

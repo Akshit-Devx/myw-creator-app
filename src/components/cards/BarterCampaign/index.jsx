@@ -1,4 +1,4 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
   formatNumber,
@@ -8,8 +8,10 @@ import {
   getMediaTypeFromPath,
 } from '../../../utility/helper';
 import Video from 'react-native-video';
+import {useNavigation} from '@react-navigation/native';
 
 const BarterCampaignCard = ({campaign}) => {
+  const navigation = useNavigation();
   const mediaType = getMediaTypeFromPath(campaign?.banner);
   const maxUptoAmount = getMaxUptoAmount(campaign?.requirements);
 
@@ -25,7 +27,17 @@ const BarterCampaignCard = ({campaign}) => {
   };
 
   return (
-    <View className="relative rounded-xl overflow-hidden">
+    <TouchableOpacity
+      className="relative rounded-xl overflow-hidden"
+      onPress={() =>
+        navigation.navigate('Detail', {
+          screen: 'CampaignDetails',
+          params: {
+            campaignId: campaign.id,
+            storeId: campaign?.storeData?.id,
+          },
+        })
+      }>
       {mediaType === 'video' ? (
         <Video
           source={{uri: getBrandMediaURL(campaign.banner)}}
@@ -85,7 +97,7 @@ const BarterCampaignCard = ({campaign}) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -169,3 +169,69 @@ export const getMaxUptoAmount = requirements => {
 
   return maxAmount;
 };
+
+export const getRequirementByFollowerCount = (
+  campaignData,
+  platform,
+  followerCount,
+) => {
+  const count = Number(followerCount ?? 0);
+  const type = campaignData?.type;
+  const creatorTypes =
+    campaignData?.requirements?.find(
+      req => req?.platform?.toUpperCase() === platform?.toUpperCase(),
+    )?.creatorType || [];
+
+  if (!creatorTypes.length) return null;
+
+  const inRange = creatorTypes.filter(
+    ({minFollowers = 0, maxFollowers = 0}) =>
+      count >= minFollowers && (maxFollowers === 0 || count <= maxFollowers),
+  );
+
+  const getBest = items =>
+    items.reduce((best, curr) => {
+      const bestVal =
+        type === 'BARTER' ? best?.uptoAmount ?? 0 : best?.offerPercentage ?? 0;
+      const currVal =
+        type === 'BARTER' ? curr?.uptoAmount ?? 0 : curr?.offerPercentage ?? 0;
+      return currVal > bestVal ? curr : best;
+    });
+
+  if (inRange.length > 0) return getBest(inRange);
+
+  const lowestMin = creatorTypes.reduce((min, curr) =>
+    curr.minFollowers < min.minFollowers ? curr : min,
+  );
+
+  return count < lowestMin.minFollowers ? lowestMin : getBest(creatorTypes);
+};
+
+export const convertTo12HourFormat = time24 => {
+  if (!time24 || !/^\d{2}:\d{2}$/.test(time24)) {
+    return 'Invalid time format';
+  }
+
+  const [hours24, minutes] = time24.split(':').map(Number);
+
+  // Handle invalid hours or minutes
+  if (hours24 > 23 || minutes > 59) {
+    return 'Invalid time';
+  }
+
+  // Special case for midnight (00:00)
+  if (hours24 === 0) {
+    return `12:${minutes.toString().padStart(2, '0')} AM`;
+  }
+
+  // Special case for noon (12:00)
+  if (hours24 === 12) {
+    return `12:${minutes.toString().padStart(2, '0')} PM`;
+  }
+
+  // Convert to 12-hour format
+  const period = hours24 >= 12 ? 'PM' : 'AM';
+  const hours12 = hours24 > 12 ? hours24 - 12 : hours24;
+
+  return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
+};

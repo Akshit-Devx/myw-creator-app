@@ -1,16 +1,28 @@
-import {View, Text, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import Video from 'react-native-video';
 import {
   getBrandMediaURL,
   getMaxOfferPercentage,
   getMediaTypeFromPath,
 } from '../../../utility/helper';
-import Video from 'react-native-video';
 
 const FeaturedCampaignOfferCard = ({campaign}) => {
+  const navigation = useNavigation();
   const mediaType = getMediaTypeFromPath(campaign.banner);
   return (
-    <View className="relative rounded-xl overflow-hidden">
+    <TouchableOpacity
+      className="relative rounded-xl overflow-hidden"
+      onPress={() =>
+        navigation.navigate('Detail', {
+          screen: 'CampaignDetails',
+          params: {
+            campaignId: campaign.id,
+            storeId: campaign?.storeData?.id,
+          },
+        })
+      }>
       {mediaType === 'video' ? (
         <Video
           source={{uri: getBrandMediaURL(campaign.banner)}}
@@ -50,7 +62,7 @@ const FeaturedCampaignOfferCard = ({campaign}) => {
           {getMaxOfferPercentage(campaign.requirements)}% Off
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
