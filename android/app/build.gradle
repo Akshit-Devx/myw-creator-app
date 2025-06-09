@@ -98,6 +98,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        release {
+            // These values should be defined in gradle.properties for security
+            storeFile file(System.getenv("MYAPP_UPLOAD_STORE_FILE") ?: project.property("MYAPP_UPLOAD_STORE_FILE"))
+            storePassword System.getenv("MYAPP_UPLOAD_STORE_PASSWORD") ?: project.property("MYAPP_UPLOAD_STORE_PASSWORD")
+            keyAlias System.getenv("MYAPP_UPLOAD_KEY_ALIAS") ?: project.property("MYAPP_UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("MYAPP_UPLOAD_KEY_PASSWORD") ?: project.property("MYAPP_UPLOAD_KEY_PASSWORD")
+        }
     }
     buildTypes {
         debug {
