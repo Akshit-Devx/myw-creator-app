@@ -22,7 +22,7 @@ const CategoryButton = ({category, isSelected, onPress}) => (
 );
 
 const ExploreScreen = () => {
-  const [selectedCategory, setSelectedCategory] = useState('RESTAURANTS');
+  const [selectedCategory, setSelectedCategory] = useState('TRENDING');
 
   return (
     <ScrollView
