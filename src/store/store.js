@@ -3,17 +3,19 @@ import {combineReducers} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import onBoardingReducer from './slices/onBoarding';
+import subscriptionReducer from './slices/subscription';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['onBoarding'],
+  whitelist: ['onBoarding', 'subscription'],
 };
 
 export const RESET_APP_STATE = 'RESET_APP_STATE';
 
 const rootReducer = combineReducers({
   onBoarding: onBoardingReducer,
+  subscription: subscriptionReducer,
 });
 
 const rootReducerWithReset = (state, action) => {

@@ -5,6 +5,11 @@ import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
 import InvitesScreen from '../../../screens/Invites';
 import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
+import AddressesScreen from '../../../screens/Account/Addresses';
+import MywallReferrralScreen from '../../../screens/Account/MywallReferrral';
+import AutoDMScreen from '../../../screens/Account/AutoDM';
+import ProfileScreen from '../../../screens/Account/Profile';
+import SubscriptionsScreen from '../../../screens/Account/Subscription';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,9 +26,21 @@ const screenOptions = {
   headerShadowVisible: false,
 };
 
-const getScreenOptions = (title, navigation) => ({
+const getScreenOptions = (
   title,
-  headerLeft: props => <HeaderBackButton {...props} navigation={navigation} />,
+  navigation,
+  forceBack = false,
+  customBackAction,
+) => ({
+  title,
+  headerLeft: props => (
+    <HeaderBackButton
+      {...props}
+      navigation={navigation}
+      canGoBack={forceBack || props.canGoBack}
+      onPress={customBackAction}
+    />
+  ),
 });
 
 const DetailStack = () => {
@@ -31,11 +48,63 @@ const DetailStack = () => {
 
   return (
     <Stack.Navigator screenOptions={screenOptions} initialRouteName="Account">
+      {/* Account Section */}
       <Stack.Screen
         name="Account"
         component={AccountScreen}
-        options={getScreenOptions('Account', navigation)}
+        options={getScreenOptions('Account', navigation, true, () => {
+          navigation.navigate('Main', {
+            screen: 'Explore',
+          });
+        })}
       />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={getScreenOptions('Profile', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="Subscriptions"
+        component={SubscriptionsScreen}
+        options={getScreenOptions('Subscription', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="MywallReferrral"
+        component={MywallReferrralScreen}
+        options={getScreenOptions('Mywall Referral', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="AutoDM"
+        component={AutoDMScreen}
+        options={getScreenOptions('Auto DM', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="Addresses"
+        component={AddressesScreen}
+        options={getScreenOptions('Addresses', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+
+      {/* Home Screen */}
       <Stack.Screen
         name="Invites"
         component={InvitesScreen}

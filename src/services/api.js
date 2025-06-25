@@ -283,3 +283,40 @@ export const getCampaign = /* GraphQL */ `
     }
   }
 `;
+
+export const getSubscriptionPurchasedByInfluencerId = /* GraphQL */ `
+  query GetSubscriptionPurchasedByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getSubscriptionPurchasedByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        phone
+        planId
+        planName
+        planPricing
+        planInterval
+        planDescription
+        startDate
+        endDate
+        razorpayCustomerId
+        razorpaySubscriptionId
+        paymentStatus
+        totalAmt
+        isActive
+        status
+        haltedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
