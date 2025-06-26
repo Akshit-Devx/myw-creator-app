@@ -3,8 +3,10 @@ import React from 'react';
 
 const LinkInBioScreen = () => {
   return (
-    <View>
-      <Text>LinkInBioScreen</Text>
+    <View className="flex-1 bg-[#F8F8F8] justify-center">
+      <Text className="text-3xl font-bold mt-150 text-center">
+        Comming Soon
+      </Text>
     </View>
   );
 };

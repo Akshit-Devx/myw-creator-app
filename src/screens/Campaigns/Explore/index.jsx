@@ -6,20 +6,88 @@ import RestaurantsCampaignsSection from '../../../components/sections/Restaurant
 import SalonsCampaignsSection from '../../../components/sections/SalonsCampaigns';
 import TrendingCampaignsSection from '../../../components/sections/TrendingCampaigns';
 import {CAMPAIGN_CATEGORIES} from '../../../utility/common';
+import SearchBar from '../../../components/common/SearchBar';
+import LinearGradient from 'react-native-linear-gradient';
 
-const CategoryButton = ({category, isSelected, onPress}) => (
-  <TouchableOpacity className="flex-col items-center gap-2" onPress={onPress}>
-    <View
-      className={`border p-3 rounded-full ${
-        isSelected ? 'border-[#0033e6]' : 'border-gray-100'
-      }`}>
-      <category.icon height={48} width={48} />
-    </View>
-    <Text className={`text-center ${isSelected ? 'text-[#0033e6]' : ''}`}>
-      {category.label}
-    </Text>
-  </TouchableOpacity>
-);
+// const CategoryButton = ({category, isSelected, onPress}) => (
+//   <TouchableOpacity
+//     className="flex-col items-center gap-2 px-3"
+//     onPress={onPress}>
+//     <LinearGradient
+//       colors={['#9C2CF3', '#1A47E8']}
+//       start={{x: 0, y: 0}}
+//       end={{x: 1, y: 0}}
+//       style={{
+//         // height: 150,
+//         // width: 200,
+//         borderRadius: 100,
+//         flex: 1,
+//       }}>
+//       <View
+//         style={{
+//           borderRadius: 100,
+//           flex: 1,
+//           margin: 3,
+//           justifyContent: 'center',
+//         }}>
+//         <View
+//           className={`border p-3 rounded-full bg-white h-[70px] w-[70px] items-center justify-center`}>
+//           <category.icon height={37} width={37} />
+//         </View>
+//       </View>
+//     </LinearGradient>
+
+//     <Text
+//       className={`text-center text-sm font-semibold ${
+//         isSelected ? 'text-[#0033e6]' : ''
+//       }`}>
+//       {category.label}
+//     </Text>
+//   </TouchableOpacity>
+// );
+
+const CategoryButton = ({category, isSelected, onPress}) => {
+  const BorderWrapper = isSelected ? LinearGradient : View;
+  const borderProps = isSelected
+    ? {
+        colors: ['#9C2CF3', '#1A47E8'],
+        start: {x: 0, y: 0},
+        end: {x: 1, y: 0},
+      }
+    : {};
+
+  return (
+    <TouchableOpacity
+      className="flex-col items-center gap-2 px-3"
+      onPress={onPress}>
+      <BorderWrapper
+        {...borderProps}
+        style={{
+          borderRadius: 100,
+          flex: 1,
+        }}>
+        <View
+          style={{
+            borderRadius: 100,
+            flex: 1,
+            margin: isSelected ? 3 : 0,
+            justifyContent: 'center',
+          }}>
+          <View className="p-3 rounded-full bg-white h-[70px] w-[70px] items-center justify-center">
+            <category.icon height={37} width={37} />
+          </View>
+        </View>
+      </BorderWrapper>
+
+      <Text
+        className={`text-center text-sm font-semibold ${
+          isSelected ? 'text-[#0033e6]' : ''
+        }`}>
+        {category.label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 const ExploreScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState('TRENDING');
@@ -27,9 +95,10 @@ const ExploreScreen = () => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      className="bg-white h-full">
+      className="bg-[#F8F8F8] h-full">
+      <SearchBar />
       <View className="flex-1 flex-col gap-7 p-5">
-        <View>
+        <View className="mt-1">
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}

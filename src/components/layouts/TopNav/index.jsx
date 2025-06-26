@@ -9,7 +9,7 @@ const TopNav = () => {
   const {onBoarding} = useSelector(state => state.onBoarding);
 
   return (
-    <View className="px-4 py-2 flex-row items-center justify-between bg-white border-b border-gray-200">
+    <View className="px-4 py-2 flex-row items-center justify-between bg-[#F8F8F8] border-gray-200">
       <TouchableOpacity
         onPress={() => navigation.navigate('Detail', {screen: 'Account'})}
         className="p-1 border border-gray-200 rounded-full">

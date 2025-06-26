@@ -26,7 +26,7 @@ const TopPicksSection = () => {
     <View className="flex-col gap-8">
       <View className="flex-row justify-center items-center gap-2">
         <Icons.LeftGradientLine height={24} width={60} />
-        <Text className="text-center text-xl font-semibold">
+        <Text className="text-center text-base font-semibold text-[#626262]">
           TOP PICKS THIS WEEK
         </Text>
         <Icons.RightGradientLine height={24} width={60} />

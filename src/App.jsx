@@ -23,10 +23,10 @@ const App = () => {
         animated
         barStyle="dark-content"
         showHideTransition="fade"
-        backgroundColor="white"
+        backgroundColor="#F8F8F8"
       />
       <SafeAreaProvider>
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-[#F8F8F8]">
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <AppContainer />
