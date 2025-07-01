@@ -6,6 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetStore} from '../../store/store';
 import {getInfluencerMediaURL} from '../../utility/helper';
+import {Icons} from '../../assets/icons';
+import HeaderBackButton from '../../components/common/HeaderBackButton';
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
@@ -40,58 +42,60 @@ const AccountScreen = () => {
           @{onBoarding?.instagramDetails?.username}
         </Text>
       </View>
-      <View className="border border-gray-200 rounded-xl">
+      <View className="rounded-xl shadow-2xl bg-white">
         <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'Profile',
             })
           }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Profile Settings
-          </Text>
+          <Icons.ProfileAccount />
+          <Text className="text-xl border-gray-200 p-4">Profile Settings</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'Subscriptions',
             })
           }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Subscriptions
-          </Text>
+          <Icons.Subscription />
+          <Text className="text-xl border-gray-200 p-4">Subscriptions</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'MywallReferrral',
             })
           }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Mywall Referral
-          </Text>
+          <Icons.Referral />
+          <Text className="text-xl border-gray-200 p-4">Mywall Referral</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'AutoDM',
             })
           }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Instagram Auto DM
-          </Text>
+          <Icons.AutoDM />
+          <Text className="text-xl border-gray-200 p-4">Instagram Auto DM</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'Addresses',
             })
           }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Addresses
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleLogout}>
+          <Text className="text-xl border-gray-200 p-4">Addresses</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          className="flex-row items-center border-gray-200 px-4"
+          onPress={handleLogout}>
+          <Icons.Logout />
           <Text className="text-xl text-red-500 p-4">Logout</Text>
         </TouchableOpacity>
       </View>

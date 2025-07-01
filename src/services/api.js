@@ -320,3 +320,98 @@ export const getSubscriptionPurchasedByInfluencerId = /* GraphQL */ `
     }
   }
 `;
+
+export const updateInfluencer = /* GraphQL */ `
+  mutation UpdateInfluencer($input: UpdateInfluencerInput!) {
+    updateInfluencer(input: $input) {
+      id
+      name
+      slug
+      username
+      bio
+      location
+      email
+      phone
+      gender
+      dob
+      label
+      isActive
+      address {
+        street
+        city
+        state
+        country
+        postalCode
+        __typename
+      }
+      tags
+      themeColor
+      ctaButton {
+        id
+        text
+        link
+        isActive
+        type
+      }
+      profilePictureWithBg
+      profilePictureWithoutBg
+      socialLinks {
+        instagram
+        youtube
+        twitter
+        tiktok
+        snapchat
+        vimeo
+        linkedIn
+        facebook
+        pinterest
+        telegram
+        other
+        __typename
+      }
+      createdAt
+      updatedAt
+      isAnalyticsEnabled
+      isDarkThemeEnabled
+      isWallLive
+      isSubscriptionActive
+      instagramDetails {
+        followersCount
+        followsCount
+        mediaCount
+        username
+      }
+      youtubeDetails {
+        title
+        description
+        subscriberCount
+        videoCount
+        viewCount
+      }
+      instagramToken {
+        accessToken
+        refreshToken
+        fbUserId
+        igUserId
+        pageAccessToken
+        expiresAt
+        createdAt
+        updatedAt
+      }
+      youtubeToken {
+        accessToken
+        refreshToken
+        createdAt
+        updatedAt
+      }
+      referralCode
+      referrerCodeSrc
+      isReferralCTA
+      profileStatusCode
+      freeTrialExpiresAt
+      rating
+      ratingCount
+      __typename
+    }
+  }
+`;

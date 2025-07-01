@@ -6,6 +6,7 @@ import {
   getIgData,
   getInfluencer,
   getSubscriptionPurchasedByInfluencerId,
+  updateInfluencer,
 } from './api';
 
 const client = generateClient();
@@ -114,6 +115,23 @@ export const getSubscriptionPurchasedByInfluencerIdAPI = async influencerId => {
     )[0];
 
     return latestSubscription;
+  } catch (error) {
+    console.error('Error updating influencer:', error);
+    throw error;
+  }
+};
+
+export const updateinfluencer = async data => {
+  try {
+    const res = await client.graphql({
+      query: updateInfluencer,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+
+    return res;
   } catch (error) {
     console.error('Error updating influencer:', error);
     throw error;

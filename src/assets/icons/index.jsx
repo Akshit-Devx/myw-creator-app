@@ -31,6 +31,15 @@ import LeftGradientLine from './leftGradientLine.svg';
 import RightGradientLine from './rightGradientLine.svg';
 import Search from './search.svg';
 import Mic from './mic.svg';
+import Logout from './logout.svg';
+import ProfileAccount from './profileAccount.svg';
+import Referral from './referral.svg';
+import Subscription from './subscription.svg';
+import AutoDM from './autoDM.svg';
+import Wallet from './wallet.svg';
+import VideoGradient from './videoGradient.svg';
+import CopyRoundedIcon from './copyRoundedIcon.svg';
+import ShareRoundedIcon from './shareRoundedIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -66,4 +75,13 @@ export const Icons = {
   RightGradientLine,
   Search,
   Mic,
+  AutoDM,
+  ProfileAccount,
+  Logout,
+  Referral,
+  Subscription,
+  Wallet,
+  VideoGradient,
+  CopyRoundedIcon,
+  ShareRoundedIcon,
 };

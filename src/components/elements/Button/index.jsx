@@ -11,6 +11,7 @@ const Button = ({
   leftIcon,
   rightIcon,
   className = '',
+  textClassName = '',
 }) => {
   const variants = {
     primary: 'bg-[#1946E7] active:bg-[#1946E7]/80',
@@ -49,7 +50,7 @@ const Button = ({
             <Text
               className={`font-semibold ${textColors[variant]} ${
                 disabled ? 'opacity-70' : ''
-              }`}>
+              } ${textClassName}`}>
               {title}
             </Text>
             {rightIcon && <View>{rightIcon}</View>}

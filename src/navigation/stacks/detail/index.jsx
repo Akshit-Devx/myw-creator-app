@@ -10,20 +10,28 @@ import MywallReferrralScreen from '../../../screens/Account/MywallReferrral';
 import AutoDMScreen from '../../../screens/Account/AutoDM';
 import ProfileScreen from '../../../screens/Account/Profile';
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
+import EditPersonalDetails from '../../../screens/Account/EditPersonalDetails';
+import TopNav from '../../../components/layouts/TopNav';
+import ReferralDashboard from '../../../screens/Account/ReferralDashboard';
+import WithdrawEarning from '../../../screens/Account/WithdrawEarning';
 
 const Stack = createNativeStackNavigator();
 
+// const screenOptions = {
+//   headerShown: true,
+//   headerTitleAlign: 'center',
+//   headerStyle: {
+//     backgroundColor: '#F8F8F8',
+//   },
+//   headerTitleStyle: {
+//     fontSize: 20,
+//     fontWeight: '600',
+//   },
+//   headerShadowVisible: false,
+// };
+
 const screenOptions = {
-  headerShown: true,
-  headerTitleAlign: 'center',
-  headerStyle: {
-    backgroundColor: '#ffffff',
-  },
-  headerTitleStyle: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  headerShadowVisible: false,
+  header: () => <TopNav />,
 };
 
 const getScreenOptions = (
@@ -32,7 +40,7 @@ const getScreenOptions = (
   forceBack = false,
   customBackAction,
 ) => ({
-  title,
+  title: '',
   headerLeft: props => (
     <HeaderBackButton
       {...props}
@@ -103,6 +111,11 @@ const DetailStack = () => {
           });
         })}
       />
+      <Stack.Screen
+        name="EditPersonalDetails"
+        component={EditPersonalDetails}
+        options={getScreenOptions('EditPersonalDetails', navigation, false)}
+      />
 
       {/* Home Screen */}
       <Stack.Screen
@@ -114,6 +127,16 @@ const DetailStack = () => {
         name="CampaignDetails"
         component={CampaignDetailsScreen}
         options={getScreenOptions('Details', navigation)}
+      />
+      <Stack.Screen
+        name="ReferralDashboard"
+        component={ReferralDashboard}
+        options={getScreenOptions('MywallReferrral', navigation)}
+      />
+      <Stack.Screen
+        name="WithdrawEarning"
+        component={WithdrawEarning}
+        options={getScreenOptions('ReferralDashboard', navigation)}
       />
     </Stack.Navigator>
   );
