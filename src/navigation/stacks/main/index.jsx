@@ -10,7 +10,8 @@ import LinkInBioScreen from '../../../screens/LinkInBio';
 const Tab = createBottomTabNavigator();
 
 const screenOptions = {
-  header: () => <TopNav />,
+  headerShown: false,
+  // header: () => <TopNav />,
 };
 
 const renderTabBar = props => <BottomTab {...props} />;

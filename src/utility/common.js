@@ -14,6 +14,11 @@ export const CAMPAIGN_CATEGORIES = [
     icon: Icons.ForYouIcon,
   },
   {
+    id: 'PRODUCT',
+    label: 'Product',
+    icon: Icons.ProductIcon,
+  },
+  {
     id: 'HOTELS',
     label: 'Hotels',
     icon: Icons.HotelIcon,
@@ -30,6 +35,6 @@ export const CAMPAIGN_CATEGORIES = [
   },
 ];
 
-export const CAMPAIGN_TYPES = ['BARTER', 'OFFER'];
+export const CAMPAIGN_TYPES = ['COLLABS', 'OFFER'];
 
 export const CAMPAIGN_DETAILS_TABS = ['ABOUT', 'PHOTOS', 'REFERENCES'];

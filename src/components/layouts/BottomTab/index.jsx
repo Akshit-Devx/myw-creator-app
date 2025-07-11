@@ -1,6 +1,7 @@
 import React, {memo, useMemo} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Icons} from '../../../assets/icons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const TabItem = memo(({label, icon, activeIcon, isFocused, onPress}) => {
   const isQrScanner = label === 'QrScanner';
@@ -51,7 +52,7 @@ const BottomTab = ({state, descriptors, navigation}) => {
   );
 
   return (
-    <View className="flex-row bg-white border-t border-gray-200">
+    <View className="flex-row bg-white border-t border-gray-200 pb-6">
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label = options.tabBarLabel ?? options.title ?? route.name;

@@ -415,3 +415,295 @@ export const updateInfluencer = /* GraphQL */ `
     }
   }
 `;
+
+export const byInfluencerIdReferralTracking = /* GraphQL */ `
+  query GetReferralTrackingByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getReferralTrackingByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        referralCode
+        referralsFromCta
+        currentWalletBalance
+        totalEarnings
+        listOfReferrals {
+          influencerId
+          referredDate
+          bonus
+          bonusDate
+        }
+        withdrawalHistroy {
+          amount
+          createdAt
+          updatedAt
+          payoutMethodId
+          status
+        }
+        payoutMethods {
+          id
+          methodName
+          upiId
+          bankAccountNumber
+          bankIfscCode
+          beneficiaryName
+          isArchived
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const createWithdrawRequest = /* GraphQL */ `
+  mutation CreateWithdrawRequest($input: WithdrawInput!) {
+    createWithdrawRequest(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const getInfluencerData = /* GraphQL */ `
+  query GetInfluencerBySlug($slug: String!, $limit: Int, $nextToken: String) {
+    getInfluencerBySlug(slug: $slug, limit: $limit, nextToken: $nextToken) {
+      id
+      name
+      slug
+      username
+      bio
+      location
+      email
+      phone
+      gender
+      dob
+      label
+      isActive
+      address {
+        street
+        city
+        state
+        country
+        postalCode
+        __typename
+      }
+      tags
+      themeColor
+      ctaButton {
+        id
+        text
+        link
+        isActive
+        type
+      }
+      profilePictureWithBg
+      profilePictureWithoutBg
+      socialLinks {
+        instagram
+        youtube
+        twitter
+        tiktok
+        snapchat
+        vimeo
+        linkedIn
+        facebook
+        pinterest
+        telegram
+        other
+        __typename
+      }
+      createdAt
+      updatedAt
+      isAnalyticsEnabled
+      isDarkThemeEnabled
+      isWallLive
+      isSubscriptionActive
+      instagramDetails {
+        followersCount
+        followsCount
+        mediaCount
+        username
+      }
+      youtubeDetails {
+        title
+        description
+        subscriberCount
+        videoCount
+        viewCount
+      }
+    }
+  }
+`;
+
+export const createRazorpayCheckout = /* GraphQL */ `
+  mutation CreateRazorpayCheckout($input: SyncRazorpayCheckout!) {
+    createRazorpayCheckout(input: $input) {
+      code
+      message
+      session
+      customerId
+    }
+  }
+`;
+
+export const createSubscriptionPurchasedItem = /* GraphQL */ `
+  mutation CreateSubscriptionPurchasedItem(
+    $input: SyncCreateSubscriptionPurchasedItem!
+  ) {
+    createSubscriptionPurchasedItem(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const getInstagramDMByInfluencerId = /* GraphQL */ `
+  query GetInstagramDMByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getInstagramDMByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        reelId
+        userId
+        igAccountId
+        thumbnailUrl
+        isActive
+        permalink
+        isKeywordFilteredDM
+        isCommentReply
+        commentReplyText
+        commentsList {
+          id
+          text
+          timestamp
+        }
+        keywords
+        cardType
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const getInfluencerAddressByInfluencerId = /* GraphQL */ `
+  query GetInfluencerAddressByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getInfluencerAddressByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        addressLine1
+        addressLine2
+        city
+        state
+        country
+        pincode
+        isArchived
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const updateInfluencerAddress = /* GraphQL */ `
+  mutation UpdateInfluencerAddress($input: UpdateInfluencerAddressInput) {
+    updateInfluencerAddress(input: $input) {
+      id
+      influencerId
+      addressLine1
+      addressLine2
+      city
+      state
+      country
+      pincode
+      isArchived
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const createInfluencerAddress = /* GraphQL */ `
+  mutation CreateInfluencerAddress($input: CreateInfluencerAddressInput) {
+    createInfluencerAddress(input: $input) {
+      id
+      influencerId
+      addressLine1
+      addressLine2
+      city
+      state
+      country
+      pincode
+      isArchived
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const updateReferralTracking = /* GraphQL */ `
+  mutation UpdateReferralTracking($input: UpdateReferralTrackingInput!) {
+    updateReferralTracking(input: $input) {
+      id
+      influencerId
+      referralCode
+      listOfReferrals {
+        influencerId
+        referredDate
+        bonus
+        bonusDate
+        planName
+      }
+      currentWalletBalance
+      totalEarnings
+      withdrawalHistroy {
+        amount
+        createdAt
+        updatedAt
+        payoutMethodId
+        status
+      }
+      payoutMethods {
+        id
+        methodName
+        upiId
+        bankAccountNumber
+        bankIfscCode
+        beneficiaryName
+        isArchived
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;

@@ -1,12 +1,22 @@
 import {generateClient} from 'aws-amplify/api';
 import {
+  byInfluencerIdReferralTracking,
+  createInfluencerAddress,
+  createRazorpayCheckout,
+  createSubscriptionPurchasedItem,
+  createWithdrawRequest,
   filterCampaign,
   getCampaign,
   getCampaignInvitationsByInfluencerId,
   getIgData,
   getInfluencer,
+  getInfluencerAddressByInfluencerId,
+  getInfluencerData,
+  getInstagramDMByInfluencerId,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
+  updateInfluencerAddress,
+  updateReferralTracking,
 } from './api';
 
 const client = generateClient();
@@ -134,6 +144,155 @@ export const updateinfluencer = async data => {
     return res;
   } catch (error) {
     console.error('Error updating influencer:', error);
+    throw error;
+  }
+};
+
+export const getReferralByInfluencerId = async data => {
+  try {
+    return await client.graphql({
+      query: byInfluencerIdReferralTracking,
+      variables: {influencerId: data},
+      authMode: 'userPool',
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const createWithdrawalRequest = async data => {
+  try {
+    return await client.graphql({
+      query: createWithdrawRequest,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getUserBySlug = async slug => {
+  try {
+    const influencerResponse = await client.graphql({
+      query: getInfluencerData,
+      variables: {slug},
+      authMode: 'userPool',
+    });
+
+    const influencer = influencerResponse.data.getInfluencerBySlug;
+    return influencer;
+  } catch {
+    return {id: '', name: '', bio: ''};
+  }
+};
+
+export const createRazorpayCheckoutAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createRazorpayCheckout,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createRazorpayCheckout;
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export const createSubscriptionPurchasedAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createSubscriptionPurchasedItem,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    console.log(
+      'response?.data?.createSubscriptionPurchasedItem : ',
+      response?.data?.createSubscriptionPurchasedItem,
+    );
+
+    return response?.data?.createSubscriptionPurchasedItem;
+  } catch (error) {
+    console.log('createSubscriptionPurchasedAPI function error ::: ', error);
+  }
+};
+
+export const getInstagramDmByInfluencerId = async influencerId => {
+  try {
+    const resposne = await client.graphql({
+      query: getInstagramDMByInfluencerId,
+      variables: {
+        influencerId,
+      },
+      authMode: 'userPool',
+    });
+
+    return resposne?.data?.getInstagramDMByInfluencerId?.items || [];
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getInfluencerAddressByInfluencerIdAPI = async (
+  influencerId,
+  limit,
+  nextToken,
+) => {
+  try {
+    const response = await client.graphql({
+      query: getInfluencerAddressByInfluencerId,
+      variables: {influencerId, limit, nextToken},
+      authMode: 'userPool',
+    });
+    return response?.data?.getInfluencerAddressByInfluencerId?.items;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const updateInfluencerAddressAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateInfluencerAddress,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateInfluencerAddress;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const createInfluencerAddressAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createInfluencerAddress,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createInfluencerAddress;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const updateReferralData = async data => {
+  try {
+    return await client.graphql({
+      query: updateReferralTracking,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+  } catch (error) {
+    console.error('Error:', error);
     throw error;
   }
 };

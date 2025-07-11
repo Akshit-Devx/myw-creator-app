@@ -9,6 +9,8 @@ import {
 } from '../../../utility/helper';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
+import {Icons} from '../../../assets/icons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const BarterCampaignCard = ({campaign}) => {
   const navigation = useNavigation();
@@ -28,7 +30,7 @@ const BarterCampaignCard = ({campaign}) => {
 
   return (
     <TouchableOpacity
-      className="relative rounded-xl overflow-hidden"
+      className="relative rounded-xl overflow-hidden bg-white"
       onPress={() =>
         navigation.navigate('Detail', {
           screen: 'CampaignDetails',
@@ -76,27 +78,42 @@ const BarterCampaignCard = ({campaign}) => {
           </Text>
         )}
       </View>
-      <Text className="absolute bottom-[70px] left-2 bg-white py-1.5 px-3 rounded-full font-semibold">
-        {formatNumber(getLowestMinFollowers(campaign.requirements) || 0)}+
-      </Text>
-      <View className="absolute bottom-0 left-0 right-0 bg-black/70 py-3 px-3 flex-row items-center justify-between">
-        <View className="flex-row items-center gap-3">
-          <Image
-            source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
-            className="w-14 h-14 rounded-full"
-          />
-          <View className="flex-col gap-0.5">
-            <Text
-              className="text-white text-xl font-semibold w-48"
-              numberOfLines={1}>
-              {campaign.name}
-            </Text>
-            <Text className="text-white text-md w-48" numberOfLines={1}>
-              {campaign?.storeData?.city}, {campaign?.storeData?.state}
-            </Text>
+      <View className="absolute bottom-[70px] left-2 bg-white py-1.5 px-3 rounded-full flex-row items-center ">
+        <Icons.Instagram height={15} width={15} />
+        <Text className="left-1 bg-white rounded-full font-semibold">
+          {formatNumber(getLowestMinFollowers(campaign.requirements) || 0)}+
+        </Text>
+      </View>
+      <LinearGradient
+        colors={['transparent', 'black']}
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 1}}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}>
+        <View className="absolute bottom-0 left-0 right-0  py-3 px-3 flex-row items-center justify-between">
+          <View className="flex-row items-center gap-3">
+            <Image
+              source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
+              className="w-14 h-14 rounded-full"
+            />
+            <View className="flex-col gap-0.5">
+              <Text
+                className="text-white text-xl font-semibold w-48"
+                numberOfLines={1}>
+                {campaign.name}
+              </Text>
+              <Text className="text-white text-md w-48" numberOfLines={1}>
+                {campaign?.storeData?.city}, {campaign?.storeData?.state}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };

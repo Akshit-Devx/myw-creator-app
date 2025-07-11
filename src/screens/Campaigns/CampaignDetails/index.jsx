@@ -16,6 +16,10 @@ import Accordion from '../../../components/common/Accordian';
 import {useSelector} from 'react-redux';
 import VerticalStepper from '../../../components/common/VerticalStepper';
 import Button from '../../../components/elements/Button';
+import HeaderBackButton from '../../../components/common/HeaderBackButton';
+import {Icons} from '../../../assets/icons';
+import GradientText from '../../../components/common/GradientText';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CampaignAboutSection = ({campaignData, followers}) => {
   const reqData = getRequirementByFollowerCount(
@@ -23,51 +27,81 @@ const CampaignAboutSection = ({campaignData, followers}) => {
     'INSTAGRAM',
     followers,
   );
+
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
   return (
     <View className="p-5 flex-col gap-5">
-      <View className="border border-gray-200 rounded-lg p-4 flex-col gap-3">
-        <View className="flex-row items-center justify-between">
-          <Text className="text-xl font-semibold">Collab Benefits</Text>
-          {reqData?.stayDuration &&
-            reqData?.stayDuration.days > 0 &&
-            reqData?.stayDuration.nights > 0 && (
-              <Text className="bg-blue-500 text-white font-semibold text-md px-2 py-1 rounded-md">
-                {reqData?.stayDuration.nights} Nights/
-                {reqData?.stayDuration.days} Days
+      <LinearGradient
+        colors={[
+          'rgba(0, 229, 255, 0.12)',
+          'rgba(198, 210, 236, 0.12)',
+          'rgba(101, 31, 255, 0.09)',
+          'rgba(101, 31, 255, 0.12)',
+          'rgba(101, 31, 255, 0.09)',
+          'rgba(255, 64, 129, 0.12)',
+        ]}
+        start={{x: 0, y: 0}}
+        end={{x: 0.75, y: 1.4}}
+        style={{
+          borderRadius: 8,
+        }}>
+        <View className="border border-gray-200 rounded-lg p-4 flex-col gap-3">
+          <View className="flex-row items-center justify-between">
+            <Text className="text-xl font-semibold">Collab Benefits</Text>
+
+            {reqData?.stayDuration &&
+              reqData?.stayDuration.days > 0 &&
+              reqData?.stayDuration.nights > 0 && (
+                // <LinearGradient
+                //   colors={['#1A47E8', '#8B5CF6']}
+                //   style={{
+                //     paddingHorizontal: 8,
+                //     paddingVertical: 4,
+                //     borderRadius: 6,
+                //   }}>
+                <Text className="bg-blue-500 text-white font-semibold text-md px-2 py-1 rounded-md">
+                  {reqData?.stayDuration.nights} Nights/
+                  {reqData?.stayDuration.days} Days
+                </Text>
+                // </LinearGradient>
+              )}
+          </View>
+          {reqData?.offerPercentage > 0 || reqData?.uptoAmount > 0 ? (
+            <View className="flex-row items-center justify-center gap-2">
+              <Text className="text-[#0033E6E5] bg-[#d0daff] text-base font-semibold px-3 py-1 rounded-full">
+                {[
+                  reqData?.offerPercentage > 0 &&
+                    `Get Flat ${reqData.offerPercentage}% OFF`,
+                  reqData?.uptoAmount > 0 &&
+                    `Get free services upto ₹${reqData.uptoAmount}`,
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
               </Text>
-            )}
-        </View>
-        {reqData?.offerPercentage > 0 || reqData?.uptoAmount > 0 ? (
-          <View className="flex-row items-center justify-center gap-2">
-            <Text className="text-blue-600 bg-blue-50 text-base font-semibold px-3 py-1 rounded-full">
-              {[
-                reqData?.offerPercentage > 0 &&
-                  `Get Flat ${reqData.offerPercentage}% OFF`,
-                reqData?.uptoAmount > 0 &&
-                  `Get free services upto ₹${reqData.uptoAmount}`,
-              ]
-                .filter(Boolean)
-                .join(' ')}
+            </View>
+          ) : null}
+
+          {!!reqData?.offerings?.length &&
+            reqData?.offerings?.map((item, offeringIndex) => (
+              <TouchableOpacity className="bg-white flex-row justify-between items-center p-2 rounded-md">
+                <Text key={offeringIndex} className="text-lg">
+                  {item?.name}
+                </Text>
+                <Icons.ChevronDown height={15} width={15} />
+              </TouchableOpacity>
+            ))}
+          {!reqData?.offerings?.length && (
+            <Text className="text-lg">Enjoy All Services For Free</Text>
+          )}
+          <View className="flex-row items-center justify-between">
+            <Text className="text-lg">Guests allowed</Text>
+            <Text className="text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+              {reqData?.allowedGuests}
             </Text>
           </View>
-        ) : null}
-
-        {!!reqData?.offerings?.length &&
-          reqData?.offerings?.map((item, offeringIndex) => (
-            <Text key={offeringIndex} className="text-lg">
-              {item?.name}
-            </Text>
-          ))}
-        {!reqData?.offerings?.length && (
-          <Text className="text-lg">Enjoy All Services For Free</Text>
-        )}
-        <View className="flex-row items-center justify-between">
-          <Text className="text-lg">Guests allowed</Text>
-          <Text className="text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
-            {reqData?.allowedGuests}
-          </Text>
         </View>
-      </View>
+      </LinearGradient>
       <View className="border border-gray-200 p-4 rounded-lg flex-col gap-3">
         <Text className="text-xl font-semibold">Eligibility</Text>
         <Text className="font-medium">
@@ -171,6 +205,7 @@ const CampaignAboutSection = ({campaignData, followers}) => {
                 </View>
               ))}
         </View>
+        <Text className="text-md">These deliverables are negotiable</Text>
       </View>
       <View className="border border-gray-200 rounded-lg flex-col gap-3">
         <Accordion
@@ -206,6 +241,8 @@ const CampaignAboutSection = ({campaignData, followers}) => {
 
 const CampaignPhotosSection = ({campaignData}) => {
   const storeMedia = campaignData?.storeData?.storeMedia;
+  console.log('storeMedia', storeMedia);
+
   return (
     <View className="p-5">
       {!storeMedia?.length && (
@@ -219,13 +256,23 @@ const CampaignPhotosSection = ({campaignData}) => {
             <View className="flex-col gap-3" key={index}>
               <Text className="text-xl font-semibold">{media?.name}</Text>
               <View className="flex-row flex-wrap gap-3">
-                {media?.media?.map((item, itemIndex) => (
-                  <Image
-                    key={itemIndex}
-                    source={{uri: getBrandMediaURL(item)}}
-                    className="w-[31%] h-44 rounded-lg mb-1 object-cover"
-                  />
-                ))}
+                {media?.media?.length == 0 ? (
+                  <View className="w-full">
+                    <Text className="text-indigo-600 text-lg text-center ">
+                      No Pictures Provided
+                    </Text>
+                  </View>
+                ) : (
+                  <>
+                    {media?.media?.map((item, itemIndex) => (
+                      <Image
+                        key={itemIndex}
+                        source={{uri: getBrandMediaURL(item)}}
+                        className="w-[31%] h-44 rounded-lg mb-1 object-cover"
+                      />
+                    ))}
+                  </>
+                )}
               </View>
             </View>
           ))}
@@ -250,19 +297,21 @@ const CampaignReferencesSection = ({campaignData}) => {
             <View
               key={index}
               className="flex-col gap-4 border border-gray-200 rounded-lg p-4">
-              <Text className="text-xl font-semibold text-indigo-600 ">
-                Instagram {convertToTitleCase(reference.name)}
-              </Text>
+              <GradientText
+                text={`Instagram ${convertToTitleCase(reference.name)}`}
+                colors={['#9c2cf3', '#1a47e8']}
+                style={{fontSize: 18, fontWeight: '600'}}
+              />
               <Text className="text-gray-500">{reference.description}</Text>
               <View className="flex-col gap-2 border-t border-gray-200 pt-4">
                 {reference?.links?.map((link, index) => (
                   <View className="flex-row justify-between items-center">
                     <Text className="text-lg">Reference {index + 1}</Text>
                     <TouchableOpacity
+                      className="flex-row items-center  bg-[#0033E6E6] px-2 py-2 rounded-md"
                       onPress={() => (link ? Linking.openURL(link) : '')}>
-                      <Text className="bg-blue-600 self-start text-white px-6 py-2 rounded-md">
-                        Visit Link
-                      </Text>
+                      <Icons.ArrowSelector height={15} width={15} />
+                      <Text className="self-start text-white ">Visit Link</Text>
                     </TouchableOpacity>
                   </View>
                 ))}
@@ -275,7 +324,7 @@ const CampaignReferencesSection = ({campaignData}) => {
   );
 };
 
-const CampaignDetailsScreen = ({route}) => {
+const CampaignDetailsScreen = ({route, navigation}) => {
   const {campaignId, storeId} = route.params;
   const {onBoarding} = useSelector(state => state.onBoarding);
   const [loading, setLoading] = useState(true);
@@ -314,6 +363,19 @@ const CampaignDetailsScreen = ({route}) => {
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="flex-1 flex-col gap-2">
           <View>
+            <View className="absolute top-5 left-0 right-0 bottom-0 z-20 p-10 flex-row justify-between">
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                className="p-2 border border-white rounded-xl self-start">
+                <Icons.BackIcon width={20} height={20} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                className="p-2 border bg-white rounded-xl self-start">
+                <Icons.ShareRoundedIcon width={20} height={20} />
+              </TouchableOpacity>
+            </View>
+
             {mediaType === 'video' ? (
               <Video
                 source={{uri: getBrandMediaURL(campaignData?.banner)}}
@@ -345,10 +407,15 @@ const CampaignDetailsScreen = ({route}) => {
                 <Text className="text-2xl font-semibold w-60" numberOfLines={1}>
                   {campaignData?.storeData?.name}
                 </Text>
-                <Text className="text-md text-gray-500 w-60" numberOfLines={1}>
-                  {campaignData?.storeData?.city},{' '}
-                  {campaignData?.storeData?.state}
-                </Text>
+                <View className="flex-row items-center">
+                  <Icons.Pin width={20} height={20} />
+                  <Text
+                    className="text-md text-gray-500 w-60 ml-2"
+                    numberOfLines={1}>
+                    {campaignData?.storeData?.city},{' '}
+                    {campaignData?.storeData?.state}
+                  </Text>
+                </View>
               </View>
             </View>
             <Text className="leading-2" numberOfLines={2}>
@@ -359,13 +426,18 @@ const CampaignDetailsScreen = ({route}) => {
                 <View>
                   <Text className="text-gray-500">Average Price</Text>
                   <View className="flex-row items-center">
-                    <Text className="text-2xl font-semibold">
+                    <Icons.Price width={16} height={16} />
+                    <Text className="text-2xl font-semibold ml-2">
                       {campaignData?.storeData?.avgPrice}
                     </Text>
                     <Text className="text-gray-500">/night</Text>
-                    <Text className="text-purple-600 bg-purple-100 border border-purple-600 rounded-md px-4 py-1 ml-4">
-                      You Get it for free
-                    </Text>
+
+                    <View className="bg-[#f7ecff] border border-[#9c2cf3] rounded-md px-4 py-1 ml-4">
+                      <GradientText
+                        text={'You Get it for free'}
+                        colors={['#9c2cf3', '#1a47e8']}
+                      />
+                    </View>
                   </View>
                 </View>
               )}
@@ -400,7 +472,7 @@ const CampaignDetailsScreen = ({route}) => {
           )}
         </View>
       </ScrollView>
-      <View className="px-5 py-2 border-t border-gray-200">
+      <View className="px-5 py-2 border-t border-gray-200 mb-8">
         <Button title="Apply Now" size="lg" />
       </View>
     </View>

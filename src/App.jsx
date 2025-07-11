@@ -11,6 +11,8 @@ import {enableScreens} from 'react-native-screens';
 import 'react-native-get-random-values';
 import {Amplify} from 'aws-amplify';
 import awsmobile from './config/aws-export';
+import {MenuProvider} from 'react-native-popup-menu';
+import Toast from 'react-native-toast-message';
 
 enableScreens();
 
@@ -18,23 +20,28 @@ Amplify.configure(awsmobile);
 
 const App = () => {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <StatusBar
-        animated
-        barStyle="dark-content"
-        showHideTransition="fade"
-        backgroundColor="#F8F8F8"
-      />
-      <SafeAreaProvider>
-        <SafeAreaView className="flex-1 bg-[#F8F8F8]">
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <AppContainer />
-            </PersistGate>
-          </Provider>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <StatusBar
+          animated
+          barStyle="dark-content"
+          showHideTransition="fade"
+          backgroundColor="#F8F8F8"
+        />
+        <SafeAreaProvider>
+          {/* <SafeAreaView className="flex-1 bg-[#F8F8F8]"> */}
+          <MenuProvider>
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <AppContainer />
+              </PersistGate>
+            </Provider>
+          </MenuProvider>
+          {/* </SafeAreaView> */}
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+      <Toast />
+    </>
   );
 };
 

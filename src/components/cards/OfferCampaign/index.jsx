@@ -10,6 +10,8 @@ import {
   getMediaTypeFromPath,
 } from '../../../utility/helper';
 import {useNavigation} from '@react-navigation/native';
+import {Icons} from '../../../assets/icons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const OfferCampaignCard = ({campaign}) => {
   const navigation = useNavigation();
@@ -18,7 +20,7 @@ const OfferCampaignCard = ({campaign}) => {
 
   return (
     <TouchableOpacity
-      className="relative rounded-xl overflow-hidden"
+      className="relative rounded-xl overflow-hidden bg-white"
       onPress={() =>
         navigation.navigate('Detail', {
           screen: 'CampaignDetails',
@@ -50,15 +52,35 @@ const OfferCampaignCard = ({campaign}) => {
         {getMaxOfferPercentage(campaign.requirements)}% Off
       </Text>
 
-      <Text className="absolute bottom-[105px] left-0 text-white font-bold text-md bg-blue-500 px-2 py-1">
-        {maxUptoAmount > 0 && `On Services Upto ₹${maxUptoAmount}`}
-        {maxUptoAmount <= 0 && `All Services`}
-      </Text>
+      <LinearGradient
+        colors={[
+          '#00145b',
+          'rgba(7, 61, 255, 0.78)',
+          'rgba(91, 127, 255, 0.48)',
+          'rgba(117, 148, 255, 0)',
+        ]}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        style={{
+          width: '70%',
+          position: 'absolute',
+          bottom: 105,
+          left: 0,
+          right: 0,
+        }}>
+        <Text className="left-0 text-white font-bold text-sm  px-10 py-1">
+          {maxUptoAmount > 0 && `On Services Upto ₹${maxUptoAmount}`}
+          {maxUptoAmount <= 0 && `All Services`}
+        </Text>
+      </LinearGradient>
 
       <View className="py-3 px-3 flex-col gap-2">
-        <Text className="bg-blue-50 py-1.5 px-3 rounded-full font-semibold self-start">
-          {formatNumber(getLowestMinFollowers(campaign.requirements) || 0)}+
-        </Text>
+        <View className="flex-row self-start justify-center items-center bg-blue-50 py-1.5 px-3  rounded-full">
+          <Icons.Instagram height={15} width={15} />
+          <Text className="bg-blue-50  ml-1.5 rounded-full font-semibold self-start">
+            {formatNumber(getLowestMinFollowers(campaign.requirements) || 0)}+
+          </Text>
+        </View>
         <View className="flex-row items-center gap-3">
           <Image
             source={{uri: getBrandMediaURL(campaign?.brandLogo)}}

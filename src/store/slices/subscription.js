@@ -13,6 +13,7 @@ export const fetchSubscription = createAsyncThunk(
     try {
       console.log('redux reached');
       const response = await getSubscriptionPurchasedByInfluencerIdAPI(id);
+      console.log('fetch subscription response ::: ', response);
       return response;
     } catch (error) {
       console.error('Error', error);

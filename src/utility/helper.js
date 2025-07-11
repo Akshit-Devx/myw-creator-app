@@ -235,3 +235,27 @@ export const convertTo12HourFormat = time24 => {
 
   return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
 };
+
+export const formatToKOrM = input => {
+  let number = parseInt(input, 10);
+
+  if (number >= 1000000) {
+    return (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  } else {
+    return number.toString();
+  }
+};
+
+export const formatDate = isoString => {
+  const date = new Date(isoString);
+
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  return date.toLocaleDateString('en-US', options);
+};

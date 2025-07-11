@@ -15,6 +15,8 @@ if linkage != nil
 end
 
 target 'myWallCreatorApp' do
+  pod 'razorpay-pod'
+
   config = use_native_modules!
 
   use_react_native!(

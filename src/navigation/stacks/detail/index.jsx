@@ -14,6 +14,11 @@ import EditPersonalDetails from '../../../screens/Account/EditPersonalDetails';
 import TopNav from '../../../components/layouts/TopNav';
 import ReferralDashboard from '../../../screens/Account/ReferralDashboard';
 import WithdrawEarning from '../../../screens/Account/WithdrawEarning';
+import Pricing from '../../../screens/Account/Pricing';
+import AutoDMDashboard from '../../../screens/AutoDMDashboard';
+import AddPayoutMethod from '../../../screens/Account/AddPayoutMethod';
+import EditPayoutMethod from '../../../screens/Account/WithdrawEarning/EditPayoutMethod';
+import WithdrawalHistory from '../../../screens/Account/WithdrawEarning/WithdrawalHistory';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +36,8 @@ const Stack = createNativeStackNavigator();
 // };
 
 const screenOptions = {
-  header: () => <TopNav />,
+  headerShown: false,
+  // header: () => <TopNav />,
 };
 
 const getScreenOptions = (
@@ -103,6 +109,15 @@ const DetailStack = () => {
         })}
       />
       <Stack.Screen
+        name="AutoDMDashboard"
+        component={AutoDMDashboard}
+        options={getScreenOptions('Auto DM', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
         name="Addresses"
         component={AddressesScreen}
         options={getScreenOptions('Addresses', navigation, true, () => {
@@ -137,6 +152,28 @@ const DetailStack = () => {
         name="WithdrawEarning"
         component={WithdrawEarning}
         options={getScreenOptions('ReferralDashboard', navigation)}
+      />
+      <Stack.Screen
+        name="EditPayoutMethod"
+        component={EditPayoutMethod}
+        options={getScreenOptions('ReferralDashboard', navigation)}
+      />
+      <Stack.Screen
+        name="WithdrawalHistory"
+        component={WithdrawalHistory}
+        options={getScreenOptions('ReferralDashboard', navigation)}
+      />
+      <Stack.Screen
+        name="Pricing"
+        component={Pricing}
+        // options={getScreenOptions('Subscriptions', navigation)}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddPayoutMethod"
+        component={AddPayoutMethod}
+        // options={getAddPayoutMethodScreenOptions('Subscriptions', navigation)}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

@@ -40,6 +40,21 @@ import Wallet from './wallet.svg';
 import VideoGradient from './videoGradient.svg';
 import CopyRoundedIcon from './copyRoundedIcon.svg';
 import ShareRoundedIcon from './shareRoundedIcon.svg';
+import Razorpay from './razorpay.svg';
+import DmFrame from './dmFrame.svg';
+import BluePencil from './bluePencil.svg';
+import Delete from './delete.svg';
+import UPI from './upi.svg';
+import Bank from './bank.svg';
+import ProductIcon from './productIcon.svg';
+import Instagram from './instagram.svg';
+import FilterList from './filter-list.svg';
+import Negotiation from './negotiation.svg';
+import FollowersFilterSVG from './followersFilterSVG.svg';
+import NoExtraCost from './noExtraCost.svg';
+import Pin from './pin.svg';
+import Price from './price.svg';
+import ArrowSelector from './arrowSelector.svg';
 
 export const Icons = {
   BackIcon,
@@ -84,4 +99,19 @@ export const Icons = {
   VideoGradient,
   CopyRoundedIcon,
   ShareRoundedIcon,
+  Razorpay,
+  DmFrame,
+  BluePencil,
+  Delete,
+  UPI,
+  Bank,
+  ProductIcon,
+  Instagram,
+  FilterList,
+  Negotiation,
+  FollowersFilterSVG,
+  NoExtraCost,
+  Pin,
+  Price,
+  ArrowSelector,
 };

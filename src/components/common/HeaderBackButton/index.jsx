@@ -18,7 +18,7 @@ const HeaderBackButton = ({canGoBack, navigation, onPress}) => {
   return (
     <TouchableOpacity
       onPress={handlePress}
-      className="p-2 border border-black rounded-xl">
+      className="p-2 border border-black rounded-xl self-start">
       <Icons.BackIcon width={20} height={20} />
     </TouchableOpacity>
   );

@@ -8,6 +8,8 @@ import TrendingCampaignsSection from '../../../components/sections/TrendingCampa
 import {CAMPAIGN_CATEGORIES} from '../../../utility/common';
 import SearchBar from '../../../components/common/SearchBar';
 import LinearGradient from 'react-native-linear-gradient';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import TopNav from '../../../components/layouts/TopNav';
 
 // const CategoryButton = ({category, isSelected, onPress}) => (
 //   <TouchableOpacity
@@ -93,35 +95,38 @@ const ExploreScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState('TRENDING');
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      className="bg-[#F8F8F8] h-full">
-      <SearchBar />
-      <View className="flex-1 flex-col gap-7 p-5">
-        <View className="mt-1">
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="flex-row">
-            <View className="flex-row gap-3">
-              {CAMPAIGN_CATEGORIES.map(category => (
-                <CategoryButton
-                  key={category.id}
-                  category={category}
-                  isSelected={selectedCategory === category.id}
-                  onPress={() => setSelectedCategory(category.id)}
-                />
-              ))}
-            </View>
-          </ScrollView>
+    <SafeAreaView className="bg-[#F8F8F8]">
+      <TopNav />
+      <ScrollView showsVerticalScrollIndicator={false} className="bg-[#F8F8F8]">
+        <SearchBar />
+        <View className="flex-1 flex-col gap-7 p-5 ">
+          <View className="mt-1">
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className="flex-row">
+              <View className="flex-row gap-3">
+                {CAMPAIGN_CATEGORIES.map(category => (
+                  <CategoryButton
+                    key={category.id}
+                    category={category}
+                    isSelected={selectedCategory === category.id}
+                    onPress={() => setSelectedCategory(category.id)}
+                  />
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+          {selectedCategory === 'TRENDING' && <TrendingCampaignsSection />}
+          {selectedCategory === 'FOR_YOU' && <ForYouCampaignsSection />}
+          {selectedCategory === 'HOTELS' && <HotelsCampaignsSection />}
+          {selectedCategory === 'SALONS' && <SalonsCampaignsSection />}
+          {selectedCategory === 'RESTAURANTS' && (
+            <RestaurantsCampaignsSection />
+          )}
         </View>
-        {selectedCategory === 'TRENDING' && <TrendingCampaignsSection />}
-        {selectedCategory === 'FOR_YOU' && <ForYouCampaignsSection />}
-        {selectedCategory === 'HOTELS' && <HotelsCampaignsSection />}
-        {selectedCategory === 'SALONS' && <SalonsCampaignsSection />}
-        {selectedCategory === 'RESTAURANTS' && <RestaurantsCampaignsSection />}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
