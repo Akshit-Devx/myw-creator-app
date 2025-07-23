@@ -6,7 +6,7 @@ import {
   convertTo12HourFormat,
   convertToTitleCase,
   formatNumber,
-  getBrandMediaURL,
+  getMediaURL,
   getMediaTypeFromPath,
   getRequirementByFollowerCount,
 } from '../../../utility/helper';
@@ -31,7 +31,7 @@ const CampaignAboutSection = ({campaignData, followers}) => {
           {reqData?.stayDuration &&
             reqData?.stayDuration.days > 0 &&
             reqData?.stayDuration.nights > 0 && (
-              <Text className="bg-blue-500 text-white font-semibold text-md px-2 py-1 rounded-md">
+              <Text className="bg-blue-600 text-white font-semibold text-md px-2 py-1 rounded-md">
                 {reqData?.stayDuration.nights} Nights/
                 {reqData?.stayDuration.days} Days
               </Text>
@@ -222,7 +222,7 @@ const CampaignPhotosSection = ({campaignData}) => {
                 {media?.media?.map((item, itemIndex) => (
                   <Image
                     key={itemIndex}
-                    source={{uri: getBrandMediaURL(item)}}
+                    source={{uri: getMediaURL(item)}}
                     className="w-[31%] h-44 rounded-lg mb-1 object-cover"
                   />
                 ))}
@@ -316,7 +316,7 @@ const CampaignDetailsScreen = ({route}) => {
           <View>
             {mediaType === 'video' ? (
               <Video
-                source={{uri: getBrandMediaURL(campaignData?.banner)}}
+                source={{uri: getMediaURL(campaignData?.banner)}}
                 style={{width: '100%', height: 300}}
                 resizeMode="cover"
                 repeat
@@ -328,7 +328,7 @@ const CampaignDetailsScreen = ({route}) => {
               />
             ) : (
               <Image
-                source={{uri: getBrandMediaURL(campaignData?.banner)}}
+                source={{uri: getMediaURL(campaignData?.banner)}}
                 style={{width: '100%', height: 300, objectFit: 'cover'}}
               />
             )}
@@ -338,7 +338,7 @@ const CampaignDetailsScreen = ({route}) => {
           <View className="mt-[-60px] bg-white mx-8 rounded-lg overflow-hidden p-5 flex-col gap-4  border border-gray-200">
             <View className="flex-row items-center gap-5">
               <Image
-                source={{uri: getBrandMediaURL(campaignData?.brandLogo)}}
+                source={{uri: getMediaURL(campaignData?.brandLogo)}}
                 className="w-16 h-16 rounded-full"
               />
               <View className="flex-col gap-1">

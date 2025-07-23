@@ -116,7 +116,7 @@ const AddressesScreen = () => {
         </Text>
         <View className="flex-row gap-3">
           <TouchableOpacity onPress={() => handleEditAddress(item)}>
-            <Text className="text-blue-500">Edit</Text>
+            <Text className="text-blue-600">Edit</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => handleDeleteAddress(item)}>

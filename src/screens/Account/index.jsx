@@ -5,7 +5,7 @@ import {signOut} from 'aws-amplify/auth';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetStore} from '../../store/store';
-import {getInfluencerMediaURL} from '../../utility/helper';
+import {getMediaURL} from '../../utility/helper';
 import {fetchInfluencerById} from '../../store/slices/onBoarding';
 
 const AccountScreen = () => {
@@ -35,7 +35,7 @@ const AccountScreen = () => {
       <View className="flex-col items-center gap-2">
         <Image
           source={{
-            uri: getInfluencerMediaURL(onBoarding?.profilePictureWithBg),
+            uri: getMediaURL(onBoarding?.profilePictureWithBg),
           }}
           className="w-32 h-32 rounded-full"
         />
@@ -71,16 +71,16 @@ const AccountScreen = () => {
             Subscriptions
           </Text>
         </TouchableOpacity> */}
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {
-              screen: 'MywallReferrral',
+              screen: 'Referrral',
             })
           }>
           <Text className="text-xl border-b border-gray-200 p-4">
             Mywall Referral
           </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {

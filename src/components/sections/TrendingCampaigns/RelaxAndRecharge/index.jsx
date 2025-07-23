@@ -1,7 +1,7 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 const RelaxAndRechargeSection = () => {
   return (
@@ -17,7 +17,7 @@ const RelaxAndRechargeSection = () => {
         <View className="flex-1 py-5 border border-gray-200 rounded-lg flex-col gap-1 items-center justify-center">
           <Image
             source={{
-              uri: getBrandMediaURL('public/static-assets/salons.jpg'),
+              uri: getMediaURL('public/static-assets/salons.jpg'),
             }}
             className="w-20 h-20 rounded-full"
           />
@@ -26,7 +26,7 @@ const RelaxAndRechargeSection = () => {
         <View className="flex-1 py-5 border border-gray-200 rounded-lg flex-col gap-1 items-center justify-center">
           <Image
             source={{
-              uri: getBrandMediaURL('public/static-assets/restaurants.jpg'),
+              uri: getMediaURL('public/static-assets/restaurants.jpg'),
             }}
             className="w-20 h-20 rounded-full"
           />
@@ -35,7 +35,7 @@ const RelaxAndRechargeSection = () => {
         <View className="flex-1 py-5 border border-gray-200 rounded-lg flex-col gap-1 items-center justify-center">
           <Image
             source={{
-              uri: getBrandMediaURL('public/static-assets/resorts.jpg'),
+              uri: getMediaURL('public/static-assets/resorts.jpg'),
             }}
             className="w-20 h-20 rounded-full"
           />

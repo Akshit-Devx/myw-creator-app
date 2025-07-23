@@ -2,7 +2,7 @@ import {View, Text, FlatList} from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
 import Video from 'react-native-video';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 export const creatorStories = [
   {
@@ -55,7 +55,7 @@ const creatorCard = creator => {
   return (
     <View className="rounded-lg overflow-hidden">
       <Video
-        source={{uri: getBrandMediaURL(creator.videoSrc)}}
+        source={{uri: getMediaURL(creator.videoSrc)}}
         style={{width: 130, height: 220}}
         resizeMode="cover"
         repeat

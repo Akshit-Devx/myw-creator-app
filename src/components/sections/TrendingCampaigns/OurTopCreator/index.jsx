@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 export const influencerList = [
   {
@@ -96,7 +96,7 @@ const creatorCard = creator => {
       onPress={() => Linking.openURL(creator?.instagramUrl)}
       className="flex-col items-center gap-1 p-4 border border-gray-200 rounded-xl">
       <Image
-        source={{uri: getBrandMediaURL(creator.avatar)}}
+        source={{uri: getMediaURL(creator.avatar)}}
         className="w-20 h-20 rounded-full"
       />
       <Text className="text-lg font-semibold">@{creator.username}</Text>

@@ -2,7 +2,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
   formatNumber,
-  getBrandMediaURL,
+  getMediaURL,
   getLowestMinFollowers,
   getMaxUptoAmount,
   getMediaTypeFromPath,
@@ -40,7 +40,7 @@ const BarterCampaignCard = ({campaign}) => {
       }>
       {mediaType === 'video' ? (
         <Video
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 340, height: 250}}
           resizeMode="cover"
           repeat
@@ -52,7 +52,7 @@ const BarterCampaignCard = ({campaign}) => {
         />
       ) : (
         <Image
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 340, height: 250, objectFit: 'cover'}}
         />
       )}
@@ -82,7 +82,7 @@ const BarterCampaignCard = ({campaign}) => {
       <View className="absolute bottom-0 left-0 right-0 bg-black/70 py-3 px-3 flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
           <Image
-            source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
+            source={{uri: getMediaURL(campaign?.brandLogo)}}
             className="w-14 h-14 rounded-full"
           />
           <View className="flex-col gap-0.5">

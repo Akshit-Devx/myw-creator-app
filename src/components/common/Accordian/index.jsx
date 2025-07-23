@@ -173,7 +173,7 @@ const [isOpen, setIsOpen] = useState(false);
 /*
 <Accordion
   title="Custom Styled"
-  headerClassName="bg-blue-500"
+  headerClassName="bg-blue-600"
   titleClassName="text-white font-bold"
   iconClassName="text-white"
   contentClassName="bg-blue-50"
@@ -260,7 +260,7 @@ const accordionData = [
 <Accordion
   title="Card Style"
   className="mx-4 shadow-xl"
-  headerClassName="bg-gradient-to-r from-blue-500 to-purple-600"
+  headerClassName="bg-gradient-to-r from-blue-600 to-purple-600"
   titleClassName="text-white font-bold text-lg"
   iconClassName="text-white text-xl"
   contentClassName="bg-gray-50"

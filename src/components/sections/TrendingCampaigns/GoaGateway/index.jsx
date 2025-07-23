@@ -4,7 +4,7 @@ import {Icons} from '../../../../assets/icons';
 import {getCampaignByIdAPI} from '../../../../services/handleApi';
 import {
   formatNumber,
-  getBrandMediaURL,
+  getMediaURL,
   getLowestMinFollowers,
   getMediaTypeFromPath,
 } from '../../../../utility/helper';
@@ -48,7 +48,7 @@ const GoaGatewaySection = () => {
       <View className="border border-gray-200 rounded-xl overflow-hidden">
         {mediaType === 'video' ? (
           <Video
-            source={{uri: getBrandMediaURL(campaign.banner)}}
+            source={{uri: getMediaURL(campaign.banner)}}
             style={{width: 310, height: 240}}
             resizeMode="cover"
             repeat
@@ -60,7 +60,7 @@ const GoaGatewaySection = () => {
           />
         ) : (
           <Image
-            source={{uri: getBrandMediaURL(campaign.banner)}}
+            source={{uri: getMediaURL(campaign.banner)}}
             style={{width: 310, height: 240, objectFit: 'cover'}}
           />
         )}

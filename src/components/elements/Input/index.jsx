@@ -33,7 +33,7 @@ const InputField = ({
   const baseInputStyles = twMerge(
     'border rounded-lg px-4 py-3 text-base bg-white',
     'border-gray-300 text-gray-900',
-    'focus:border-blue-500 focus:ring-2 focus:ring-blue-200',
+    'focus:border-blue-600 focus:ring-2 focus:ring-blue-200',
     multiline && 'min-h-[100px] text-top',
     error && 'border-red-500 focus:border-red-500 focus:ring-red-200',
     !editable && 'bg-gray-100 text-gray-500',

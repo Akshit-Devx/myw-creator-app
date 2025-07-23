@@ -1,11 +1,7 @@
-import Config from 'react-native-config';
+import {MEDIA_URL} from '../config/envConfig';
 
-export const getBrandMediaURL = key => {
-  return `${Config.BRAND_MEDIA_URL}/${key}`;
-};
-
-export const getInfluencerMediaURL = key => {
-  return `${Config.INFLUENCER_MEDIA_URL}/${key}`;
+export const getMediaURL = key => {
+  return `${MEDIA_URL}/${key}`;
 };
 
 export const formatPhoneNumber = input => {

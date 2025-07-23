@@ -18,9 +18,9 @@ const StepIcon = ({
   const getStatusClasses = () => {
     switch (status) {
       case 'completed':
-        return 'bg-blue-500 border-blue-500';
+        return 'bg-blue-600 border-blue-600';
       case 'active':
-        return 'bg-blue-500 border-blue-500';
+        return 'bg-blue-600 border-blue-600';
       case 'error':
         return 'bg-red-500 border-red-500';
       case 'warning':
@@ -75,12 +75,12 @@ const StepConnector = ({
   if (isLast) return null;
 
   const getConnectorColor = () => {
-    if (status === 'completed') return 'bg-blue-500';
+    if (status === 'completed') return 'bg-blue-600';
     if (
       status === 'active' &&
       (nextStatus === 'completed' || nextStatus === 'active')
     ) {
-      return 'bg-blue-500';
+      return 'bg-blue-600';
     }
     return 'bg-gray-300';
   };
@@ -271,7 +271,7 @@ const StepperProgress = ({
       </View>
       <View className="w-full bg-gray-200 rounded-full h-2">
         <View
-          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
           style={{width: `${progress}%`}}
         />
       </View>

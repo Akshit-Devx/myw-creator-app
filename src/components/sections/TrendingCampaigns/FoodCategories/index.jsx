@@ -1,7 +1,7 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 export const categoriesList = [
   {
@@ -59,7 +59,7 @@ const FoodCategoriesSection = () => {
               key={index}
               className="flex-1 flex-col items-center gap- rounded-lg overflow-hidden">
               <Image
-                source={{uri: getBrandMediaURL(category.image)}}
+                source={{uri: getMediaURL(category.image)}}
                 className="w-full h-36"
               />
               <View className="bg-black opacity-50 absolute top-0 left-0 right-0 bottom-0"></View>
@@ -75,7 +75,7 @@ const FoodCategoriesSection = () => {
               key={index}
               className="flex-1 flex-col items-center gap-2 rounded-lg overflow-hidden">
               <Image
-                source={{uri: getBrandMediaURL(category.image)}}
+                source={{uri: getMediaURL(category.image)}}
                 className="w-full h-36"
               />
               <View className="bg-black opacity-50 absolute top-0 left-0 right-0 bottom-0"></View>

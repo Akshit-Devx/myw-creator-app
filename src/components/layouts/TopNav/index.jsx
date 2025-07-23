@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Icons} from '../../../assets/icons';
-import {getInfluencerMediaURL} from '../../../utility/helper';
+import {getMediaURL} from '../../../utility/helper';
 
 const TopNav = () => {
   const navigation = useNavigation();
@@ -15,7 +15,7 @@ const TopNav = () => {
         className="p-1 border border-gray-200 rounded-full">
         <Image
           source={{
-            uri: getInfluencerMediaURL(onBoarding?.profilePictureWithBg),
+            uri: getMediaURL(onBoarding?.profilePictureWithBg),
           }}
           className="w-12 h-12 rounded-full"
           accessibilityLabel="Profile picture"

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 export const creatorProfiles = [
   {
@@ -96,7 +96,7 @@ const creatorCard = creator => {
       <Text className="text-lg font-semibold">{creator.username}</Text>
       <View className="flex-row items-center gap-4">
         <Image
-          source={{uri: getBrandMediaURL(creator.avatar)}}
+          source={{uri: getMediaURL(creator.avatar)}}
           className="w-20 h-20 rounded-full"
         />
         <View className="flex-col gap-2">

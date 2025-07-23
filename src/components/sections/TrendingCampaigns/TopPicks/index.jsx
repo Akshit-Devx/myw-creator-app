@@ -1,7 +1,7 @@
 import {View, Text, FlatList, Image} from 'react-native';
 import React from 'react';
 import {Icons} from '../../../../assets/icons';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 const topPicksBannerList = [
   {
@@ -40,7 +40,7 @@ const TopPicksSection = () => {
         renderItem={({item}) => (
           <View>
             <Image
-              source={{uri: getBrandMediaURL(item?.image)}}
+              source={{uri: getMediaURL(item?.image)}}
               className="w-96 h-40 object-contain rounded-xl"
             />
           </View>

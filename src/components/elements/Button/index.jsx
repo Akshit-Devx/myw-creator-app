@@ -1,5 +1,6 @@
 import React from 'react';
-import {ActivityIndicator, Pressable, Text, View} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
+import {twMerge} from 'tailwind-merge';
 
 const Button = ({
   onPress,
@@ -11,6 +12,7 @@ const Button = ({
   leftIcon,
   rightIcon,
   className = '',
+  textClassName = '',
 }) => {
   const variants = {
     primary: 'bg-[#1946E7] active:bg-[#1946E7]/80',
@@ -31,12 +33,15 @@ const Button = ({
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
-      className={`flex-row items-center justify-center rounded-full ${
-        variants[variant]
-      } ${sizes[size]} ${disabled ? 'opacity-70' : ''} ${className}`}>
+      className={twMerge(
+        `flex-row items-center justify-center rounded-full ${
+          variants[variant]
+        } ${sizes[size]} ${disabled ? 'opacity-70' : ''}`,
+        className,
+      )}>
       <View className="flex-row items-center gap-2 min-w-[100px] h-full justify-center">
         {loading ? (
           <ActivityIndicator
@@ -47,16 +52,18 @@ const Button = ({
           <>
             {leftIcon && <View>{leftIcon}</View>}
             <Text
-              className={`font-semibold ${textColors[variant]} ${
-                disabled ? 'opacity-70' : ''
-              }`}>
+              className={twMerge(
+                `font-semibold ${textColors[variant]}`,
+                disabled ? 'opacity-70' : '',
+                textClassName,
+              )}>
               {title}
             </Text>
             {rightIcon && <View>{rightIcon}</View>}
           </>
         )}
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

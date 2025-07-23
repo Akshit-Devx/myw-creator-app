@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Image, Text, View} from 'react-native';
 import {Icons} from '../../../../assets/icons';
 import {getCampaignByIdAPI} from '../../../../services/handleApi';
-import {getBrandMediaURL} from '../../../../utility/helper';
+import {getMediaURL} from '../../../../utility/helper';
 
 const brandsYouLoveList = [
   'fc55e679-2970-4768-9644-5c0fc6b3f66d',
@@ -17,7 +17,7 @@ const campaignCard = campaign => {
   return (
     <View className="flex-col items-center gap-2">
       <Image
-        source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
+        source={{uri: getMediaURL(campaign?.brandLogo)}}
         className="w-32 h-32 rounded-full object-cover border border-gray-200"
       />
       <Text className="text-center text-md w-36" numberOfLines={1}>

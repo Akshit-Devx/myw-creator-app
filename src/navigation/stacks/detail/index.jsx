@@ -1,18 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
-import InvitesScreen from '../../../screens/Invites';
-import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
 import AddressesScreen from '../../../screens/Account/Addresses';
-import MywallReferrralScreen from '../../../screens/Account/MywallReferrral';
 import AutoDMScreen from '../../../screens/Account/AutoDM';
-import ProfileScreen from '../../../screens/Account/Profile';
-import SubscriptionsScreen from '../../../screens/Account/Subscription';
-import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
 import ContactUsScreen from '../../../screens/Account/ContactUs';
-import {Text, TouchableOpacity} from 'react-native';
+import ProfileScreen from '../../../screens/Account/Profile';
+import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
+import ReferrralScreen from '../../../screens/Account/Referrral';
+import SubscriptionsScreen from '../../../screens/Account/Subscription';
+import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
+import InvitesScreen from '../../../screens/Invites';
+import ReferrralDashboardScreen from '../../../screens/Account/Referrral/ReferrralDashboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -124,11 +125,20 @@ const DetailStack = () => {
         })}
       />
       <Stack.Screen
-        name="MywallReferrral"
-        component={MywallReferrralScreen}
-        options={getScreenOptions('Mywall Referral', navigation, true, () => {
+        name="Referrral"
+        component={ReferrralScreen}
+        options={getScreenOptions('Referral', navigation, true, () => {
           navigation.navigate('Detail', {
             screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="ReferrralDashboard"
+        component={ReferrralDashboardScreen}
+        options={getScreenOptions('Referral', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Referrral',
           });
         })}
       />

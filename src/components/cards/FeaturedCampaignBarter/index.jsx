@@ -4,7 +4,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
 import {
   formatNumber,
-  getBrandMediaURL,
+  getMediaURL,
   getLowestMinFollowers,
   getMediaTypeFromPath,
 } from '../../../utility/helper';
@@ -27,7 +27,7 @@ const FeaturedCampaignBarterCard = ({campaign}) => {
       }>
       {mediaType === 'video' ? (
         <Video
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 280, height: 400}}
           resizeMode="cover"
           repeat
@@ -39,7 +39,7 @@ const FeaturedCampaignBarterCard = ({campaign}) => {
         />
       ) : (
         <Image
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 280, height: 400, objectFit: 'cover'}}
         />
       )}
@@ -49,7 +49,7 @@ const FeaturedCampaignBarterCard = ({campaign}) => {
       <View className="absolute bottom-0 left-0 right-0 bg-black/70 py-3 px-3 flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
           <Image
-            source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
+            source={{uri: getMediaURL(campaign?.brandLogo)}}
             className="w-14 h-14 rounded-full"
           />
           <View className="flex-col gap-0.5">

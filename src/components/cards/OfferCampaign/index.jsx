@@ -3,7 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
 import {
   formatNumber,
-  getBrandMediaURL,
+  getMediaURL,
   getLowestMinFollowers,
   getMaxOfferPercentage,
   getMaxUptoAmount,
@@ -30,7 +30,7 @@ const OfferCampaignCard = ({campaign}) => {
       }>
       {mediaType === 'video' ? (
         <Video
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 340, height: 200}}
           resizeMode="cover"
           repeat
@@ -42,7 +42,7 @@ const OfferCampaignCard = ({campaign}) => {
         />
       ) : (
         <Image
-          source={{uri: getBrandMediaURL(campaign.banner)}}
+          source={{uri: getMediaURL(campaign.banner)}}
           style={{width: 340, height: 200, objectFit: 'cover'}}
         />
       )}
@@ -50,7 +50,7 @@ const OfferCampaignCard = ({campaign}) => {
         {getMaxOfferPercentage(campaign.requirements)}% Off
       </Text>
 
-      <Text className="absolute bottom-[105px] left-0 text-white font-bold text-md bg-blue-500 px-2 py-1">
+      <Text className="absolute bottom-[105px] left-0 text-white font-bold text-md bg-blue-600 px-2 py-1">
         {maxUptoAmount > 0 && `On Services Upto ₹${maxUptoAmount}`}
         {maxUptoAmount <= 0 && `All Services`}
       </Text>
@@ -61,7 +61,7 @@ const OfferCampaignCard = ({campaign}) => {
         </Text>
         <View className="flex-row items-center gap-3">
           <Image
-            source={{uri: getBrandMediaURL(campaign?.brandLogo)}}
+            source={{uri: getMediaURL(campaign?.brandLogo)}}
             className="w-14 h-14 rounded-full border border-gray-100"
           />
           <View className="flex-col gap-0.5">
