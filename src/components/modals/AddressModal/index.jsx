@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Modal, Text, View} from 'react-native';
 import Button from '../../../components/elements/Button';

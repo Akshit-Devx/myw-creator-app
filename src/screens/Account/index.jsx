@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../../components/elements/Button';
 import {signOut} from 'aws-amplify/auth';

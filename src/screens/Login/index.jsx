@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {confirmSignIn, getCurrentUser, signIn, signUp} from 'aws-amplify/auth';
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {Animated, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Banners} from '../../assets/banners';

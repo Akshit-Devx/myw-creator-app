@@ -1,4 +1,4 @@
-import { generateClient } from 'aws-amplify/api';
+import {generateClient} from 'aws-amplify/api';
 import {
   createInfluencerAddress,
   filterCampaign,
@@ -8,6 +8,7 @@ import {
   getInfluencer,
   getInfluencerAddressByInfluencerId,
   getInfluencerBySlug,
+  getReferralTrackingByInfluencerId,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
   updateInfluencerAddress,
@@ -211,6 +212,24 @@ export const createInfluencerAddressAPI = async data => {
     return response?.data?.createInfluencerAddress;
   } catch (error) {
     console.error('Error creating influencer address:', error);
+    throw error;
+  }
+};
+
+export const getReferralTrackingByInfluencerIdAPI = async influencerId => {
+  try {
+    const response = await client.graphql({
+      query: getReferralTrackingByInfluencerId,
+      variables: {
+        influencerId,
+        limit: 100,
+        nextToken: null,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getReferralTrackingByInfluencerId?.items?.[0];
+  } catch (error) {
+    console.error('Error:', error);
     throw error;
   }
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Alert, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import FullScreenLoader from '../../../components/common/FullScreenLoader';

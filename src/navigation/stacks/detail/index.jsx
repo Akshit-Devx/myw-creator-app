@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
@@ -14,6 +13,8 @@ import SubscriptionsScreen from '../../../screens/Account/Subscription';
 import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
 import InvitesScreen from '../../../screens/Invites';
 import ReferrralDashboardScreen from '../../../screens/Account/Referrral/ReferrralDashboard';
+import WithdrawalHistoryScreen from '../../../screens/Account/Referrral/ReferrralDashboard/WithdrawalHistory';
+import WithdrawScreen from '../../../screens/Account/Referrral/ReferrralDashboard/Withdraw';
 
 const Stack = createNativeStackNavigator();
 
@@ -136,9 +137,37 @@ const DetailStack = () => {
       <Stack.Screen
         name="ReferrralDashboard"
         component={ReferrralDashboardScreen}
-        options={getScreenOptions('Referral', navigation, true, () => {
+        options={getScreenOptions(
+          'Referral Dashboard',
+          navigation,
+          true,
+          () => {
+            navigation.navigate('Detail', {
+              screen: 'Referrral',
+            });
+          },
+        )}
+      />
+      <Stack.Screen
+        name="WithdrawalHistory"
+        component={WithdrawalHistoryScreen}
+        options={getScreenOptions(
+          'Withdrawal History',
+          navigation,
+          true,
+          () => {
+            navigation.navigate('Detail', {
+              screen: 'ReferrralDashboard',
+            });
+          },
+        )}
+      />
+      <Stack.Screen
+        name="Withdraw"
+        component={WithdrawScreen}
+        options={getScreenOptions('Withdraw', navigation, true, () => {
           navigation.navigate('Detail', {
-            screen: 'Referrral',
+            screen: 'ReferrralDashboard',
           });
         })}
       />

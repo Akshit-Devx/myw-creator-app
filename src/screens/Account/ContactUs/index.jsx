@@ -1,4 +1,3 @@
-import React from 'react';
 import {View, Text, Linking, Alert} from 'react-native';
 import {openComposer} from 'react-native-email-link';
 import {Icons} from '../../../assets/icons';

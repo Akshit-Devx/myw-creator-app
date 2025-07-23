@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import React from 'react';
 import {Icons} from '../../../../assets/icons';
 import {getMediaURL} from '../../../../utility/helper';
 

@@ -1,18 +1,16 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-import {Icons} from '../../../assets/icons';
-import InternationalBeachStaysSection from './InternationalBeachStays';
-import RelaxAndRechargeSection from './RelaxAndRecharge';
-import TopPicksSection from './TopPicks';
-import CreatorsUsingLinkInBioSection from './CreatorsUsingLinkInBio';
-import OurTopCreatorSection from './OurTopCreator';
-import HotCollabsSection from './HotCollabs';
-import FoodCategoriesSection from './FoodCategories';
+import {View} from 'react-native';
 import BrandsYouLoveSection from './BrandsYouLove';
 import CreatorStoriesSection from './CreatorStories';
+import CreatorsUsingLinkInBioSection from './CreatorsUsingLinkInBio';
+import FoodCategoriesSection from './FoodCategories';
 import GoaGatewaySection from './GoaGateway';
-import TopExperiencesSection from './TopExperiences';
+import HotCollabsSection from './HotCollabs';
+import InternationalBeachStaysSection from './InternationalBeachStays';
+import OurTopCreatorSection from './OurTopCreator';
+import RelaxAndRechargeSection from './RelaxAndRecharge';
 import StayGlobalSection from './StayGlobal';
+import TopExperiencesSection from './TopExperiences';
+import TopPicksSection from './TopPicks';
 
 const TrendingCampaignsSection = () => {
   return (

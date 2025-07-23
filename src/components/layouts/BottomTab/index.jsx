@@ -1,4 +1,4 @@
-import React, {memo, useMemo} from 'react';
+import {memo, useMemo} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Icons} from '../../../assets/icons';
 

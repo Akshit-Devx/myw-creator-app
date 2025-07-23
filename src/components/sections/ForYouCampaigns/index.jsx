@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Icons} from '../../../assets/icons';

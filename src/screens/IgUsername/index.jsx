@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState, useCallback, memo} from 'react';
+import {useState, useCallback, memo} from 'react';
 import PropTypes from 'prop-types';
 import {Text, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';

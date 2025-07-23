@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Icons} from '../../../../assets/icons';
 import {CAMPAIGN_CATEGORIES_LIST} from '../../../../utility/common';
 import {convertToTitleCase} from '../../../../utility/helper';

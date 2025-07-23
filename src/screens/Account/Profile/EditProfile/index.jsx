@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import InputField from '../../../../components/elements/Input';
 import Button from '../../../../components/elements/Button';

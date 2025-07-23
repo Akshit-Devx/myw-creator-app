@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {getCurrentUser} from 'aws-amplify/auth';
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Icons} from '../../assets/icons';

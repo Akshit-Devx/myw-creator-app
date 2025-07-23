@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {FlatList, Image, Text, View} from 'react-native';
 import {Icons} from '../../../../assets/icons';
 import {getCampaignByIdAPI} from '../../../../services/handleApi';

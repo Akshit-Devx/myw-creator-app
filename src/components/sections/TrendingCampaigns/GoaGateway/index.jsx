@@ -1,5 +1,5 @@
 import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Icons} from '../../../../assets/icons';
 import {getCampaignByIdAPI} from '../../../../services/handleApi';
 import {

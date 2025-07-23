@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchSubscription} from '../../../store/slices/subscription';

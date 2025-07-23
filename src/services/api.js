@@ -402,3 +402,51 @@ export const createInfluencerAddress = /* GraphQL */ `
     }
   }
 `;
+
+export const getReferralTrackingByInfluencerId = /* GraphQL */ `
+  query GetReferralTrackingByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getReferralTrackingByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        referralCode
+        referralsFromCta
+        currentWalletBalance
+        totalEarnings
+        listOfReferrals {
+          influencerId
+          referredDate
+          bonus
+          bonusDate
+        }
+        withdrawalHistroy {
+          amount
+          createdAt
+          updatedAt
+          payoutMethodId
+          status
+        }
+        payoutMethods {
+          id
+          methodName
+          upiId
+          bankAccountNumber
+          bankIfscCode
+          beneficiaryName
+          isArchived
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

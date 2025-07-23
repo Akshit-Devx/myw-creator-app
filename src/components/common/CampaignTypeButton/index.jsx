@@ -1,5 +1,4 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
 import {CAMPAIGN_TYPES} from '../../../utility/common';
 
 const CampaignTypeButton = ({selectedType, setSelectedType}) => {

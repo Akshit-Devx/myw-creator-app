@@ -1,5 +1,4 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
 import IgUsernameScreen from '../../../screens/IgUsername';
 import LoginScreen from '../../../screens/Login';
 import SplashScreen from '../../../screens/SplashScreen';

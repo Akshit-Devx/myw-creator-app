@@ -1,5 +1,4 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
 import {

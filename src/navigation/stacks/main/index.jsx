@@ -1,5 +1,4 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
 import BottomTab from '../../../components/layouts/BottomTab';
 import TopNav from '../../../components/layouts/TopNav';
 import AnalyticsScreen from '../../../screens/Analytics';

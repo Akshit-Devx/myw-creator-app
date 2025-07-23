@@ -1,5 +1,4 @@
 import {View, Text, FlatList} from 'react-native';
-import React from 'react';
 import {Icons} from '../../../../assets/icons';
 import Video from 'react-native-video';
 import {getMediaURL} from '../../../../utility/helper';
