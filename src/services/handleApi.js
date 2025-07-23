@@ -1,13 +1,16 @@
-import {generateClient} from 'aws-amplify/api';
+import { generateClient } from 'aws-amplify/api';
 import {
+  createInfluencerAddress,
   filterCampaign,
   getCampaign,
   getCampaignInvitationsByInfluencerId,
   getIgData,
   getInfluencer,
+  getInfluencerAddressByInfluencerId,
   getInfluencerBySlug,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
+  updateInfluencerAddress,
 } from './api';
 
 const client = generateClient();
@@ -150,6 +153,64 @@ export const getUserBySlugAPI = async slug => {
     return response?.data?.getInfluencerBySlug;
   } catch (error) {
     console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getInfluencerAddressByInfluencerIdAPI = async influencerId => {
+  try {
+    const response = await client.graphql({
+      query: getInfluencerAddressByInfluencerId,
+      variables: {
+        influencerId,
+        limit: 100,
+        nextToken: null,
+      },
+      authMode: 'userPool',
+    });
+
+    const items =
+      response?.data?.getInfluencerAddressByInfluencerId?.items || [];
+
+    const activeItems = items.filter(item => !item.isArchived);
+
+    return activeItems;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const updateInfluencerAddressAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateInfluencerAddress,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    console.log('response updateInfluencerAddressAPI', response);
+    return response?.data?.updateInfluencerAddress;
+  } catch (error) {
+    console.error('Error updating influencer address:', error);
+    throw error;
+  }
+};
+
+export const createInfluencerAddressAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createInfluencerAddress,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    console.log('response createInfluencerAddressAPI', response);
+    return response?.data?.createInfluencerAddress;
+  } catch (error) {
+    console.error('Error creating influencer address:', error);
     throw error;
   }
 };

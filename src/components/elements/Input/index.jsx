@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View, Text} from 'react-native';
+import {Text, TextInput, View} from 'react-native';
 import {twMerge} from 'tailwind-merge';
 
 const InputField = ({
@@ -23,6 +23,7 @@ const InputField = ({
   maxLength,
   onFocus,
   onBlur,
+  disabled = false,
   ...props
 }) => {
   const baseContainerStyles = 'mb-4';
@@ -36,6 +37,7 @@ const InputField = ({
     multiline && 'min-h-[100px] text-top',
     error && 'border-red-500 focus:border-red-500 focus:ring-red-200',
     !editable && 'bg-gray-100 text-gray-500',
+    disabled && 'bg-gray-100 border-gray-300',
   );
 
   const baseErrorStyles = 'text-red-500 text-sm mt-1';
@@ -59,7 +61,7 @@ const InputField = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
-        editable={editable}
+        editable={!disabled}
         maxLength={maxLength}
         onFocus={onFocus}
         onBlur={onBlur}

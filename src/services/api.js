@@ -338,3 +338,67 @@ export const getInfluencerBySlug = /* GraphQL */ `
     }
   }
 `;
+
+export const getInfluencerAddressByInfluencerId = /* GraphQL */ `
+  query GetInfluencerAddressByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getInfluencerAddressByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        addressLine1
+        addressLine2
+        city
+        state
+        country
+        pincode
+        isArchived
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const updateInfluencerAddress = /* GraphQL */ `
+  mutation UpdateInfluencerAddress($input: UpdateInfluencerAddressInput) {
+    updateInfluencerAddress(input: $input) {
+      id
+      influencerId
+      addressLine1
+      addressLine2
+      city
+      state
+      country
+      pincode
+      isArchived
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const createInfluencerAddress = /* GraphQL */ `
+  mutation CreateInfluencerAddress($input: CreateInfluencerAddressInput) {
+    createInfluencerAddress(input: $input) {
+      id
+      influencerId
+      addressLine1
+      addressLine2
+      city
+      state
+      country
+      pincode
+      isArchived
+      createdAt
+      updatedAt
+    }
+  }
+`;
