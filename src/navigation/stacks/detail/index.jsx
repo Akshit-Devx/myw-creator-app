@@ -10,6 +10,7 @@ import MywallReferrralScreen from '../../../screens/Account/MywallReferrral';
 import AutoDMScreen from '../../../screens/Account/AutoDM';
 import ProfileScreen from '../../../screens/Account/Profile';
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
+import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,10 @@ const DetailStack = () => {
   const navigation = useNavigation();
 
   return (
-    <Stack.Navigator screenOptions={screenOptions} initialRouteName="Account">
+    <Stack.Navigator
+      screenOptions={screenOptions}
+      // initialRouteName="Account"
+    >
       {/* Account Section */}
       <Stack.Screen
         name="Account"
@@ -66,6 +70,20 @@ const DetailStack = () => {
             screen: 'Account',
           });
         })}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={getScreenOptions(
+          'Edit Profile Details',
+          navigation,
+          true,
+          () => {
+            navigation.navigate('Detail', {
+              screen: 'Profile',
+            });
+          },
+        )}
       />
       <Stack.Screen
         name="Subscriptions"

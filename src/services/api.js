@@ -320,3 +320,21 @@ export const getSubscriptionPurchasedByInfluencerId = /* GraphQL */ `
     }
   }
 `;
+
+export const updateInfluencer = /* GraphQL */ `
+  mutation UpdateInfluencer($input: UpdateInfluencerInput!) {
+    updateInfluencer(input: $input) {
+      id
+    }
+  }
+`;
+
+export const getInfluencerBySlug = /* GraphQL */ `
+  query GetInfluencerBySlug($slug: String!, $limit: Int, $nextToken: String) {
+    getInfluencerBySlug(slug: $slug, limit: $limit, nextToken: $nextToken) {
+      id
+      name
+      slug
+    }
+  }
+`;

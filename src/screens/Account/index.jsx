@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../../components/elements/Button';
 import {signOut} from 'aws-amplify/auth';
@@ -6,11 +6,16 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetStore} from '../../store/store';
 import {getInfluencerMediaURL} from '../../utility/helper';
+import {fetchInfluencerById} from '../../store/slices/onBoarding';
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {onBoarding} = useSelector(state => state?.onBoarding);
+
+  useEffect(() => {
+    dispatch(fetchInfluencerById(onBoarding?.id));
+  }, [dispatch, onBoarding?.id]);
 
   const handleLogout = async () => {
     try {
@@ -39,6 +44,11 @@ const AccountScreen = () => {
         <Text className="text-base text-gray-500">
           @{onBoarding?.instagramDetails?.username}
         </Text>
+        {onBoarding?.instagramToken?.refreshToken && (
+          <Text className="text-base text-blue-600 border border-blue-600 py-1 px-2 rounded-md">
+            Connected
+          </Text>
+        )}
       </View>
       <View className="border border-gray-200 rounded-xl">
         <TouchableOpacity
@@ -51,7 +61,7 @@ const AccountScreen = () => {
             Profile Settings
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'Subscriptions',
@@ -60,7 +70,7 @@ const AccountScreen = () => {
           <Text className="text-xl border-b border-gray-200 p-4">
             Subscriptions
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {

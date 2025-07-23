@@ -5,7 +5,9 @@ import {
   getCampaignInvitationsByInfluencerId,
   getIgData,
   getInfluencer,
+  getInfluencerBySlug,
   getSubscriptionPurchasedByInfluencerId,
+  updateInfluencer,
 } from './api';
 
 const client = generateClient();
@@ -116,6 +118,38 @@ export const getSubscriptionPurchasedByInfluencerIdAPI = async influencerId => {
     return latestSubscription;
   } catch (error) {
     console.error('Error updating influencer:', error);
+    throw error;
+  }
+};
+
+export const updateInfluencerAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateInfluencer,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.updateInfluencer;
+  } catch (error) {
+    console.error('Error updating influencer:', error);
+    throw error;
+  }
+};
+
+export const getUserBySlugAPI = async slug => {
+  try {
+    const response = await client.graphql({
+      query: getInfluencerBySlug,
+      variables: {
+        slug,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getInfluencerBySlug;
+  } catch (error) {
+    console.error('Error:', error);
     throw error;
   }
 };
