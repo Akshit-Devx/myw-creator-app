@@ -71,7 +71,7 @@ const AccountScreen = () => {
             Subscriptions
           </Text>
         </TouchableOpacity> */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'MywallReferrral',
@@ -80,8 +80,8 @@ const AccountScreen = () => {
           <Text className="text-xl border-b border-gray-200 p-4">
             Mywall Referral
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'AutoDM',
@@ -90,7 +90,7 @@ const AccountScreen = () => {
           <Text className="text-xl border-b border-gray-200 p-4">
             Instagram Auto DM
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {

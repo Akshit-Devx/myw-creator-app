@@ -11,6 +11,8 @@ import AutoDMScreen from '../../../screens/Account/AutoDM';
 import ProfileScreen from '../../../screens/Account/Profile';
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
 import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
+import ContactUsScreen from '../../../screens/Account/ContactUs';
+import {Text, TouchableOpacity} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,7 @@ const getScreenOptions = (
   navigation,
   forceBack = false,
   customBackAction,
+  headerRight = null,
 ) => ({
   title,
   headerLeft: props => (
@@ -42,6 +45,7 @@ const getScreenOptions = (
       onPress={customBackAction}
     />
   ),
+  ...(headerRight && {headerRight}),
 });
 
 const DetailStack = () => {
@@ -56,9 +60,34 @@ const DetailStack = () => {
       <Stack.Screen
         name="Account"
         component={AccountScreen}
-        options={getScreenOptions('Account', navigation, true, () => {
-          navigation.navigate('Main', {
-            screen: 'Explore',
+        options={getScreenOptions(
+          'Account',
+          navigation,
+          true,
+          () => {
+            navigation.navigate('Main', {
+              screen: 'Explore',
+            });
+          },
+          () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Detail', {
+                  screen: 'ContactUs',
+                });
+              }}
+              style={{marginRight: 10}}>
+              <Text>Help</Text>
+            </TouchableOpacity>
+          ),
+        )}
+      />
+      <Stack.Screen
+        name="ContactUs"
+        component={ContactUsScreen}
+        options={getScreenOptions('Contact Us', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Account',
           });
         })}
       />

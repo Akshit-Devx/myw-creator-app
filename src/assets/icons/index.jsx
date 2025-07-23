@@ -29,6 +29,8 @@ import RestaurantIcon from './restaurantIcon.svg';
 import SalonIcon from './salonIcon.svg';
 import LeftGradientLine from './leftGradientLine.svg';
 import RightGradientLine from './rightGradientLine.svg';
+import MailIcon from './mailIcon.svg';
+import PhoneIcon from './phoneIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -62,4 +64,6 @@ export const Icons = {
   SalonIcon,
   LeftGradientLine,
   RightGradientLine,
+  MailIcon,
+  PhoneIcon,
 };
