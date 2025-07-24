@@ -9,12 +9,13 @@ import ContactUsScreen from '../../../screens/Account/ContactUs';
 import ProfileScreen from '../../../screens/Account/Profile';
 import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
 import ReferrralScreen from '../../../screens/Account/Referrral';
+import ReferrralDashboardScreen from '../../../screens/Account/Referrral/ReferrralDashboard';
+import WithdrawScreen from '../../../screens/Account/Referrral/ReferrralDashboard/Withdraw';
+import PayoutMethodScreen from '../../../screens/Account/Referrral/ReferrralDashboard/Withdraw/PayoutMethod';
+import WithdrawalHistoryScreen from '../../../screens/Account/Referrral/ReferrralDashboard/WithdrawalHistory';
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
 import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
 import InvitesScreen from '../../../screens/Invites';
-import ReferrralDashboardScreen from '../../../screens/Account/Referrral/ReferrralDashboard';
-import WithdrawalHistoryScreen from '../../../screens/Account/Referrral/ReferrralDashboard/WithdrawalHistory';
-import WithdrawScreen from '../../../screens/Account/Referrral/ReferrralDashboard/Withdraw';
 
 const Stack = createNativeStackNavigator();
 
@@ -168,6 +169,15 @@ const DetailStack = () => {
         options={getScreenOptions('Withdraw', navigation, true, () => {
           navigation.navigate('Detail', {
             screen: 'ReferrralDashboard',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="PayoutMethod"
+        component={PayoutMethodScreen}
+        options={getScreenOptions('Payout Method', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'Withdraw',
           });
         })}
       />
