@@ -11,7 +11,6 @@ export const fetchSubscription = createAsyncThunk(
   'subscription/fetchSubscription',
   async id => {
     try {
-      console.log('redux reached');
       const response = await getSubscriptionPurchasedByInfluencerIdAPI(id);
       return response;
     } catch (error) {

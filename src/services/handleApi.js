@@ -1,6 +1,7 @@
 import {generateClient} from 'aws-amplify/api';
 import {
   createInfluencerAddress,
+  createWithdrawRequest,
   filterCampaign,
   getCampaign,
   getCampaignInvitationsByInfluencerId,
@@ -12,6 +13,7 @@ import {
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
   updateInfluencerAddress,
+  updateReferralTracking,
 } from './api';
 
 const client = generateClient();
@@ -98,7 +100,6 @@ export const getCampaignByIdAPI = async id => {
 
 export const getSubscriptionPurchasedByInfluencerIdAPI = async influencerId => {
   try {
-    console.log('influencerId', influencerId);
     const res = await client.graphql({
       query: getSubscriptionPurchasedByInfluencerId,
       variables: {
@@ -106,7 +107,6 @@ export const getSubscriptionPurchasedByInfluencerIdAPI = async influencerId => {
       },
       authMode: 'userPool',
     });
-    console.log('res', res);
 
     const subscriptions =
       res?.data?.getSubscriptionPurchasedByInfluencerId?.items;
@@ -191,7 +191,6 @@ export const updateInfluencerAddressAPI = async data => {
       },
       authMode: 'userPool',
     });
-    console.log('response updateInfluencerAddressAPI', response);
     return response?.data?.updateInfluencerAddress;
   } catch (error) {
     console.error('Error updating influencer address:', error);
@@ -208,7 +207,6 @@ export const createInfluencerAddressAPI = async data => {
       },
       authMode: 'userPool',
     });
-    console.log('response createInfluencerAddressAPI', response);
     return response?.data?.createInfluencerAddress;
   } catch (error) {
     console.error('Error creating influencer address:', error);
@@ -230,6 +228,38 @@ export const getReferralTrackingByInfluencerIdAPI = async influencerId => {
     return response?.data?.getReferralTrackingByInfluencerId?.items?.[0];
   } catch (error) {
     console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const updateReferralTrackingAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateReferralTracking,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.updateReferralTracking;
+  } catch (error) {
+    console.error('Error updating referral tracking:', error);
+    throw error;
+  }
+};
+
+export const createWithdrawRequestAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createWithdrawRequest,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.createWithdrawRequest;
+  } catch (error) {
+    console.error('Error creating withdraw request:', error);
     throw error;
   }
 };

@@ -21,7 +21,6 @@ const ProfileScreen = () => {
             size="sm"
             className="w-12"
             onPress={() => {
-              console.log(onBoarding);
               const {name} = onBoarding || {};
               navigation.navigate('Detail', {
                 screen: 'EditProfile',
@@ -48,7 +47,6 @@ const ProfileScreen = () => {
             size="sm"
             className="w-12"
             onPress={() => {
-              console.log(onBoarding);
               const {slug} = onBoarding || {};
               navigation.navigate('Detail', {
                 screen: 'EditProfile',

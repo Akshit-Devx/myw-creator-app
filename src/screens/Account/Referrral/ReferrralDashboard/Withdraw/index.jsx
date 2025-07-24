@@ -1,22 +1,30 @@
-import {useEffect, useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React, {useCallback, useState} from 'react';
+import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import FullScreenLoader from '../../../../../components/common/FullScreenLoader';
 import Button from '../../../../../components/elements/Button';
-import {getReferralTrackingByInfluencerIdAPI} from '../../../../../services/handleApi';
-import {useNavigation} from '@react-navigation/native';
+import {
+  createWithdrawRequestAPI,
+  getReferralTrackingByInfluencerIdAPI,
+} from '../../../../../services/handleApi';
 
 const WithdrawScreen = () => {
   const navigation = useNavigation();
   const {onBoarding} = useSelector(state => state?.onBoarding);
   const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [referralData, setReferralData] = useState(null);
+  const [selectedPayoutMethod, setSelectedPayoutMethod] = useState(null);
   const [amount, setAmount] = useState('');
 
-  useEffect(() => {
-    fetchReferralData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchReferralData();
+    }, [fetchReferralData]),
+  );
 
-  const fetchReferralData = async () => {
+  const fetchReferralData = useCallback(async () => {
     setLoading(true);
     try {
       const response = await getReferralTrackingByInfluencerIdAPI(
@@ -28,7 +36,69 @@ const WithdrawScreen = () => {
     } finally {
       setLoading(false);
     }
+  }, [onBoarding?.id]);
+
+  const maskPayoutValue = item => {
+    if (item?.bankAccountNumber) {
+      const acc = item.bankAccountNumber.toString();
+      const visible = acc.slice(-4);
+      const masked = '*'.repeat(acc.length - 4);
+      return `${masked}${visible}`;
+    }
+
+    if (item?.upiId) {
+      const [prefix, domain] = item.upiId.split('@');
+      if (prefix && domain) {
+        const maskedPrefix = `${prefix.charAt(0)}****`;
+        return `${maskedPrefix}@${domain}`;
+      }
+      return '****';
+    }
+
+    return '';
   };
+
+  const handleWithdrawal = async () => {
+    setBtnLoading(true);
+    try {
+      const numericAmount = parseInt(amount, 10);
+
+      if (!numericAmount || numericAmount < 100) {
+        Alert.alert('Withdrawal amount must be at least ₹100.');
+        return;
+      }
+
+      if (!selectedPayoutMethod?.id) {
+        Alert.alert('Please select a payout method.');
+        return;
+      }
+
+      if (numericAmount > referralData?.currentWalletBalance) {
+        Alert.alert('Withdrawal amount cannot exceed available balance.');
+        return;
+      }
+
+      const payload = {
+        referralId: referralData?.id,
+        amount: numericAmount,
+        payoutMethodId: selectedPayoutMethod?.id,
+      };
+      const response = await createWithdrawRequestAPI(payload);
+      if (response?.code === 'SUCCESS') {
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setBtnLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
+
+  console.log('selectedPayoutMethod', selectedPayoutMethod);
 
   return (
     <View className="flex-1 flex-col gap-5 bg-white p-5">
@@ -60,6 +130,42 @@ const WithdrawScreen = () => {
               </Text>
             </View>
           )}
+          {!!referralData?.payoutMethods?.length && (
+            <View className="flex-col gap-2">
+              {referralData?.payoutMethods?.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedPayoutMethod(item)}
+                  className={`flex-row items-center justify-between p-3 border rounded-md ${
+                    selectedPayoutMethod?.id === item?.id
+                      ? 'border-blue-600'
+                      : 'border-gray-200'
+                  }`}>
+                  <View className="flex-col gap-1">
+                    <Text className="text-gray-500">{item?.methodName}</Text>
+                    <Text className="text-lg font-medium">
+                      {maskPayoutValue(item)}
+                    </Text>
+                  </View>
+                  <Button
+                    className="w-12"
+                    variant="ghost"
+                    title="Edit"
+                    onPress={() =>
+                      navigation.navigate('Detail', {
+                        screen: 'PayoutMethod',
+                        params: {
+                          referralData,
+                          selectedPayoutMethod: item,
+                          mode: 'EDIT',
+                        },
+                      })
+                    }
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
         <Button
           variant="secondary"
@@ -67,11 +173,21 @@ const WithdrawScreen = () => {
           className="w-full border-gray-200"
           textClassName="text-blue-600"
           onPress={() =>
-            navigation.navigate('Detail', {screen: 'PayoutMethod'})
+            navigation.navigate('Detail', {
+              screen: 'PayoutMethod',
+              params: {
+                referralData,
+                mode: 'ADD',
+              },
+            })
           }
         />
       </View>
-      <Button title="Request Withdrawal" onPress={() => {}} />
+      <Button
+        title="Request Withdrawal"
+        loading={btnLoading}
+        onPress={handleWithdrawal}
+      />
       <Button
         variant="secondary"
         title="View Recent Withdrawals"

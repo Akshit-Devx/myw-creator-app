@@ -450,3 +450,49 @@ export const getReferralTrackingByInfluencerId = /* GraphQL */ `
     }
   }
 `;
+
+export const updateReferralTracking = /* GraphQL */ `
+  mutation UpdateReferralTracking($input: UpdateReferralTrackingInput!) {
+    updateReferralTracking(input: $input) {
+      id
+      influencerId
+      referralCode
+      listOfReferrals {
+        influencerId
+        referredDate
+        bonus
+        bonusDate
+        planName
+      }
+      currentWalletBalance
+      totalEarnings
+      withdrawalHistroy {
+        amount
+        createdAt
+        updatedAt
+        payoutMethodId
+        status
+      }
+      payoutMethods {
+        id
+        methodName
+        upiId
+        bankAccountNumber
+        bankIfscCode
+        beneficiaryName
+        isArchived
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const createWithdrawRequest = /* GraphQL */ `
+  mutation CreateWithdrawRequest($input: WithdrawInput!) {
+    createWithdrawRequest(input: $input) {
+      code
+      message
+    }
+  }
+`;

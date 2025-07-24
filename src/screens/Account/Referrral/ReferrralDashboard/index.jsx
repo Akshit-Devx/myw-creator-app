@@ -1,6 +1,6 @@
-import {useNavigation} from '@react-navigation/native';
-import {useEffect, useState} from 'react';
-import {Image, TouchableOpacity, View, ScrollView} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useCallback, useState} from 'react';
+import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import FullScreenLoader from '../../../../components/common/FullScreenLoader';
@@ -16,27 +16,26 @@ const ReferrralDashboardScreen = () => {
   const [loading, setLoading] = useState(false);
   const [referralData, setReferralData] = useState(null);
 
-  useEffect(() => {
-    fetchReferralData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchReferralData();
+    }, [fetchReferralData]),
+  );
 
-  const fetchReferralData = async () => {
+  const fetchReferralData = useCallback(async () => {
     setLoading(true);
     try {
       const response = await getReferralTrackingByInfluencerIdAPI(
         onBoarding?.id,
       );
-
       let listOfReferrals = response?.listOfReferrals || [];
 
-      // Sort by referredDate (latest first)
       listOfReferrals.sort(
         (a, b) =>
           new Date(b?.referredDate).getTime() -
           new Date(a?.referredDate).getTime(),
       );
 
-      // Fetch influencer details and append to each referral
       const enrichedReferrals = await Promise.all(
         listOfReferrals.map(async referral => {
           try {
@@ -68,7 +67,7 @@ const ReferrralDashboardScreen = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [onBoarding?.id]);
 
   if (loading) {
     return <FullScreenLoader visible={loading} />;
@@ -96,7 +95,9 @@ const ReferrralDashboardScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Detail', {screen: 'WithdrawalHistory'})
+                navigation.navigate('Detail', {
+                  screen: 'WithdrawalHistory',
+                })
               }
               className="bg-white py-2 px-4 w-[48%] rounded-md">
               <Text className="text-center">History</Text>

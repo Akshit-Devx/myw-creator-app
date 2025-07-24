@@ -33,3 +33,5 @@ export const CAMPAIGN_CATEGORIES = [
 export const CAMPAIGN_TYPES = ['BARTER', 'OFFER'];
 
 export const CAMPAIGN_DETAILS_TABS = ['ABOUT', 'PHOTOS', 'REFERENCES'];
+
+export const PAYOUT_METHOD = ['BANK', 'UPI'];

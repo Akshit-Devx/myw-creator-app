@@ -9,7 +9,6 @@ const SubscriptionsScreen = () => {
   const dispatch = useDispatch();
   const {onBoarding} = useSelector(state => state.onBoarding);
   const {subscription} = useSelector(state => state.subscription);
-  console.log('subscription', subscription);
 
   useEffect(() => {
     dispatch(fetchSubscription(onBoarding?.id));

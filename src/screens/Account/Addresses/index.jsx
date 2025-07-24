@@ -37,7 +37,6 @@ const AddressesScreen = () => {
   };
 
   const handleSaveAddress = async addressData => {
-    console.log('addressData', addressData);
     setModalBtnLoading(true);
     try {
       const payload = {
@@ -52,7 +51,6 @@ const AddressesScreen = () => {
           id: editingAddress.id,
         });
       } else {
-        console.log('create payload', payload);
         await createInfluencerAddressAPI(payload);
       }
 
