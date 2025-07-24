@@ -4,7 +4,7 @@ import {Text, TouchableOpacity} from 'react-native';
 import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
 import AddressesScreen from '../../../screens/Account/Addresses';
-import AutoDMScreen from '../../../screens/Account/AutoDM';
+import InstagramAutoDMScreen from '../../../screens/Account/AutoDM';
 import ContactUsScreen from '../../../screens/Account/ContactUs';
 import ProfileScreen from '../../../screens/Account/Profile';
 import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
@@ -16,6 +16,7 @@ import WithdrawalHistoryScreen from '../../../screens/Account/Referrral/Referrra
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
 import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
 import InvitesScreen from '../../../screens/Invites';
+import InstagramConnectScreen from '../../../screens/InstagramConnect';
 
 const Stack = createNativeStackNavigator();
 
@@ -182,11 +183,20 @@ const DetailStack = () => {
         })}
       />
       <Stack.Screen
-        name="AutoDM"
-        component={AutoDMScreen}
-        options={getScreenOptions('Auto DM', navigation, true, () => {
+        name="InstagramAutoDM"
+        component={InstagramAutoDMScreen}
+        options={getScreenOptions('Instagram Auto DM', navigation, true, () => {
           navigation.navigate('Detail', {
             screen: 'Account',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="InstagramConnect"
+        component={InstagramConnectScreen}
+        options={getScreenOptions('Instagram Connect', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'InstagramAutoDM',
           });
         })}
       />
