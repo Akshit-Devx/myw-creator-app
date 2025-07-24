@@ -13,7 +13,7 @@ const PayoutMethodScreen = () => {
   const {referralData, mode, selectedPayoutMethod} = route?.params || {};
   const navigation = useNavigation();
   const [selectedMethod, setSelectedMethod] = useState(PAYOUT_METHOD[0]);
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(null);
 
   const {
     control,
@@ -46,7 +46,7 @@ const PayoutMethodScreen = () => {
   }, [mode, selectedPayoutMethod, setValue]);
 
   const onAddSubmit = async data => {
-    setBtnLoading(true);
+    setBtnLoading('ADD');
     try {
       const newMethod = {
         id: generateUUIDv4(),
@@ -73,15 +73,13 @@ const PayoutMethodScreen = () => {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setBtnLoading(false);
+      setBtnLoading(null);
     }
   };
 
   const onEditSubmit = async data => {
-    setBtnLoading(true);
+    setBtnLoading('EDIT');
     try {
-      console.log('data', data);
-
       const newMethod = {
         id: selectedPayoutMethod.id,
         methodName: selectedMethod,
@@ -103,10 +101,8 @@ const PayoutMethodScreen = () => {
           return item;
         }),
       };
-      console.log('payload', payload);
 
       const response = await updateReferralTrackingAPI(payload);
-      console.log('response', response);
 
       if (response) {
         navigation.goBack();
@@ -114,12 +110,12 @@ const PayoutMethodScreen = () => {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setBtnLoading(false);
+      setBtnLoading(null);
     }
   };
 
   const onDeleteSubmit = async () => {
-    setBtnLoading(true);
+    setBtnLoading('DELETE');
     try {
       const payload = {
         id: referralData.id,
@@ -139,7 +135,7 @@ const PayoutMethodScreen = () => {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setBtnLoading(false);
+      setBtnLoading(null);
     }
   };
 
@@ -253,10 +249,21 @@ const PayoutMethodScreen = () => {
         </>
       )}
 
+      {mode === 'EDIT' && (
+        <Button
+          variant="secondary"
+          title="Delete"
+          onPress={onDeleteSubmit}
+          className="border-red-500"
+          loading={btnLoading === 'DELETE'}
+          textClassName="text-red-500"
+        />
+      )}
+
       <Button
         title="Submit"
         onPress={handleSubmit(mode === 'ADD' ? onAddSubmit : onEditSubmit)}
-        loading={btnLoading}
+        loading={btnLoading === 'ADD' || btnLoading === 'EDIT'}
       />
     </View>
   );
