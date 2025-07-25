@@ -43,8 +43,21 @@ const InstagramAutoDMScreen = () => {
             className="border-blue-600"
             textClassName="text-blue-600"
             variant="secondary"
+            onPress={() => {
+              navigation.navigate('Detail', {
+                screen: 'ChooseIgPostForAutoDM',
+              });
+            }}
           />
-          <Button title="Auto DM Insights" variant="primary" />
+          <Button
+            title="Auto DM Insights"
+            variant="primary"
+            onPress={() => {
+              navigation.navigate('Detail', {
+                screen: 'AutoDMInsights',
+              });
+            }}
+          />
         </View>
       )}
     </View>

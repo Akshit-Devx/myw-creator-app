@@ -496,3 +496,76 @@ export const createWithdrawRequest = /* GraphQL */ `
     }
   }
 `;
+
+export const getInstagramDMByInfluencerId = /* GraphQL */ `
+  query GetInstagramDMByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getInstagramDMByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        reelId
+        userId
+        igAccountId
+        thumbnailUrl
+        isActive
+        permalink
+        isKeywordFilteredDM
+        isCommentReply
+        commentReplyText
+        commentsList {
+          id
+          text
+          timestamp
+        }
+        keywords
+        cardType
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const updateInstagramDM = /* GraphQL */ `
+  mutation UpdateInstagramDM($input: UpdateInstagramDMInput!) {
+    updateInstagramDM(input: $input) {
+      id
+      influencerId
+      reelId
+      userId
+      igAccountId
+      thumbnailUrl
+      isActive
+      isCommentReply
+      isKeywordFilteredDM
+      commentReplyText
+      keywords
+      permalink
+      commentsList {
+        id
+        text
+        timestamp
+      }
+      cardType
+      cardData {
+        image
+        title
+        subtitle
+        button {
+          title
+          link
+          shortCode
+        }
+      }
+    }
+  }
+`;

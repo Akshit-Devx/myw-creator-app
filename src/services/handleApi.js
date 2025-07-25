@@ -9,10 +9,12 @@ import {
   getInfluencer,
   getInfluencerAddressByInfluencerId,
   getInfluencerBySlug,
+  getInstagramDMByInfluencerId,
   getReferralTrackingByInfluencerId,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
   updateInfluencerAddress,
+  updateInstagramDM,
   updateReferralTracking,
 } from './api';
 
@@ -260,6 +262,41 @@ export const createWithdrawRequestAPI = async data => {
     return response?.data?.createWithdrawRequest;
   } catch (error) {
     console.error('Error creating withdraw request:', error);
+    throw error;
+  }
+};
+
+export const getInstagramDMByInfluencerIdAPI = async influencerId => {
+  try {
+    const response = await client.graphql({
+      query: getInstagramDMByInfluencerId,
+      variables: {
+        influencerId,
+        limit: 100,
+        nextToken: null,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getInstagramDMByInfluencerId?.items;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const updateInstagramDMAPI = async data => {
+  try {
+    console.log('data', data);
+    const response = await client.graphql({
+      query: updateInstagramDM,
+      variables: {
+        input: data,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.updateInstagramDM;
+  } catch (error) {
+    console.error('Error updating instagram dm:', error);
     throw error;
   }
 };

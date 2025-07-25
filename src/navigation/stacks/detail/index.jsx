@@ -5,6 +5,7 @@ import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
 import AddressesScreen from '../../../screens/Account/Addresses';
 import InstagramAutoDMScreen from '../../../screens/Account/AutoDM';
+import AutoDMInsightsScreen from '../../../screens/Account/AutoDM/AutoDMInsights';
 import ContactUsScreen from '../../../screens/Account/ContactUs';
 import ProfileScreen from '../../../screens/Account/Profile';
 import EditProfileScreen from '../../../screens/Account/Profile/EditProfile';
@@ -15,8 +16,9 @@ import PayoutMethodScreen from '../../../screens/Account/Referrral/ReferrralDash
 import WithdrawalHistoryScreen from '../../../screens/Account/Referrral/ReferrralDashboard/WithdrawalHistory';
 import SubscriptionsScreen from '../../../screens/Account/Subscription';
 import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
-import InvitesScreen from '../../../screens/Invites';
 import InstagramConnectScreen from '../../../screens/InstagramConnect';
+import InvitesScreen from '../../../screens/Invites';
+import ChooseIgPostForAutoDMScreen from '../../../screens/Account/AutoDM/ChooseIgPostForAutoDM';
 
 const Stack = createNativeStackNavigator();
 
@@ -199,6 +201,29 @@ const DetailStack = () => {
             screen: 'InstagramAutoDM',
           });
         })}
+      />
+      <Stack.Screen
+        name="AutoDMInsights"
+        component={AutoDMInsightsScreen}
+        options={getScreenOptions('Auto DM Insights', navigation, true, () => {
+          navigation.navigate('Detail', {
+            screen: 'InstagramAutoDM',
+          });
+        })}
+      />
+      <Stack.Screen
+        name="ChooseIgPostForAutoDM"
+        component={ChooseIgPostForAutoDMScreen}
+        options={getScreenOptions(
+          'Choose Post For Auto DM',
+          navigation,
+          true,
+          () => {
+            navigation.navigate('Detail', {
+              screen: 'InstagramAutoDM',
+            });
+          },
+        )}
       />
       <Stack.Screen
         name="Addresses"
