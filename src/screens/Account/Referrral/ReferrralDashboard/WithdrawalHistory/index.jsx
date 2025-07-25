@@ -47,18 +47,18 @@ const WithdrawalHistoryScreen = () => {
     }
   }, [onBoarding?.id]);
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
-
   return (
     <View className="flex-1 flex-col gap-4 bg-white p-5">
-      {!referralData?.withdrawalHistroy?.length && (
+      {loading && <FullScreenLoader visible={loading} />}
+
+      {!referralData?.withdrawalHistroy?.length && !loading && (
         <View className="flex-1 items-center justify-center">
           <Text className="text-xl font-medium">No withdrawal history</Text>
         </View>
       )}
+
       {!!referralData?.withdrawalHistroy?.length &&
+        !loading &&
         referralData?.withdrawalHistroy?.map((item, index) => {
           const payoutMethod = referralData?.payoutMethods?.find(
             payout => payout.id === item.payoutMethodId,

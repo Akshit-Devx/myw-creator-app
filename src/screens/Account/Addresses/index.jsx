@@ -140,12 +140,10 @@ const AddressesScreen = () => {
     </View>
   );
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
-
   return (
     <View className="flex-1 bg-white">
+      {loading && <FullScreenLoader visible={loading} />}
+
       <View className="flex-1 p-5">
         {!addresses?.length ? (
           <View className="flex-1 items-center justify-center">

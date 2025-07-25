@@ -57,14 +57,12 @@ const AutoDMInsightsScreen = () => {
     }
   };
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       className="flex-1 bg-white">
+      {loading && <FullScreenLoader visible={loading} />}
+
       <View className="flex-col gap-5 bg-white p-5">
         <View className="flex-col gap-1 bg-blue-950 p-5 rounded-xl">
           <Text className="text-white text-lg">Total Messages Sent</Text>

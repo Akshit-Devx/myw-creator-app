@@ -27,12 +27,10 @@ const ChooseIgPostForAutoDMScreen = () => {
     }
   };
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
-  console.log('reelsList', reelsList);
   return (
     <View className="flex-1 flex-col gap-5 bg-white p-5">
+      {loading && <FullScreenLoader visible={loading} />}
+
       <Text>ChooseIgPostForAutoDMScreen</Text>
     </View>
   );

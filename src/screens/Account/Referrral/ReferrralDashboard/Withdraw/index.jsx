@@ -94,12 +94,10 @@ const WithdrawScreen = () => {
     }
   };
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
-
   return (
     <View className="flex-1 flex-col gap-5 bg-white p-5">
+      {loading && <FullScreenLoader visible={loading} />}
+
       <View className="flex-col gap-4">
         <Text className="text-lg font-semibold text-center">
           Available Balance: ₹ {referralData?.currentWalletBalance || '0'}
