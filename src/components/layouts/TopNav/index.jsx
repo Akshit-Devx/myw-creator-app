@@ -22,11 +22,11 @@ const TopNav = () => {
         />
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('Detail', {screen: 'Invites'})}
         className="p-1 border border-gray-200 rounded-full">
         <Icons.InvitesIcon height={36} width={36} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
