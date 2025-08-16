@@ -7,6 +7,7 @@ import InputField from '../../../../../../components/elements/Input';
 import {updateReferralTrackingAPI} from '../../../../../../services/handleApi';
 import {PAYOUT_METHOD} from '../../../../../../utility/common';
 import {generateUUIDv4} from '../../../../../../utility/helper';
+import DetailStackHeader from '../../../../../../components/common/DetailStackHeader';
 
 const PayoutMethodScreen = () => {
   const route = useRoute();
@@ -140,131 +141,138 @@ const PayoutMethodScreen = () => {
   };
 
   return (
-    <View className="flex-1 flex-col gap-4 bg-white p-5">
-      {mode === 'ADD' && (
-        <>
-          <Text className="text-lg font-semibold">Select Method</Text>
-          <View className="flex-row gap-2">
-            {PAYOUT_METHOD.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => setSelectedMethod(item)}
-                className={`  p-2 border  rounded-md ${
-                  selectedMethod === item
-                    ? 'border-blue-600'
-                    : 'border-gray-200'
-                }`}>
-                <Text>{item}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </>
-      )}
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Payout Method"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 flex-col gap-4 bg-white p-5">
+        {mode === 'ADD' && (
+          <>
+            <Text className="text-lg font-semibold">Select Method</Text>
+            <View className="flex-row gap-2">
+              {PAYOUT_METHOD.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedMethod(item)}
+                  className={`  p-2 border  rounded-md ${
+                    selectedMethod === item
+                      ? 'border-blue-600'
+                      : 'border-gray-200'
+                  }`}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </>
+        )}
 
-      {selectedMethod === 'UPI' && (
-        <Controller
-          control={control}
-          name="upiId"
-          rules={{
-            required: 'UPI ID is required',
-            pattern: {
-              value: /^[\w.-]+@[\w.-]+$/,
-              message: 'Enter a valid UPI ID',
-            },
-          }}
-          render={({field: {onChange, value}}) => (
-            <InputField
-              label="UPI ID"
-              placeholder="Enter UPI ID"
-              value={value}
-              onChangeText={text => {
-                clearErrors('upiId');
-                onChange(text);
-              }}
-              error={errors.upiId?.message}
-            />
-          )}
-        />
-      )}
-
-      {selectedMethod === 'BANK' && (
-        <>
+        {selectedMethod === 'UPI' && (
           <Controller
             control={control}
-            name="bankAccountNumber"
-            rules={{required: 'Account Number is required'}}
-            render={({field: {onChange, value}}) => (
-              <InputField
-                label="Account Number"
-                placeholder="Enter Account Number"
-                value={value}
-                onChangeText={text => {
-                  clearErrors('bankAccountNumber');
-                  onChange(text);
-                }}
-                error={errors.bankAccountNumber?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="bankIfscCode"
+            name="upiId"
             rules={{
-              required: 'IFSC Code is required',
+              required: 'UPI ID is required',
               pattern: {
-                value: /^[A-Z]{4}0[A-Z0-9]{6}$/,
-                message: 'Enter a valid IFSC Code',
+                value: /^[\w.-]+@[\w.-]+$/,
+                message: 'Enter a valid UPI ID',
               },
             }}
             render={({field: {onChange, value}}) => (
               <InputField
-                label="IFSC Code"
-                placeholder="Enter IFSC Code"
+                label="UPI ID"
+                placeholder="Enter UPI ID"
                 value={value}
                 onChangeText={text => {
-                  clearErrors('bankIfscCode');
+                  clearErrors('upiId');
                   onChange(text);
                 }}
-                error={errors.bankIfscCode?.message}
+                error={errors.upiId?.message}
               />
             )}
           />
-          <Controller
-            control={control}
-            name="beneficiaryName"
-            rules={{required: 'Beneficiary Name is required'}}
-            render={({field: {onChange, value}}) => (
-              <InputField
-                label="Beneficiary Name"
-                placeholder="Enter Beneficiary Name"
-                value={value}
-                onChangeText={text => {
-                  clearErrors('beneficiaryName');
-                  onChange(text);
-                }}
-                error={errors.beneficiaryName?.message}
-              />
-            )}
-          />
-        </>
-      )}
+        )}
 
-      {mode === 'EDIT' && (
+        {selectedMethod === 'BANK' && (
+          <>
+            <Controller
+              control={control}
+              name="bankAccountNumber"
+              rules={{required: 'Account Number is required'}}
+              render={({field: {onChange, value}}) => (
+                <InputField
+                  label="Account Number"
+                  placeholder="Enter Account Number"
+                  value={value}
+                  onChangeText={text => {
+                    clearErrors('bankAccountNumber');
+                    onChange(text);
+                  }}
+                  error={errors.bankAccountNumber?.message}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="bankIfscCode"
+              rules={{
+                required: 'IFSC Code is required',
+                pattern: {
+                  value: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+                  message: 'Enter a valid IFSC Code',
+                },
+              }}
+              render={({field: {onChange, value}}) => (
+                <InputField
+                  label="IFSC Code"
+                  placeholder="Enter IFSC Code"
+                  value={value}
+                  onChangeText={text => {
+                    clearErrors('bankIfscCode');
+                    onChange(text);
+                  }}
+                  error={errors.bankIfscCode?.message}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="beneficiaryName"
+              rules={{required: 'Beneficiary Name is required'}}
+              render={({field: {onChange, value}}) => (
+                <InputField
+                  label="Beneficiary Name"
+                  placeholder="Enter Beneficiary Name"
+                  value={value}
+                  onChangeText={text => {
+                    clearErrors('beneficiaryName');
+                    onChange(text);
+                  }}
+                  error={errors.beneficiaryName?.message}
+                />
+              )}
+            />
+          </>
+        )}
+
+        {mode === 'EDIT' && (
+          <Button
+            variant="secondary"
+            title="Delete"
+            onPress={onDeleteSubmit}
+            className="border-red-500"
+            loading={btnLoading === 'DELETE'}
+            textClassName="text-red-500"
+          />
+        )}
+
         <Button
-          variant="secondary"
-          title="Delete"
-          onPress={onDeleteSubmit}
-          className="border-red-500"
-          loading={btnLoading === 'DELETE'}
-          textClassName="text-red-500"
+          title="Submit"
+          onPress={handleSubmit(mode === 'ADD' ? onAddSubmit : onEditSubmit)}
+          loading={btnLoading === 'ADD' || btnLoading === 'EDIT'}
         />
-      )}
-
-      <Button
-        title="Submit"
-        onPress={handleSubmit(mode === 'ADD' ? onAddSubmit : onEditSubmit)}
-        loading={btnLoading === 'ADD' || btnLoading === 'EDIT'}
-      />
+      </View>
     </View>
   );
 };

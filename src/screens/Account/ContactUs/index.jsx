@@ -1,6 +1,8 @@
 import {View, Text, Linking, Alert} from 'react-native';
 import {openComposer} from 'react-native-email-link';
 import {Icons} from '../../../assets/icons';
+import DetailStackHeader from '../../../components/common/DetailStackHeader';
+import {useNavigation} from '@react-navigation/native';
 
 const CONTACT_INFO = {
   email: 'support@mywall.me',
@@ -25,6 +27,7 @@ const ContactCard = ({
 );
 
 const ContactUsScreen = () => {
+  const navigation = useNavigation();
   const handleWhatsAppPress = async () => {
     try {
       // Try regular WhatsApp first
@@ -53,29 +56,36 @@ const ContactUsScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-white p-5 pt-0 gap-6">
-      <View className="flex-col items-start gap-2">
-        <Text className="text-3xl font-semibold">Contact Our Team</Text>
-        <Text className="text-lg font-medium">
-          Let us know how we can help you
-        </Text>
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Contact Us"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 bg-white p-5 pt-0 gap-6">
+        <View className="flex-col items-start gap-2">
+          <Text className="text-3xl font-semibold">Contact Our Team</Text>
+          <Text className="text-lg font-medium">
+            Let us know how we can help you
+          </Text>
+        </View>
+
+        <ContactCard
+          icon={Icons.MailIcon}
+          title="Mail Us"
+          description="Have a question or need help? Drop us an email and our team will get back to you shortly."
+          actionText={CONTACT_INFO.email}
+          onAction={handleEmailPress}
+        />
+
+        <ContactCard
+          icon={Icons.PhoneIcon}
+          title="WhatsApp Us"
+          description="Need assistance? Connect with us on WhatsApp and we'll resolve your query promptly."
+          actionText="+91-8130573468"
+          onAction={handleWhatsAppPress}
+        />
       </View>
-
-      <ContactCard
-        icon={Icons.MailIcon}
-        title="Mail Us"
-        description="Have a question or need help? Drop us an email and our team will get back to you shortly."
-        actionText={CONTACT_INFO.email}
-        onAction={handleEmailPress}
-      />
-
-      <ContactCard
-        icon={Icons.PhoneIcon}
-        title="WhatsApp Us"
-        description="Need assistance? Connect with us on WhatsApp and we'll resolve your query promptly."
-        actionText="+91-8130573468"
-        onAction={handleWhatsAppPress}
-      />
     </View>
   );
 };

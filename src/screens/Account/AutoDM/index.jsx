@@ -7,6 +7,7 @@ import {
   INSTAGRAM_LOGIN_SCOPES,
   WEBSITE_URL,
 } from '../../../config/envConfig';
+import DetailStackHeader from '../../../components/common/DetailStackHeader';
 
 const InstagramAutoDMScreen = () => {
   const navigation = useNavigation();
@@ -23,43 +24,50 @@ const InstagramAutoDMScreen = () => {
   };
 
   return (
-    <View className="flex-1 flex-col gap-8 bg-white p-5">
-      <Text className="text-2xl text-center font-medium">
-        Automatically respond to every message on IG
-      </Text>
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Instagram Auto DM"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 flex-col gap-8 bg-white p-5">
+        <Text className="text-2xl text-center font-medium">
+          Automatically respond to every message on IG
+        </Text>
 
-      {!onBoarding?.instagramToken?.refreshToken && (
-        <Button
-          title="Connect Your Instagram"
-          variant="primary"
-          onPress={handleConnectInstagram}
-        />
-      )}
-
-      {!!onBoarding?.instagramToken?.refreshToken && (
-        <View className="flex-col gap-3">
+        {!onBoarding?.instagramToken?.refreshToken && (
           <Button
-            title="Choose New Post"
-            className="border-blue-600"
-            textClassName="text-blue-600"
-            variant="secondary"
-            onPress={() => {
-              navigation.navigate('Detail', {
-                screen: 'ChooseIgPostForAutoDM',
-              });
-            }}
-          />
-          <Button
-            title="Auto DM Insights"
+            title="Connect Your Instagram"
             variant="primary"
-            onPress={() => {
-              navigation.navigate('Detail', {
-                screen: 'AutoDMInsights',
-              });
-            }}
+            onPress={handleConnectInstagram}
           />
-        </View>
-      )}
+        )}
+
+        {!!onBoarding?.instagramToken?.refreshToken && (
+          <View className="flex-col gap-3">
+            <Button
+              title="Choose New Post"
+              className="border-blue-600"
+              textClassName="text-blue-600"
+              variant="secondary"
+              onPress={() => {
+                navigation.navigate('Detail', {
+                  screen: 'ChooseIgPostForAutoDM',
+                });
+              }}
+            />
+            <Button
+              title="Auto DM Insights"
+              variant="primary"
+              onPress={() => {
+                navigation.navigate('Detail', {
+                  screen: 'AutoDMInsights',
+                });
+              }}
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 };

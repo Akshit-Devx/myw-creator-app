@@ -9,13 +9,16 @@ import {
   getInfluencer,
   getInfluencerAddressByInfluencerId,
   getInfluencerBySlug,
+  getInstagramDMByGSI,
   getInstagramDMByInfluencerId,
   getReferralTrackingByInfluencerId,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
   updateInfluencerAddress,
   updateInstagramDM,
+  updateInstagramDMItems,
   updateReferralTracking,
+  updateSocialsToken,
 } from './api';
 
 const client = generateClient();
@@ -298,5 +301,50 @@ export const updateInstagramDMAPI = async data => {
   } catch (error) {
     console.error('Error updating instagram dm:', error);
     throw error;
+  }
+};
+
+export const getInstagramDMByGSIAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: getInstagramDMByGSI,
+      variables: {
+        reelId: data.reelId || '',
+        brandId: data.brandId || '',
+        limit: data.limit || 100,
+      },
+      authMode: 'userPool',
+    });
+    return response?.data?.getInstagramDMByGSI?.items || [];
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const updateInstagramDMItemsAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateInstagramDMItems,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateInstagramDMItems;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const updateSocialsTokenAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateSocialsToken,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateSocialsToken;
+  } catch (error) {
+    console.log("Error:", error);
   }
 };

@@ -8,6 +8,7 @@ import {
   createWithdrawRequestAPI,
   getReferralTrackingByInfluencerIdAPI,
 } from '../../../../../services/handleApi';
+import DetailStackHeader from '../../../../../components/common/DetailStackHeader';
 
 const WithdrawScreen = () => {
   const navigation = useNavigation();
@@ -95,107 +96,116 @@ const WithdrawScreen = () => {
   };
 
   return (
-    <View className="flex-1 flex-col gap-5 bg-white p-5">
-      {loading && <FullScreenLoader visible={loading} />}
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Withdraw"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 flex-col gap-5 bg-white p-5">
+        {loading && <FullScreenLoader visible={loading} />}
 
-      <View className="flex-col gap-4">
-        <Text className="text-lg font-semibold text-center">
-          Available Balance: ₹ {referralData?.currentWalletBalance || '0'}
-        </Text>
-        <TextInput
-          value={amount}
-          onChangeText={value => {
-            const numericValue = value.replace(/[^0-9]/g, '');
-            setAmount(numericValue);
-          }}
-          placeholder="₹0"
-          keyboardType="numeric"
-          className="border-b border-gray-200 text-4xl font-semibold text-center p-3"
-        />
-        <Text className="text-center text-gray-500">
-          Minimum amount must be ₹100
-        </Text>
-      </View>
-      <View className="flex-col gap-2 mt-4">
-        <Text className="text-xl font-medium">Payout Method</Text>
-        <View>
-          {!referralData?.payoutMethods?.length && (
-            <View className="bg-gray-100 p-3 rounded-md">
-              <Text className="text-center text-gray-500">
-                No payout method added
-              </Text>
-            </View>
-          )}
-          {!!referralData?.payoutMethods?.length && (
-            <View className="flex-col gap-2">
-              {referralData?.payoutMethods
-                ?.filter(item => !item?.isArchived)
-                ?.map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => setSelectedPayoutMethod(item)}
-                    className={`flex-row items-center justify-between p-3 border rounded-md ${
-                      selectedPayoutMethod?.id === item?.id
-                        ? 'border-blue-600'
-                        : 'border-gray-200'
-                    }`}>
-                    <View className="flex-col gap-1">
-                      <Text className="text-gray-500">{item?.methodName}</Text>
-                      <Text className="text-lg font-medium">
-                        {maskPayoutValue(item)}
-                      </Text>
-                    </View>
-                    <Button
-                      className="w-12"
-                      variant="ghost"
-                      title="Edit"
-                      onPress={() =>
-                        navigation.navigate('Detail', {
-                          screen: 'PayoutMethod',
-                          params: {
-                            referralData,
-                            selectedPayoutMethod: item,
-                            mode: 'EDIT',
-                          },
-                        })
-                      }
-                    />
-                  </TouchableOpacity>
-                ))}
-            </View>
-          )}
+        <View className="flex-col gap-4">
+          <Text className="text-lg font-semibold text-center">
+            Available Balance: ₹ {referralData?.currentWalletBalance || '0'}
+          </Text>
+          <TextInput
+            value={amount}
+            onChangeText={value => {
+              const numericValue = value.replace(/[^0-9]/g, '');
+              setAmount(numericValue);
+            }}
+            placeholder="₹0"
+            keyboardType="numeric"
+            className="border-b border-gray-200 text-4xl font-semibold text-center p-3"
+          />
+          <Text className="text-center text-gray-500">
+            Minimum amount must be ₹100
+          </Text>
         </View>
-      </View>
-      <View className="flex-col gap-3">
-        <Button
-          variant="secondary"
-          title="Add New"
-          className="w-full border-gray-200"
-          textClassName="text-blue-600"
-          onPress={() =>
-            navigation.navigate('Detail', {
-              screen: 'PayoutMethod',
-              params: {
-                referralData,
-                mode: 'ADD',
-              },
-            })
-          }
-        />
-        <Button
-          title="Request Withdrawal"
-          loading={btnLoading}
-          onPress={handleWithdrawal}
-        />
-        <Button
-          variant="secondary"
-          title="View Recent Withdrawals"
-          className="w-full border-gray-200"
-          textClassName="text-black"
-          onPress={() =>
-            navigation.navigate('Detail', {screen: 'WithdrawalHistory'})
-          }
-        />
+        <View className="flex-col gap-2 mt-4">
+          <Text className="text-xl font-medium">Payout Method</Text>
+          <View>
+            {!referralData?.payoutMethods?.length && (
+              <View className="bg-gray-100 p-3 rounded-md">
+                <Text className="text-center text-gray-500">
+                  No payout method added
+                </Text>
+              </View>
+            )}
+            {!!referralData?.payoutMethods?.length && (
+              <View className="flex-col gap-2">
+                {referralData?.payoutMethods
+                  ?.filter(item => !item?.isArchived)
+                  ?.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => setSelectedPayoutMethod(item)}
+                      className={`flex-row items-center justify-between p-3 border rounded-md ${
+                        selectedPayoutMethod?.id === item?.id
+                          ? 'border-blue-600'
+                          : 'border-gray-200'
+                      }`}>
+                      <View className="flex-col gap-1">
+                        <Text className="text-gray-500">
+                          {item?.methodName}
+                        </Text>
+                        <Text className="text-lg font-medium">
+                          {maskPayoutValue(item)}
+                        </Text>
+                      </View>
+                      <Button
+                        className="w-12"
+                        variant="ghost"
+                        title="Edit"
+                        onPress={() =>
+                          navigation.navigate('Detail', {
+                            screen: 'PayoutMethod',
+                            params: {
+                              referralData,
+                              selectedPayoutMethod: item,
+                              mode: 'EDIT',
+                            },
+                          })
+                        }
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </View>
+            )}
+          </View>
+        </View>
+        <View className="flex-col gap-3">
+          <Button
+            variant="secondary"
+            title="Add New"
+            className="w-full border-gray-200"
+            textClassName="text-blue-600"
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'PayoutMethod',
+                params: {
+                  referralData,
+                  mode: 'ADD',
+                },
+              })
+            }
+          />
+          <Button
+            title="Request Withdrawal"
+            loading={btnLoading}
+            onPress={handleWithdrawal}
+          />
+          <Button
+            variant="secondary"
+            title="View Recent Withdrawals"
+            className="w-full border-gray-200"
+            textClassName="text-black"
+            onPress={() =>
+              navigation.navigate('Detail', {screen: 'WithdrawalHistory'})
+            }
+          />
+        </View>
       </View>
     </View>
   );

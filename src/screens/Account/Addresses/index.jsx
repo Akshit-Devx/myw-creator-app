@@ -9,8 +9,9 @@ import {
   getInfluencerAddressByInfluencerIdAPI,
   updateInfluencerAddressAPI,
 } from '../../../services/handleApi';
+import DetailStackHeader from '../../../components/common/DetailStackHeader';
 
-const AddressesScreen = () => {
+const AddressesScreen = ({navigation}) => {
   const {onBoarding} = useSelector(state => state.onBoarding);
   const [loading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -143,6 +144,11 @@ const AddressesScreen = () => {
   return (
     <View className="flex-1 bg-white">
       {loading && <FullScreenLoader visible={loading} />}
+      <DetailStackHeader
+        title="Addresses"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
 
       <View className="flex-1 p-5">
         {!addresses?.length ? (

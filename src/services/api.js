@@ -325,6 +325,101 @@ export const updateInfluencer = /* GraphQL */ `
   mutation UpdateInfluencer($input: UpdateInfluencerInput!) {
     updateInfluencer(input: $input) {
       id
+      name
+      slug
+      username
+      bio
+      location
+      email
+      phone
+      gender
+      dob
+      city
+      label
+      isActive
+      address {
+        street
+        city
+        state
+        country
+        postalCode
+        __typename
+      }
+      tags
+      themeColor
+      ctaButton {
+        id
+        text
+        link
+        isActive
+        type
+      }
+      profilePictureWithBg
+      profilePictureWithoutBg
+      socialLinks {
+        instagram
+        youtube
+        twitter
+        tiktok
+        snapchat
+        vimeo
+        linkedIn
+        facebook
+        pinterest
+        telegram
+        other
+        __typename
+      }
+      createdAt
+      updatedAt
+      isAnalyticsEnabled
+      isDarkThemeEnabled
+      isWallLive
+      isSubscriptionActive
+      allowInstagramSkip
+      instagramDetails {
+        followersCount
+        followsCount
+        mediaCount
+        username
+      }
+      instagramInsights {
+        engagementRate
+        avgViews
+        avgLikes
+        avgComments
+      }
+      youtubeDetails {
+        title
+        description
+        subscriberCount
+        videoCount
+        viewCount
+      }
+      instagramToken {
+        accessToken
+        refreshToken
+        fbUserId
+        igUserId
+        pageAccessToken
+        expiresAt
+        createdAt
+        updatedAt
+      }
+      youtubeToken {
+        accessToken
+        refreshToken
+        createdAt
+        updatedAt
+      }
+      referralCode
+      referrerCodeSrc
+      isReferralCTA
+      profileStatusCode
+      freeTrialExpiresAt
+      rating
+      ratingCount
+      __typename
     }
   }
 `;
@@ -566,6 +661,78 @@ export const updateInstagramDM = /* GraphQL */ `
           shortCode
         }
       }
+    }
+  }
+`;
+
+export const getInstagramDMByGSI = /* GraphQL */ `
+  query GetInstagramDMByGSI(
+    $reelId: String
+    $influencerId: String
+    $brandId: String
+    $limit: Int
+    $nextToken: String
+  ) {
+    getInstagramDMByGSI(
+      reelId: $reelId
+      influencerId: $influencerId
+      brandId: $brandId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        brandId
+        reelId
+        userId
+        igAccountId
+        thumbnailUrl
+        isActive
+        permalink
+        isKeywordFilteredDM
+        isCommentReply
+        commentReplyText
+        keywords
+        commentsList {
+          id
+          username
+          text
+          timestamp
+        }
+        cardType
+        cardData {
+          image
+          title
+          subtitle
+          button {
+            title
+            link
+            shortCode
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const updateInstagramDMItems = /* GraphQL */ `
+  mutation UpdateInstagramDMItems($input: SyncUpdateInstaDM) {
+    updateInstagramDMItems(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const updateSocialsToken = /* GraphQL */ `
+  mutation UpdateSocialsToken($input: SyncUpdateSocialsToken!) {
+    updateSocialsToken(input: $input) {
+      code
+      message
     }
   }
 `;

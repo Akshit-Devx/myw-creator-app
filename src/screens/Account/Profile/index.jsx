@@ -2,73 +2,81 @@ import {View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../../../components/elements/Button';
+import DetailStackHeader from '../../../components/common/DetailStackHeader';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const {onBoarding} = useSelector(state => state?.onBoarding);
 
   return (
-    <View className="flex-1 bg-white p-5">
-      <View className="border border-gray-200 rounded-xl">
-        <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
-          <View className="flex-col gap-1">
-            <Text>Full Name</Text>
-            <Text className="text-lg font-semibold">{onBoarding?.name}</Text>
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Profile"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 bg-white p-5">
+        <View className="border border-gray-200 rounded-xl">
+          <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
+            <View className="flex-col gap-1">
+              <Text>Full Name</Text>
+              <Text className="text-lg font-semibold">{onBoarding?.name}</Text>
+            </View>
+            <Button
+              title="Edit"
+              variant="ghost"
+              size="sm"
+              className="w-12"
+              onPress={() => {
+                const {name} = onBoarding || {};
+                navigation.navigate('Detail', {
+                  screen: 'EditProfile',
+                  params: {fullName: name},
+                });
+              }}
+            />
           </View>
-          <Button
-            title="Edit"
-            variant="ghost"
-            size="sm"
-            className="w-12"
-            onPress={() => {
-              const {name} = onBoarding || {};
-              navigation.navigate('Detail', {
-                screen: 'EditProfile',
-                params: {fullName: name},
-              });
-            }}
-          />
-        </View>
-        <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
-          <View className="flex-col gap-1">
-            <Text>Mobile</Text>
-            <Text className="text-lg font-semibold">{onBoarding?.phone}</Text>
+          <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
+            <View className="flex-col gap-1">
+              <Text>Mobile</Text>
+              <Text className="text-lg font-semibold">{onBoarding?.phone}</Text>
+            </View>
+            {/* <Button title="Edit" variant="ghost" size="sm" className="w-12" /> */}
           </View>
-          {/* <Button title="Edit" variant="ghost" size="sm" className="w-12" /> */}
-        </View>
-        <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
-          <View className="flex-col gap-1">
-            <Text>Username</Text>
-            <Text className="text-lg font-semibold">{onBoarding?.slug}</Text>
+          <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
+            <View className="flex-col gap-1">
+              <Text>Username</Text>
+              <Text className="text-lg font-semibold">{onBoarding?.slug}</Text>
+            </View>
+            <Button
+              title="Edit"
+              variant="ghost"
+              size="sm"
+              className="w-12"
+              onPress={() => {
+                const {slug} = onBoarding || {};
+                navigation.navigate('Detail', {
+                  screen: 'EditProfile',
+                  params: {slug},
+                });
+              }}
+            />
           </View>
-          <Button
-            title="Edit"
-            variant="ghost"
-            size="sm"
-            className="w-12"
-            onPress={() => {
-              const {slug} = onBoarding || {};
-              navigation.navigate('Detail', {
-                screen: 'EditProfile',
-                params: {slug},
-              });
-            }}
-          />
-        </View>
-        <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
-          <View className="flex-col gap-1">
-            <Text>Instagram Username</Text>
-            <Text className="text-lg font-semibold">
-              @{onBoarding?.instagramDetails?.username}
-            </Text>
+          <View className="flex-row items-center justify-between border-b border-gray-200 p-4">
+            <View className="flex-col gap-1">
+              <Text>Instagram Username</Text>
+              <Text className="text-lg font-semibold">
+                @{onBoarding?.instagramDetails?.username}
+              </Text>
+            </View>
+            {onBoarding?.instagramToken?.refreshToken ? (
+              <Text className="text-green-700 font-medium bg-green-50 p-2 rounded-md border border-green-700">
+                Connected
+              </Text>
+            ) : (
+              <Button title="Edit" variant="ghost" size="sm" className="w-12" />
+            )}
           </View>
-          {onBoarding?.instagramToken?.refreshToken ? (
-            <Text className="text-green-700 font-medium bg-green-50 p-2 rounded-md border border-green-700">
-              Connected
-            </Text>
-          ) : (
-            <Button title="Edit" variant="ghost" size="sm" className="w-12" />
-          )}
         </View>
       </View>
     </View>

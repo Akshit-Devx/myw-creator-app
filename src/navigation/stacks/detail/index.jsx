@@ -1,7 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Text, TouchableOpacity} from 'react-native';
-import HeaderBackButton from '../../../components/common/HeaderBackButton';
 import AccountScreen from '../../../screens/Account';
 import AddressesScreen from '../../../screens/Account/Addresses';
 import InstagramAutoDMScreen from '../../../screens/Account/AutoDM';
@@ -19,11 +16,14 @@ import CampaignDetailsScreen from '../../../screens/Campaigns/CampaignDetails';
 import InstagramConnectScreen from '../../../screens/InstagramConnect';
 import InvitesScreen from '../../../screens/Invites';
 import ChooseIgPostForAutoDMScreen from '../../../screens/Account/AutoDM/ChooseIgPostForAutoDM';
+import CardDetailsScreen from '../../../screens/Account/AutoDM/CardDetails';
+import SelectCardTypeScreen from '../../../screens/Account/AutoDM/SelectDMCardType';
+import BasicDetailsScreen from '../../../screens/Account/AutoDM/BasicDetails';
 
 const Stack = createNativeStackNavigator();
 
 const screenOptions = {
-  headerShown: true,
+  headerShown: false,
   headerTitleAlign: 'center',
   headerStyle: {
     backgroundColor: '#ffffff',
@@ -35,217 +35,47 @@ const screenOptions = {
   headerShadowVisible: false,
 };
 
-const getScreenOptions = (
-  title,
-  navigation,
-  forceBack = false,
-  customBackAction,
-  headerRight = null,
-) => ({
-  title,
-  headerLeft: props => (
-    <HeaderBackButton
-      {...props}
-      navigation={navigation}
-      canGoBack={forceBack || props.canGoBack}
-      onPress={customBackAction}
-    />
-  ),
-  ...(headerRight && {headerRight}),
-});
-
 const DetailStack = () => {
-  const navigation = useNavigation();
-
   return (
     <Stack.Navigator
       screenOptions={screenOptions}
       // initialRouteName="Account"
     >
       {/* Account Section */}
-      <Stack.Screen
-        name="Account"
-        component={AccountScreen}
-        options={getScreenOptions(
-          'Account',
-          navigation,
-          true,
-          () => {
-            navigation.navigate('Main', {
-              screen: 'Explore',
-            });
-          },
-          () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Detail', {
-                  screen: 'ContactUs',
-                });
-              }}
-              style={{marginRight: 10}}>
-              <Text>Help</Text>
-            </TouchableOpacity>
-          ),
-        )}
-      />
-      <Stack.Screen
-        name="ContactUs"
-        component={ContactUsScreen}
-        options={getScreenOptions('Contact Us', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={getScreenOptions('Profile', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
-      <Stack.Screen
-        name="EditProfile"
-        component={EditProfileScreen}
-        options={getScreenOptions(
-          'Edit Profile Details',
-          navigation,
-          true,
-          () => {
-            navigation.navigate('Detail', {
-              screen: 'Profile',
-            });
-          },
-        )}
-      />
-      <Stack.Screen
-        name="Subscriptions"
-        component={SubscriptionsScreen}
-        options={getScreenOptions('Subscription', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
-      <Stack.Screen
-        name="Referrral"
-        component={ReferrralScreen}
-        options={getScreenOptions('Referral', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
+      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="ContactUs" component={ContactUsScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="Subscriptions" component={SubscriptionsScreen} />
+      <Stack.Screen name="Referrral" component={ReferrralScreen} />
       <Stack.Screen
         name="ReferrralDashboard"
         component={ReferrralDashboardScreen}
-        options={getScreenOptions(
-          'Referral Dashboard',
-          navigation,
-          true,
-          () => {
-            navigation.navigate('Detail', {
-              screen: 'Referrral',
-            });
-          },
-        )}
       />
       <Stack.Screen
         name="WithdrawalHistory"
         component={WithdrawalHistoryScreen}
-        options={getScreenOptions(
-          'Withdrawal History',
-          navigation,
-          true,
-          () => {
-            navigation.navigate('Detail', {
-              screen: 'ReferrralDashboard',
-            });
-          },
-        )}
       />
-      <Stack.Screen
-        name="Withdraw"
-        component={WithdrawScreen}
-        options={getScreenOptions('Withdraw', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'ReferrralDashboard',
-          });
-        })}
-      />
-      <Stack.Screen
-        name="PayoutMethod"
-        component={PayoutMethodScreen}
-        options={getScreenOptions('Payout Method', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Withdraw',
-          });
-        })}
-      />
-      <Stack.Screen
-        name="InstagramAutoDM"
-        component={InstagramAutoDMScreen}
-        options={getScreenOptions('Instagram Auto DM', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
+      <Stack.Screen name="Withdraw" component={WithdrawScreen} />
+      <Stack.Screen name="PayoutMethod" component={PayoutMethodScreen} />
+      <Stack.Screen name="InstagramAutoDM" component={InstagramAutoDMScreen} />
       <Stack.Screen
         name="InstagramConnect"
         component={InstagramConnectScreen}
-        options={getScreenOptions('Instagram Connect', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'InstagramAutoDM',
-          });
-        })}
       />
-      <Stack.Screen
-        name="AutoDMInsights"
-        component={AutoDMInsightsScreen}
-        options={getScreenOptions('Auto DM Insights', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'InstagramAutoDM',
-          });
-        })}
-      />
+      <Stack.Screen name="AutoDMInsights" component={AutoDMInsightsScreen} />
       <Stack.Screen
         name="ChooseIgPostForAutoDM"
         component={ChooseIgPostForAutoDMScreen}
-        options={getScreenOptions(
-          'Choose Post For Auto DM',
-          navigation,
-          true,
-          () => {
-            navigation.navigate('Detail', {
-              screen: 'InstagramAutoDM',
-            });
-          },
-        )}
       />
-      <Stack.Screen
-        name="Addresses"
-        component={AddressesScreen}
-        options={getScreenOptions('Addresses', navigation, true, () => {
-          navigation.navigate('Detail', {
-            screen: 'Account',
-          });
-        })}
-      />
+      <Stack.Screen name="CardDetails" component={CardDetailsScreen} />
+      <Stack.Screen name="SelectCardType" component={SelectCardTypeScreen} />
+      <Stack.Screen name="BasicDetails" component={BasicDetailsScreen} />
+      <Stack.Screen name="Addresses" component={AddressesScreen} />
 
       {/* Home Screen */}
-      <Stack.Screen
-        name="Invites"
-        component={InvitesScreen}
-        options={getScreenOptions('Invites', navigation)}
-      />
-      <Stack.Screen
-        name="CampaignDetails"
-        component={CampaignDetailsScreen}
-        options={getScreenOptions('Details', navigation)}
-      />
+      <Stack.Screen name="Invites" component={InvitesScreen} />
+      <Stack.Screen name="CampaignDetails" component={CampaignDetailsScreen} />
     </Stack.Navigator>
   );
 };
