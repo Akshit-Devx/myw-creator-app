@@ -36,20 +36,20 @@ const PostCard = ({
         </View>
 
         <View className="flex-row items-center gap-[14]">
-          {likeCount?.toString() ? (
+          {likeCount?.toString() && (
             <View className="flex-row items-center gap-[6]">
               <Icons.LikeIcon width={20} height={20} />
               <Text className="text-black/70">{formatNumber(likeCount)}</Text>
             </View>
-          ) : null}
-          {commentCount?.toString() ? (
+          )}
+          {commentCount?.toString() && (
             <View className="flex-row items-center gap-[6]">
               <Icons.CommentIcon width={20} height={20} />
               <Text className="text-black/70">
                 {formatNumber(commentCount)}
               </Text>
             </View>
-          ) : null}
+          )}
         </View>
 
         {showChangeButton && (
