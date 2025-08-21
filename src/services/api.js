@@ -4,10 +4,22 @@ export const getInfluencer = /* GraphQL */ `
       id
       name
       slug
+      location
+      username
       bio
       email
       phone
+      gender
+      dob
+      city
       isActive
+      address {
+        street
+        city
+        state
+        country
+        postalCode
+      }
       tags
       themeColor
       ctaButton {
@@ -38,11 +50,25 @@ export const getInfluencer = /* GraphQL */ `
       updatedAt
       isAnalyticsEnabled
       isDarkThemeEnabled
+      allowInstagramSkip
       instagramDetails {
         followersCount
         followsCount
         mediaCount
         username
+      }
+      instagramInsights {
+        engagementRate
+        avgViews
+        avgLikes
+        avgComments
+      }
+      youtubeDetails {
+        title
+        description
+        subscriberCount
+        videoCount
+        viewCount
       }
       instagramToken {
         accessToken
@@ -53,9 +79,16 @@ export const getInfluencer = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      youtubeToken {
+        accessToken
+        refreshToken
+        createdAt
+        updatedAt
+      }
       profileStatusCode
       isWallLive
       isSubscriptionActive
+      freeTrialExpiresAt
     }
   }
 `;
@@ -731,6 +764,441 @@ export const updateInstagramDMItems = /* GraphQL */ `
 export const updateSocialsToken = /* GraphQL */ `
   mutation UpdateSocialsToken($input: SyncUpdateSocialsToken!) {
     updateSocialsToken(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const getSocialInsightsByInfluencerIdApi = /* GraphQL */ `
+  query GetSocialInsightsByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getSocialInsightsByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        userId
+        campaignMetrics {
+          last30Days {
+            totalDiscount
+            totalCompletedCollabs
+            discountDiff
+            discountGrowth
+            totalCollabs
+            totalOngoingCollabs
+            collabCategory {
+              category
+              count
+            }
+          }
+          last60Days {
+            totalDiscount
+            totalCompletedCollabs
+            discountDiff
+            discountGrowth
+            totalCollabs
+            totalOngoingCollabs
+            collabCategory {
+              category
+              count
+            }
+          }
+          last90Days {
+            totalDiscount
+            totalCompletedCollabs
+            discountDiff
+            discountGrowth
+            totalCollabs
+            totalOngoingCollabs
+            collabCategory {
+              category
+              count
+            }
+          }
+          updatedAt
+        }
+        igMetrics {
+          last30Days {
+            impressions
+            likes
+            comments
+            reach
+            saves
+            shares
+            profileViews
+          }
+          last60Days {
+            impressions
+            likes
+            comments
+            reach
+            saves
+            shares
+            profileViews
+          }
+          last90Days {
+            impressions
+            likes
+            comments
+            reach
+            saves
+            shares
+            profileViews
+          }
+          ageRatio {
+            ageGroup
+            percentage
+          }
+          sexRatio {
+            male
+            female
+            unknown
+          }
+          cityMetrics {
+            cityName
+            totalUsers
+          }
+          countryMetrics {
+            countryName
+            totalUsers
+          }
+          updatedAt
+        }
+        ytMetrics {
+          last30Days {
+            views
+            likes
+            comments
+            shares
+            estMinutesWatched
+            avgViewDuration
+            subscribersGained
+            subscribersLost
+          }
+          last60Days {
+            views
+            likes
+            comments
+            shares
+            estMinutesWatched
+            avgViewDuration
+            subscribersGained
+            subscribersLost
+          }
+          last90Days {
+            views
+            likes
+            comments
+            shares
+            estMinutesWatched
+            avgViewDuration
+            subscribersGained
+            subscribersLost
+          }
+          ageRatio {
+            ageGroup
+            percentage
+          }
+          sexRatio {
+            male
+            female
+          }
+          countryMetrics {
+            countryName
+            totalUsers
+          }
+          updatedAt
+        }
+        gaMetrics {
+          last30Days {
+            users
+            sessions
+            events
+            views
+            deviceCategory {
+              desktop
+              mobile
+              tablet
+              others
+            }
+          }
+          last60Days {
+            users
+            sessions
+            events
+            views
+            deviceCategory {
+              desktop
+              mobile
+              tablet
+              others
+            }
+          }
+          last90Days {
+            users
+            sessions
+            events
+            views
+            deviceCategory {
+              desktop
+              mobile
+              tablet
+              others
+            }
+          }
+          cityMetrics {
+            cityName
+            totalUsers
+          }
+          countryMetrics {
+            countryName
+            totalUsers
+          }
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const getCollabRatingsByGSI = /* GraphQL */ `
+  query GetCollabRatingsByGSI($influencerId: String, $brandId: String) {
+    getCollabRatingsByGSI(influencerId: $influencerId, brandId: $brandId) {
+      id
+      collaborationId
+      campaignId
+      brandId
+      influencerId
+      ratingToBrand
+      reviewToBrand
+      brandRatedAt
+      ratingToInfluencer
+      reviewToInfluencer
+      influencerRatedAt
+      createdAt
+      updatedAt
+      campaignDetails {
+        brandName
+        brandLogo
+        name
+      }
+      deliverables {
+        uploadedLiveLinks {
+          type
+          link
+          igMediaId
+          permaLink
+          mediaType
+        }
+      }
+      influencerDetails {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const createPortfolioCategory = /* GraphQL */ `
+  mutation CreatePortfolioCategory($input: CreatePortfolioCategoryInput!) {
+    createPortfolioCategory(input: $input) {
+      id
+      influencerId
+      title
+      tags
+      customLinks
+      isArchived
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const getInfluencerPortfolioByInfluencerId = /* GraphQL */ `
+  query GetInfluencerPortfolioByInfluencerId($influencerId: ID!) {
+    getInfluencerPortfolioByInfluencerId(influencerId: $influencerId) {
+      id
+      influencerId
+      title
+      tags
+      customLinks
+      isArchived
+      createdAt
+      updatedAt
+      videos {
+        id
+        influencerId
+        categoryId
+        videoUrl
+        thumbnailUrl
+        caption
+        permalink
+        insights {
+          likes
+          comments
+          views
+          __typename
+        }
+        brandLogo
+        position
+        isArchived
+        createdAt
+        updatedAt
+        __typename
+      }
+      __typename
+    }
+  }
+`;
+
+export const getPortfolioCategoryById = /* GraphQL */ `
+  query GetPortfolioCategoryById($id: ID!) {
+    getPortfolioCategoryById(id: $id) {
+      id
+      influencerId
+      title
+      tags
+      customLinks
+      isArchived
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const getPortfolioVideosByCategoryId = /* GraphQL */ `
+  query GetPortfolioVideosByCategoryId(
+    $categoryId: ID!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getPortfolioVideosByCategoryId(
+      categoryId: $categoryId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        influencerId
+        categoryId
+        videoUrl
+        thumbnailUrl
+        caption
+        permalink
+        insights {
+          likes
+          comments
+          views
+          __typename
+        }
+        brandLogo
+        position
+        isArchived
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const updatePortfolioVideo = /* GraphQL */ `
+  mutation UpdatePortfolioVideo($input: UpdatePortfolioVideoInput!) {
+    updatePortfolioVideo(input: $input) {
+      id
+      influencerId
+      categoryId
+      videoUrl
+      thumbnailUrl
+      caption
+      permalink
+      insights {
+        likes
+        comments
+        views
+        __typename
+      }
+      brandLogo
+      position
+      isArchived
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const updatePortfolioCategory = /* GraphQL */ `
+  mutation UpdatePortfolioCategory($input: UpdatePortfolioCategoryInput!) {
+    updatePortfolioCategory(input: $input) {
+      id
+      influencerId
+      title
+      tags
+      customLinks
+      isArchived
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const createPortfolioVideo = /* GraphQL */ `
+  mutation CreatePortfolioVideo($input: CreatePortfolioVideoInput!) {
+    createPortfolioVideo(input: $input) {
+      id
+      influencerId
+      categoryId
+      videoUrl
+      thumbnailUrl
+      caption
+      permalink
+      insights {
+        likes
+        comments
+        views
+        __typename
+      }
+      brandLogo
+      position
+      isArchived
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const createRazorpayCheckout = /* GraphQL */ `
+  mutation CreateRazorpayCheckout($input: SyncRazorpayCheckout!) {
+    createRazorpayCheckout(input: $input) {
+      code
+      message
+      session
+      customerId
+    }
+  }
+`;
+
+export const createSubscriptionPurchasedItem = /* GraphQL */ `
+  mutation CreateSubscriptionPurchasedItem(
+    $input: SyncCreateSubscriptionPurchasedItem!
+  ) {
+    createSubscriptionPurchasedItem(input: $input) {
       code
       message
     }

@@ -19,6 +19,10 @@ import ChooseIgPostForAutoDMScreen from '../../../screens/Account/AutoDM/ChooseI
 import CardDetailsScreen from '../../../screens/Account/AutoDM/CardDetails';
 import SelectCardTypeScreen from '../../../screens/Account/AutoDM/SelectDMCardType';
 import BasicDetailsScreen from '../../../screens/Account/AutoDM/BasicDetails';
+import MyProfileScreen from '../../../screens/Account/MyProfile';
+import EditCategoryScreen from '../../../screens/Account/MyProfile/EditCategory';
+import EditSelectedReelScreen from '../../../screens/Account/MyProfile/EditSelectedReel';
+import Pricing from '../../../screens/Account/Subscription/Pricing';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +80,10 @@ const DetailStack = () => {
       {/* Home Screen */}
       <Stack.Screen name="Invites" component={InvitesScreen} />
       <Stack.Screen name="CampaignDetails" component={CampaignDetailsScreen} />
+      <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+      <Stack.Screen name="EditCategory" component={EditCategoryScreen} />
+      <Stack.Screen name="EditSelectedReel" component={EditSelectedReelScreen} />
+      <Stack.Screen name="Pricing" component={Pricing} />
     </Stack.Navigator>
   );
 };

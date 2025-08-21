@@ -1,22 +1,33 @@
 import {generateClient} from 'aws-amplify/api';
 import {
   createInfluencerAddress,
+  createPortfolioCategory,
+  createPortfolioVideo,
+  createRazorpayCheckout,
+  createSubscriptionPurchasedItem,
   createWithdrawRequest,
   filterCampaign,
   getCampaign,
   getCampaignInvitationsByInfluencerId,
+  getCollabRatingsByGSI,
   getIgData,
   getInfluencer,
   getInfluencerAddressByInfluencerId,
   getInfluencerBySlug,
+  getInfluencerPortfolioByInfluencerId,
   getInstagramDMByGSI,
   getInstagramDMByInfluencerId,
+  getPortfolioCategoryById,
+  getPortfolioVideosByCategoryId,
   getReferralTrackingByInfluencerId,
+  getSocialInsightsByInfluencerIdApi,
   getSubscriptionPurchasedByInfluencerId,
   updateInfluencer,
   updateInfluencerAddress,
   updateInstagramDM,
   updateInstagramDMItems,
+  updatePortfolioCategory,
+  updatePortfolioVideo,
   updateReferralTracking,
   updateSocialsToken,
 } from './api';
@@ -345,6 +356,162 @@ export const updateSocialsTokenAPI = async data => {
     });
     return response?.data?.updateSocialsToken;
   } catch (error) {
-    console.log("Error:", error);
+    console.log('Error:', error);
+  }
+};
+
+export const getSocialInsightsByInfluencerId = async data => {
+  try {
+    const response = await client.graphql({
+      query: getSocialInsightsByInfluencerIdApi,
+      variables: {influencerId: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.getSocialInsightsByInfluencerId?.items || [];
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+export const getCollabRatingsByGSIAPI = async ({influencerId}) => {
+  try {
+    const response = await client.graphql({
+      query: getCollabRatingsByGSI,
+      variables: {influencerId},
+      authMode: 'userPool',
+    });
+
+    return response?.data?.getCollabRatingsByGSI;
+  } catch (error) {
+    console.error('Error fetching collaboration ratings:', error);
+    throw error;
+  }
+};
+
+export const createInfluencerPortfolioCategoryAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: createPortfolioCategory,
+      variables: {input},
+      authMode: 'userPool',
+    });
+    return response?.data?.createPortfolioCategory;
+  } catch (error) {
+    console.log('Error creating influencer portfolio category:', error);
+    throw error;
+  }
+};
+
+export const getInfluencerPortfolioByInfluencerIdAPI = async influencerId => {
+  try {
+    const response = await client.graphql({
+      query: getInfluencerPortfolioByInfluencerId,
+      variables: {influencerId},
+      authMode: 'userPool',
+    });
+    return response?.data?.getInfluencerPortfolioByInfluencerId;
+  } catch (error) {
+    console.log('Error getting influencer portfolio by influencer id:', error);
+    throw error;
+  }
+};
+
+export const getInfluencerPortfolioCategoryByIdAPI = async id => {
+  try {
+    const response = await client.graphql({
+      query: getPortfolioCategoryById,
+      variables: {id},
+      authMode: 'userPool',
+    });
+    return response?.data?.getPortfolioCategoryById;
+  } catch (error) {
+    console.log('Error getting influencer portfolio category by id:', error);
+    throw error;
+  }
+};
+
+export const getInfluencerPortfolioVideosByCategoryIdAPI = async categoryId => {
+  try {
+    const response = await client.graphql({
+      query: getPortfolioVideosByCategoryId,
+      variables: {categoryId},
+      authMode: 'userPool',
+    });
+    return response?.data?.getPortfolioVideosByCategoryId?.items;
+  } catch (error) {
+    console.log(
+      'Error getting influencer portfolio videos by category id:',
+      error,
+    );
+    throw error;
+  }
+};
+
+export const updateInfluencerPortfolioVideoAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: updatePortfolioVideo,
+      variables: {input},
+      authMode: 'userPool',
+    });
+    return response?.data?.updatePortfolioVideo;
+  } catch (error) {
+    console.log('Error updating influencer portfolio video:', error);
+    throw error;
+  }
+};
+
+export const updateInfluencerPortfolioCategoryAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: updatePortfolioCategory,
+      variables: {input},
+      authMode: 'userPool',
+    });
+    return response?.data?.updatePortfolioCategory;
+  } catch (error) {
+    console.log('Error updating influencer portfolio category:', error);
+    throw error;
+  }
+};
+
+export const createInfluencerPortfolioVideoAPI = async input => {
+  try {
+    const response = await client.graphql({
+      query: createPortfolioVideo,
+      variables: {input},
+      authMode: 'userPool',
+    });
+    return response?.data?.createPortfolioVideo;
+  } catch (error) {
+    console.log('Error creating influencer portfolio video:', error);
+    throw error;
+  }
+};
+
+export const createRazorpayCheckoutAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createRazorpayCheckout,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createRazorpayCheckout;
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export const createSubscriptionPurchasedAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createSubscriptionPurchasedItem,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createSubscriptionPurchasedItem;
+  } catch (error) {
+    console.log('Error:', error);
   }
 };

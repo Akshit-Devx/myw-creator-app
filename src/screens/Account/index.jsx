@@ -67,6 +67,36 @@ const AccountScreen = () => {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Detail', {
+                screen: 'BasicDetails',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Basic Details
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'MyProfile',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              My Profile
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'Subscriptions',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Subscriptions
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
                 screen: 'Profile',
               })
             }>
@@ -102,16 +132,6 @@ const AccountScreen = () => {
             }>
             <Text className="text-xl border-b border-gray-200 p-4">
               Instagram Auto DM
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Detail', {
-                screen: 'BasicDetails',
-              })
-            }>
-            <Text className="text-xl border-b border-gray-200 p-4">
-              Basic Details
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

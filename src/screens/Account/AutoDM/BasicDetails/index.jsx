@@ -16,6 +16,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 import {Icons} from '../../../../assets/icons';
 import {getMediaURL} from '../../../../utility/helper';
+import {categoryList} from '../../../../utility/common';
 import Button from '../../../../components/elements/Button';
 import InputField from '../../../../components/elements/Input';
 import {updateInfluencerAPI} from '../../../../services/handleApi';
@@ -28,23 +29,6 @@ import {
   INSTAGRAM_CLIENT_ID,
   INSTAGRAM_LOGIN_SCOPES,
 } from '../../../../config/envConfig';
-
-const categoryList = [
-  'Fashion',
-  'Lifestyle',
-  'Food',
-  'Beauty',
-  'Skincare',
-  'Travel',
-  'Technology',
-  'Vloggers',
-  'Health ',
-  'Fitness',
-  'Gaming',
-  'Finance',
-  'Automobile',
-  'Photography',
-];
 
 const BasicDetailsScreen = () => {
   const navigation = useNavigation();
@@ -86,10 +70,8 @@ const BasicDetailsScreen = () => {
                 oldInstagramToken: onBoarding?.instagramToken,
                 instagramToken: {},
               };
-              console.log('payload =--->', payload);
               const response = await updateInfluencerAPI(payload);
               dispatch(fetchInfluencerById(onBoarding?.id));
-              console.log('response', response);
             },
           },
         ],
