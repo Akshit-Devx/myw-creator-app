@@ -10,6 +10,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import useUsernameValidator from '../../../../hooks/useUsernameValidator';
 import {fetchInfluencerById} from '../../../../store/slices/onBoarding';
+import DetailStackHeader from '../../../../components/common/DetailStackHeader';
 
 const EditProfileScreen = () => {
   const route = useRoute();
@@ -99,52 +100,59 @@ const EditProfileScreen = () => {
   };
 
   return (
-    <View className="bg-white flex-1 p-5">
-      {!!fullName && (
-        <>
-          <InputField
-            label="Full Name"
-            placeholder="Enter Full Name"
-            value={editForm?.fullName}
-            onChangeText={fullName => setEditForm({...editForm, fullName})}
-          />
-          <Button
-            title="Save"
-            loading={btnLoading}
-            className="mt-4"
-            onPress={handleUpdateName}
-          />
-        </>
-      )}
-      {!!slug && (
-        <>
-          <View className="relative">
+    <View className="bg-white flex-1">
+      <DetailStackHeader
+        title="Edit Profile Details"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="bg-white flex-1 p-5">
+        {!!fullName && (
+          <>
             <InputField
-              label="Username"
-              placeholder="Enter username"
-              value={editForm?.slug}
-              onChangeText={handleUsernameChange}
-              error={getErrorMessage()}
-              helperText={getHelperText()}
-              inputClassName={getInputClassName()}
-              helperClassName={getHelperClassName()}
+              label="Full Name"
+              placeholder="Enter Full Name"
+              value={editForm?.fullName}
+              onChangeText={fullName => setEditForm({...editForm, fullName})}
             />
+            <Button
+              title="Save"
+              loading={btnLoading}
+              className="mt-4"
+              onPress={handleUpdateName}
+            />
+          </>
+        )}
+        {!!slug && (
+          <>
+            <View className="relative">
+              <InputField
+                label="Username"
+                placeholder="Enter username"
+                value={editForm?.slug}
+                onChangeText={handleUsernameChange}
+                error={getErrorMessage()}
+                helperText={getHelperText()}
+                inputClassName={getInputClassName()}
+                helperClassName={getHelperClassName()}
+              />
 
-            {isValidating && !isOriginalSlug && (
-              <View className="absolute right-3 top-10 justify-center">
-                <ActivityIndicator size="small" color="#6B7280" />
-              </View>
-            )}
-          </View>
-          <Button
-            title="Save"
-            className="mt-4"
-            loading={btnLoading}
-            onPress={handleUpdateSlug}
-            disabled={!isOriginalSlug && isValid !== true}
-          />
-        </>
-      )}
+              {isValidating && !isOriginalSlug && (
+                <View className="absolute right-3 top-10 justify-center">
+                  <ActivityIndicator size="small" color="#6B7280" />
+                </View>
+              )}
+            </View>
+            <Button
+              title="Save"
+              className="mt-4"
+              loading={btnLoading}
+              onPress={handleUpdateSlug}
+              disabled={!isOriginalSlug && isValid !== true}
+            />
+          </>
+        )}
+      </View>
     </View>
   );
 };

@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import FullScreenLoader from '../../../../../components/common/FullScreenLoader';
 import {getReferralTrackingByInfluencerIdAPI} from '../../../../../services/handleApi';
 import {convertToTitleCase, formatDate} from '../../../../../utility/helper';
+import DetailStackHeader from '../../../../../components/common/DetailStackHeader';
 
 const statusStyles = {
   INITIATED: {
@@ -22,7 +23,7 @@ const statusStyles = {
   },
 };
 
-const WithdrawalHistoryScreen = () => {
+const WithdrawalHistoryScreen = ({navigation}) => {
   const {onBoarding} = useSelector(state => state?.onBoarding);
   const [loading, setLoading] = useState(false);
   const [referralData, setReferralData] = useState(null);
@@ -48,51 +49,58 @@ const WithdrawalHistoryScreen = () => {
   }, [onBoarding?.id]);
 
   return (
-    <View className="flex-1 flex-col gap-4 bg-white p-5">
-      {loading && <FullScreenLoader visible={loading} />}
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Withdrawal History"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
+      <View className="flex-1 flex-col gap-4 bg-white p-5">
+        {loading && <FullScreenLoader visible={loading} />}
 
-      {!referralData?.withdrawalHistroy?.length && !loading && (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-xl font-medium">No withdrawal history</Text>
-        </View>
-      )}
+        {!referralData?.withdrawalHistroy?.length && !loading && (
+          <View className="flex-1 items-center justify-center">
+            <Text className="text-xl font-medium">No withdrawal history</Text>
+          </View>
+        )}
 
-      {!!referralData?.withdrawalHistroy?.length &&
-        !loading &&
-        referralData?.withdrawalHistroy?.map((item, index) => {
-          const payoutMethod = referralData?.payoutMethods?.find(
-            payout => payout.id === item.payoutMethodId,
-          );
-          return (
-            <View
-              key={index}
-              className="flex-row justify-between items-center border-b border-gray-200 pb-3">
-              <View className="flex-row items-center gap-4">
-                <Text className="text-lg font-medium border border-gray-200 p-2 rounded-md">
-                  {payoutMethod?.methodName}
-                </Text>
-                <View className="flex-col gap-1">
-                  <Text
-                    className={`text-lg font-medium ${
-                      statusStyles[item?.status]?.text
-                    } ${
-                      statusStyles[item?.status]?.bg
-                    } py-0.5 px-2 text-center rounded-md`}>
-                    {convertToTitleCase(item?.status)}
+        {!!referralData?.withdrawalHistroy?.length &&
+          !loading &&
+          referralData?.withdrawalHistroy?.map((item, index) => {
+            const payoutMethod = referralData?.payoutMethods?.find(
+              payout => payout.id === item.payoutMethodId,
+            );
+            return (
+              <View
+                key={index}
+                className="flex-row justify-between items-center border-b border-gray-200 pb-3">
+                <View className="flex-row items-center gap-4">
+                  <Text className="text-lg font-medium border border-gray-200 p-2 rounded-md">
+                    {payoutMethod?.methodName}
                   </Text>
-                  <Text className="text-gray-500 font-medium">
-                    {formatDate(item?.createdAt)}
-                  </Text>
+                  <View className="flex-col gap-1">
+                    <Text
+                      className={`text-lg font-medium ${
+                        statusStyles[item?.status]?.text
+                      } ${
+                        statusStyles[item?.status]?.bg
+                      } py-0.5 px-2 text-center rounded-md`}>
+                      {convertToTitleCase(item?.status)}
+                    </Text>
+                    <Text className="text-gray-500 font-medium">
+                      {formatDate(item?.createdAt)}
+                    </Text>
+                  </View>
                 </View>
-              </View>
 
-              <Text
-                className={`${statusStyles[item?.status]?.text} font-medium`}>
-                +₹{item?.amount}
-              </Text>
-            </View>
-          );
-        })}
+                <Text
+                  className={`${statusStyles[item?.status]?.text} font-medium`}>
+                  +₹{item?.amount}
+                </Text>
+              </View>
+            );
+          })}
+      </View>
     </View>
   );
 };

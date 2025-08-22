@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {resetStore} from '../../store/store';
 import {getMediaURL} from '../../utility/helper';
 import {fetchInfluencerById} from '../../store/slices/onBoarding';
+import DetailStackHeader from '../../components/common/DetailStackHeader';
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
@@ -31,37 +32,79 @@ const AccountScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-white p-5 flex-col gap-10">
-      <View className="flex-col items-center gap-2">
-        <Image
-          source={{
-            uri: getMediaURL(onBoarding?.profilePictureWithBg),
-          }}
-          className="w-32 h-32 rounded-full"
-        />
-        <Button title="Edit Profile Picture" variant="ghost" size="sm" />
-        <Text className="text-2xl font-semibold">{onBoarding?.name}</Text>
-        <Text className="text-base text-gray-500">
-          @{onBoarding?.instagramDetails?.username}
-        </Text>
-        {onBoarding?.instagramToken?.refreshToken && (
-          <Text className="text-base text-blue-600 border border-blue-600 py-1 px-2 rounded-md">
-            Connected
+    <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Account"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={true}
+        rightIcon={<Text className="text-gray-700">Help</Text>}
+        onRightPress={() =>
+          navigation.navigate('Detail', {
+            screen: 'ContactUs',
+          })
+        }
+      />
+      <View className="flex-1 bg-white p-5 flex-col gap-10">
+        <View className="flex-col items-center gap-2">
+          <Image
+            source={{
+              uri: getMediaURL(onBoarding?.profilePictureWithBg),
+            }}
+            className="w-32 h-32 rounded-full"
+          />
+          <Button title="Edit Profile Picture" variant="ghost" size="sm" />
+          <Text className="text-2xl font-semibold">{onBoarding?.name}</Text>
+          <Text className="text-base text-gray-500">
+            @{onBoarding?.instagramDetails?.username}
           </Text>
-        )}
-      </View>
-      <View className="border border-gray-200 rounded-xl">
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Detail', {
-              screen: 'Profile',
-            })
-          }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Profile Settings
-          </Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity
+          {onBoarding?.instagramToken?.refreshToken && (
+            <Text className="text-base text-blue-600 border border-blue-600 py-1 px-2 rounded-md">
+              Connected
+            </Text>
+          )}
+        </View>
+        <View className="border border-gray-200 rounded-xl">
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'BasicDetails',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Basic Details
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'MyProfile',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              My Profile
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'Subscriptions',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Subscriptions
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'Profile',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Profile Settings
+            </Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Detail', {
               screen: 'Subscriptions',
@@ -71,39 +114,40 @@ const AccountScreen = () => {
             Subscriptions
           </Text>
         </TouchableOpacity> */}
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Detail', {
-              screen: 'Referrral',
-            })
-          }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Mywall Referral
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Detail', {
-              screen: 'InstagramAutoDM',
-            })
-          }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Instagram Auto DM
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Detail', {
-              screen: 'Addresses',
-            })
-          }>
-          <Text className="text-xl border-b border-gray-200 p-4">
-            Addresses
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleLogout}>
-          <Text className="text-xl text-red-500 p-4">Logout</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'Referrral',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Mywall Referral
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'InstagramAutoDM',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Instagram Auto DM
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Detail', {
+                screen: 'Addresses',
+              })
+            }>
+            <Text className="text-xl border-b border-gray-200 p-4">
+              Addresses
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout}>
+            <Text className="text-xl text-red-500 p-4">Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

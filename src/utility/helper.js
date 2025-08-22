@@ -252,3 +252,7 @@ export const formatDate = isoDate => {
     day: 'numeric',
   });
 };
+
+export const checkSubscriptionStatus = subscription => {
+  return Boolean(subscription?.id && subscription?.isActive);
+};

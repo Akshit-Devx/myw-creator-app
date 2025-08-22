@@ -31,6 +31,29 @@ import LeftGradientLine from './leftGradientLine.svg';
 import RightGradientLine from './rightGradientLine.svg';
 import MailIcon from './mailIcon.svg';
 import PhoneIcon from './phoneIcon.svg';
+import LikeIcon from './likeIcon.svg';
+import CommentIcon from './commentIcon.svg';
+import EditIcon from './editIcon.svg';
+import CameraIcon from './CameraIcon.svg';
+import UploadIcon from './UploadIcon.svg';
+import PasteIcon from './PasteIcon.svg';
+import CircleCheckSolid from './CircleCheckSolid.svg';
+import ProductsCarouselType from './productsCarousel.svg';
+import SingleCardType from './singleCard.svg';
+import VerifyIcon from './VerifyIcon.svg';
+import SocialAnalyticsIcon from './SocialAnalyticsIcon.svg';
+import StarIcon from './StarIcon.svg';
+import BagIcon from './BagIcon.svg';
+import IGIcon from './igIcon.svg';
+import FollowerIcon from './FollowerIcon.svg';
+import EngagementIcon from './EngagementIcon.svg';
+import LikeOutlineIcon from './LikeOutlineIcon.svg';
+import EyeWhiteIcon from './EyeWhiteIcon.svg';
+import CommentWhiteIcon from './CommentWhiteIcon.svg';
+import IgAnalytics from './igAnalytics.svg';
+import InfoIcon from './InfoIcon.svg';
+import RazorpayIcon from './razorpay.svg';
+
 
 export const Icons = {
   BackIcon,
@@ -66,4 +89,26 @@ export const Icons = {
   RightGradientLine,
   MailIcon,
   PhoneIcon,
+  LikeIcon,
+  CommentIcon,
+  EditIcon,
+  CameraIcon,
+  UploadIcon,
+  PasteIcon,
+  CircleCheckSolid,
+  ProductsCarouselType,
+  SingleCardType,
+  VerifyIcon,
+  SocialAnalyticsIcon,
+  StarIcon,
+  BagIcon,
+  IGIcon,
+  FollowerIcon,
+  EngagementIcon,
+  LikeOutlineIcon,
+  EyeWhiteIcon,
+  CommentWhiteIcon,
+  IgAnalytics,
+  InfoIcon,
+  RazorpayIcon,
 };

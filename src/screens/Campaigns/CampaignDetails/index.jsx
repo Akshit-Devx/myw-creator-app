@@ -16,6 +16,7 @@ import Accordion from '../../../components/common/Accordian';
 import {useSelector} from 'react-redux';
 import VerticalStepper from '../../../components/common/VerticalStepper';
 import Button from '../../../components/elements/Button';
+import DetailStackHeader from '../../../components/common/DetailStackHeader';
 
 const CampaignAboutSection = ({campaignData, followers}) => {
   const reqData = getRequirementByFollowerCount(
@@ -275,7 +276,7 @@ const CampaignReferencesSection = ({campaignData}) => {
   );
 };
 
-const CampaignDetailsScreen = ({route}) => {
+const CampaignDetailsScreen = ({route, navigation}) => {
   const {campaignId, storeId} = route.params;
   const {onBoarding} = useSelector(state => state.onBoarding);
   const [loading, setLoading] = useState(true);
@@ -311,6 +312,11 @@ const CampaignDetailsScreen = ({route}) => {
 
   return (
     <View className="flex-1 bg-white">
+      <DetailStackHeader
+        title="Details"
+        onLeftPress={() => navigation.goBack()}
+        showRightButton={false}
+      />
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="flex-1 flex-col gap-2">
           <View>
