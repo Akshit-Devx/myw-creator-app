@@ -1,83 +1,214 @@
-import {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
-import {Icons} from '../../../assets/icons';
-import {filterCampaignAPI} from '../../../services/handleApi';
-import BarterCampaignCard from '../../cards/BarterCampaign';
-import OfferCampaignCard from '../../cards/OfferCampaign';
-import CampaignTypeButton from '../../common/CampaignTypeButton';
-import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
-import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
+import {useEffect, useMemo, useState} from 'react';
+import {
+  Text,
+  View,
+  FlatList,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 
-const CAMPAIGN_CATEGORIES = ['RESTAURANTS', 'RESORTS', 'SALONS'];
+import {useSelector} from 'react-redux';
+
+import Filters from '../Filters';
+import {Icons} from '../../../assets/icons';
+import {CAMPAIGN_TYPES} from '../../../utility/common';
+import OfferCampaignCard from '../../cards/OfferCampaign';
+import BarterCampaignCard from '../../cards/BarterCampaign';
+import {filterCampaignAPI} from '../../../services/handleApi';
+import CampaignTypeButton from '../../common/CampaignTypeButton';
+import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
+import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
+
+const {width: WINDOW_WIDTH} = Dimensions.get('window');
 
 const ForYouCampaignsSection = () => {
   const {onBoarding} = useSelector(state => state.onBoarding);
-  const [selectedType, setSelectedType] = useState('BARTER');
-  const [restaurantCampaigns, setRestaurantCampaigns] = useState([]);
-  const [resortCampaigns, setResortCampaigns] = useState([]);
-  const [salonCampaigns, setSalonCampaigns] = useState([]);
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
+  const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [offerFilterParams, setOfferFilterParams] = useState({});
+  const [collabsFilterParams, setCollabsFilterParams] = useState({});
+
+  // Pagination state for each category
+  const [categoryPagination, setCategoryPagination] = useState({});
+  const [loadingMore, setLoadingMore] = useState({});
 
   useEffect(() => {
-    fetchCampaigns();
-  }, [selectedType]);
+    fetchCampaigns(true); // Reset on filter/type change
+  }, [selectedType, offerFilterParams, collabsFilterParams]);
 
-  const fetchCampaigns = async () => {
-    setIsLoading(true);
+  const fetchCampaigns = async (reset = false) => {
+    if (reset) {
+      setIsLoading(true);
+      setCategoryPagination({});
+      setLoadingMore({});
+    }
+
     try {
-      const campaignResponse = await Promise.all(
-        CAMPAIGN_CATEGORIES.map(category =>
-          filterCampaignAPI({
-            type: selectedType || 'BARTER',
-            category,
-            minFollowers:
-              onBoarding?.instagramDetails?.followersCount < 1000
-                ? 0
-                : onBoarding?.instagramDetails?.followersCount,
-            comparisonOperator: 'lte',
-            size: 5,
-            page: 1,
-          }),
-        ),
-      );
+      const payload = {
+        type: selectedType?.value || 'BARTER',
+        size: 10, // Increased size for better pagination
+        page: 1,
+        minFollowers:
+          onBoarding?.instagramDetails?.followersCount < 1000
+            ? 0
+            : onBoarding?.instagramDetails?.followersCount,
+        comparisonOperator: 'lte',
+        ...(selectedType?.value === 'BARTER'
+          ? {...collabsFilterParams}
+          : {...offerFilterParams}),
+      };
+      const featuredCampaignResponse = await filterCampaignAPI(payload);
 
-      const transformedRestaurantCampaigns = campaignResponse[0].items.flatMap(
-        campaign => {
-          return (campaign.storesData || []).map(store => ({
-            ...campaign,
-            storeData: store,
-          }));
-        },
-      );
-
-      const transformedResortCampaigns = campaignResponse[1].items.flatMap(
-        campaign => {
-          return (campaign.storesData || []).map(store => ({
-            ...campaign,
-            storeData: store,
-          }));
-        },
-      );
-
-      const transformedSalonCampaigns = campaignResponse[2].items.flatMap(
-        campaign => {
-          return (campaign.storesData || []).map(store => ({
-            ...campaign,
-            storeData: store,
-          }));
-        },
-      );
-
-      setRestaurantCampaigns(transformedRestaurantCampaigns);
-      setResortCampaigns(transformedResortCampaigns);
-      setSalonCampaigns(transformedSalonCampaigns);
+      if (reset) {
+        setFeaturedCampaigns(featuredCampaignResponse.items);
+      }
     } catch (error) {
       console.error('Error fetching campaigns:', error);
     } finally {
-      setIsLoading(false);
+      if (reset) {
+        setIsLoading(false);
+      }
     }
   };
+
+  const fetchMoreCampaignsForCategory = async category => {
+    const currentPage = categoryPagination[category]?.page || 1;
+    const nextPage = currentPage + 1;
+
+    // Prevent multiple simultaneous requests
+    if (loadingMore[category]) return;
+
+    setLoadingMore(prev => ({...prev, [category]: true}));
+
+    try {
+      const payload = {
+        type: selectedType?.value || 'BARTER',
+        size: 5, // Smaller size for pagination
+        page: nextPage,
+        category: category !== 'Uncategorized' ? category : null,
+        minFollowers:
+          onBoarding?.instagramDetails?.followersCount < 1000
+            ? 0
+            : onBoarding?.instagramDetails?.followersCount,
+        comparisonOperator: 'lte',
+        ...(selectedType?.value === 'BARTER'
+          ? {...collabsFilterParams}
+          : {...offerFilterParams}),
+      };
+      const response = await filterCampaignAPI(payload);
+
+      if (response.items && response.items.length > 0) {
+        // Add new campaigns to existing ones
+        setFeaturedCampaigns(prev => [...prev, ...response.items]);
+
+        // Update pagination state for this category
+        setCategoryPagination(prev => ({
+          ...prev,
+          [category]: {
+            page: nextPage,
+            hasMore: response.items.length === payload.size,
+            totalLoaded:
+              (prev[category]?.totalLoaded || 0) + response.items.length,
+          },
+        }));
+      } else {
+        // No more items for this category
+        setCategoryPagination(prev => ({
+          ...prev,
+          [category]: {
+            ...prev[category],
+            hasMore: false,
+          },
+        }));
+      }
+    } catch (error) {
+      console.error(`Error fetching more campaigns for ${category}:`, error);
+    } finally {
+      setLoadingMore(prev => ({...prev, [category]: false}));
+    }
+  };
+
+  const campaignsByStore = useMemo(() => {
+    const result = [];
+
+    featuredCampaigns?.forEach(campaign => {
+      campaign.storesData?.forEach(store => {
+        result.push({
+          store,
+          campaign,
+        });
+      });
+    });
+
+    return result;
+  }, [featuredCampaigns]);
+
+  const campaignsByCategory = {};
+
+  campaignsByStore?.forEach(item => {
+    const campaign = item.campaign;
+    const store = item.store;
+    const category = campaign?.category || 'Uncategorized';
+
+    if (!campaignsByCategory[category]) {
+      campaignsByCategory[category] = [];
+    }
+
+    campaignsByCategory[category].push({campaign, store});
+  });
+
+  const categories = Object.keys(campaignsByCategory);
+
+  const handleEndReached = category => {
+    const pagination = categoryPagination[category];
+    const hasMore = pagination?.hasMore !== false; // Default to true if undefined
+    if (hasMore && !loadingMore[category]) {
+      fetchMoreCampaignsForCategory(category);
+    }
+  };
+
+  const LoadingMoreIndicator = () => (
+    <View className="justify-center items-center px-4" style={{width: 80}}>
+      <ActivityIndicator size="small" color="#666" />
+    </View>
+  );
+
+  const LoadingSkeleton = () => {
+    return (
+      <View className="flex-row gap-5 px-1">
+        {[1, 2, 3, 4].map((item, index) => {
+          if (selectedType?.value === 'BARTER') {
+            return (
+              <BarterCampaignCardSkeleton
+                key={`restaurant-skeleton-${index}`}
+              />
+            );
+          }
+          return (
+            <OfferCampaignCardSkeleton key={`restaurant-skeleton-${index}`} />
+          );
+        })}
+      </View>
+    );
+  };
+
+  const renderCampaignItem = ({item: campaign}) =>
+    campaign.campaign?.type === 'BARTER' ? (
+      <View className="" style={{width: WINDOW_WIDTH - 100}}>
+        <BarterCampaignCard
+          campaign={campaign.campaign}
+          store={campaign.store}
+        />
+      </View>
+    ) : (
+      <View className="" style={{width: WINDOW_WIDTH - 100}}>
+        <OfferCampaignCard
+          campaign={campaign.campaign}
+          store={campaign.store}
+        />
+      </View>
+    );
 
   return (
     <View className="flex-col gap-8">
@@ -86,101 +217,56 @@ const ForYouCampaignsSection = () => {
         setSelectedType={setSelectedType}
       />
 
-      <View className="flex-col gap-8">
-        <View className="flex-row justify-center items-center gap-2">
-          <Icons.LeftGradientLine height={24} width={60} />
-          <Text className="text-center text-xl font-semibold">
-            TOP RESTAURANTS {selectedType}
-          </Text>
-          <Icons.RightGradientLine height={24} width={60} />
-        </View>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerClassName="gap-5 px-1"
-          data={isLoading ? [1, 2, 3, 4] : restaurantCampaigns}
-          keyExtractor={(item, index) =>
-            isLoading ? `skeleton-${index}` : item.id + index
-          }
-          renderItem={({item: campaign}) =>
-            isLoading ? (
-              selectedType === 'BARTER' ? (
-                <BarterCampaignCardSkeleton />
-              ) : (
-                <OfferCampaignCardSkeleton />
-              )
-            ) : selectedType === 'BARTER' ? (
-              <BarterCampaignCard campaign={campaign} />
-            ) : (
-              <OfferCampaignCard campaign={campaign} />
-            )
-          }
+      {selectedType?.value === 'BARTER' ? (
+        <Filters
+          setFiltersParams={setCollabsFilterParams}
+          filtersParams={collabsFilterParams}
         />
-      </View>
+      ) : (
+        <Filters
+          setFiltersParams={setOfferFilterParams}
+          filtersParams={offerFilterParams}
+        />
+      )}
 
-      <View className="flex-col gap-8">
-        <View className="flex-row justify-center items-center gap-2">
-          <Icons.LeftGradientLine height={24} width={60} />
-          <Text className="text-center text-xl font-semibold">
-            TOP RESORTS {selectedType}
-          </Text>
-          <Icons.RightGradientLine height={24} width={60} />
-        </View>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerClassName="gap-5 px-1"
-          data={isLoading ? [1, 2, 3, 4] : resortCampaigns}
-          keyExtractor={(item, index) =>
-            isLoading ? `skeleton-${index}` : item.id + index
-          }
-          renderItem={({item: campaign}) =>
-            isLoading ? (
-              selectedType === 'BARTER' ? (
-                <BarterCampaignCardSkeleton />
-              ) : (
-                <OfferCampaignCardSkeleton />
-              )
-            ) : selectedType === 'BARTER' ? (
-              <BarterCampaignCard campaign={campaign} />
-            ) : (
-              <OfferCampaignCard campaign={campaign} />
-            )
-          }
-        />
-      </View>
+      {categories?.map(category => (
+        <View key={category} className="flex-col gap-8">
+          <View className="flex-row justify-center items-center gap-2">
+            <Icons.LeftGradientLine height={24} width={60} />
+            <Text className="text-center text-xl font-semibold text-gray-500">
+              {`TOP ${category} ${selectedType?.label.toLocaleUpperCase()}`}
+            </Text>
+            <Icons.RightGradientLine height={24} width={60} />
+          </View>
 
-      <View className="flex-col gap-8">
-        <View className="flex-row justify-center items-center gap-2">
-          <Icons.LeftGradientLine height={24} width={60} />
-          <Text className="text-center text-xl font-semibold">
-            TOP SALONS {selectedType}
-          </Text>
-          <Icons.RightGradientLine height={24} width={60} />
+          {isLoading ? (
+            <LoadingSkeleton />
+          ) : (
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerClassName="gap-5 px-1"
+              data={campaignsByCategory[category]}
+              keyExtractor={(item, index) =>
+                `${item.campaign.id}-${index}-${category}`
+              }
+              renderItem={renderCampaignItem}
+              onEndReached={() => handleEndReached(category)}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={
+                loadingMore[category] ? LoadingMoreIndicator : null
+              }
+              ListEmptyComponent={
+                <View className="flex-col gap-8">
+                  <Text className="text-center text-xl text-gray-500 font-semibold">
+                    No Campaigns Found
+                  </Text>
+                </View>
+              }
+            />
+          )}
         </View>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerClassName="gap-5 px-1"
-          data={isLoading ? [1, 2, 3, 4] : salonCampaigns}
-          keyExtractor={(item, index) =>
-            isLoading ? `skeleton-${index}` : item.id + index
-          }
-          renderItem={({item: campaign}) =>
-            isLoading ? (
-              selectedType === 'BARTER' ? (
-                <BarterCampaignCardSkeleton />
-              ) : (
-                <OfferCampaignCardSkeleton />
-              )
-            ) : selectedType === 'BARTER' ? (
-              <BarterCampaignCard campaign={campaign} />
-            ) : (
-              <OfferCampaignCard campaign={campaign} />
-            )
-          }
-        />
-      </View>
+      ))}
     </View>
   );
 };

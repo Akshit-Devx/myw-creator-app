@@ -12,28 +12,33 @@ import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
 import FeaturedCampaignBarterCardSkeleton from '../../skeletons/FeaturedCampaignBarterCard';
 import FeaturedCampaignOfferCardSkeleton from '../../skeletons/FeaturedCampaignOfferCard';
 import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
+import Filters from '../Filters';
+import {CAMPAIGN_TYPES} from '../../../utility/common';
 
 const HotelsCampaignsSection = () => {
-  const [selectedType, setSelectedType] = useState('BARTER');
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);
   const [isLoadingCampaigns, setIsLoadingCampaigns] = useState(true);
+  const [collabsFilterParams, setCollabsFilterParams] = useState({});
+  const [offerFilterParams, setOfferFilterParams] = useState({});
 
   useEffect(() => {
     fetchFeaturedCampaigns();
     fetchNonFeaturedCampaigns();
-  }, [selectedType]);
+  }, [selectedType, collabsFilterParams, offerFilterParams]);
 
   const fetchFeaturedCampaigns = async () => {
     setIsLoadingFeatured(true);
     try {
       const featuredCampaignsResponse = await filterCampaignAPI({
-        type: selectedType || 'BARTER',
+        type: selectedType?.value || 'BARTER',
         category: 'RESORTS',
         isFeatured: true,
         size: 50,
         page: 1,
+        ...(selectedType?.value === 'BARTER' ? collabsFilterParams : offerFilterParams),
       });
 
       const transformedFeaturedCampaigns =
@@ -56,11 +61,12 @@ const HotelsCampaignsSection = () => {
     setIsLoadingCampaigns(true);
     try {
       const campaignsResponse = await filterCampaignAPI({
-        type: selectedType || 'BARTER',
+        type: selectedType?.value || 'BARTER',
         category: 'RESORTS',
         isFeatured: false,
         size: 50,
         page: 1,
+        ...(selectedType?.value === 'BARTER' ? collabsFilterParams : offerFilterParams),
       });
 
       const transformedCampaigns = campaignsResponse.items.flatMap(campaign => {
@@ -85,11 +91,23 @@ const HotelsCampaignsSection = () => {
         setSelectedType={setSelectedType}
       />
 
+      {selectedType?.value === 'BARTER' ? (
+        <Filters
+          setFiltersParams={setCollabsFilterParams}
+          filtersParams={collabsFilterParams}
+        />
+      ) : (
+        <Filters
+          setFiltersParams={setOfferFilterParams}
+          filtersParams={offerFilterParams}
+        />
+      )}
+
       <View className="flex-col gap-8">
         <View className="flex-row justify-center items-center gap-2">
           <Icons.LeftGradientLine height={24} width={60} />
           <Text className="text-center text-xl font-semibold">
-            Featured {convertToTitleCase(selectedType)}s
+            Featured {convertToTitleCase(selectedType?.label)}s
           </Text>
           <Icons.RightGradientLine height={24} width={60} />
         </View>
@@ -103,12 +121,12 @@ const HotelsCampaignsSection = () => {
           }
           renderItem={({item: campaign}) =>
             isLoadingFeatured ? (
-              selectedType === 'BARTER' ? (
+              selectedType?.value === 'BARTER' ? (
                 <FeaturedCampaignBarterCardSkeleton />
               ) : (
                 <FeaturedCampaignOfferCardSkeleton />
               )
-            ) : selectedType === 'BARTER' ? (
+            ) : selectedType?.value === 'BARTER' ? (
               <FeaturedCampaignBarterCard campaign={campaign} />
             ) : (
               <FeaturedCampaignOfferCard campaign={campaign} />
@@ -121,7 +139,7 @@ const HotelsCampaignsSection = () => {
         <View className="flex-row justify-center items-center gap-2">
           <Icons.LeftGradientLine height={24} width={60} />
           <Text className="text-center text-xl font-semibold">
-            {convertToTitleCase(selectedType)}s
+            {convertToTitleCase(selectedType?.label)}s
           </Text>
           <Icons.RightGradientLine height={24} width={60} />
         </View>

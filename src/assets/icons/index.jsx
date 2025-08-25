@@ -53,7 +53,14 @@ import CommentWhiteIcon from './CommentWhiteIcon.svg';
 import IgAnalytics from './igAnalytics.svg';
 import InfoIcon from './InfoIcon.svg';
 import RazorpayIcon from './razorpay.svg';
-
+import IgFillIcon from './IgFillIcon.svg';
+import LocationMarkIcon from './LocationMarkIcon.svg';
+import LocationPinIcon from './LocationPinIcon.svg';
+import SearchLocationIcon from './SearchLocationIcon.svg';
+import ClockIcon from './ClockIcon.svg';
+import PinLocationIcon from './PinLocationIcon.svg';
+import YoutubeIcon from './YoutubeIcon.svg';
+import ProductionSectionIcon from './ProductionSectionIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -111,4 +118,12 @@ export const Icons = {
   IgAnalytics,
   InfoIcon,
   RazorpayIcon,
+  IgFillIcon,
+  LocationMarkIcon,
+  LocationPinIcon,
+  SearchLocationIcon,
+  ClockIcon,
+  PinLocationIcon,
+  YoutubeIcon,
+  ProductionSectionIcon,
 };
