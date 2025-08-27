@@ -3,6 +3,7 @@ import {
   RAZORPAY_ANNUAL_PLAN_ID,
   RAZORPAY_MONTHLY_PLAN_ID,
 } from '../config/envConfig';
+import {getMediaURL} from './helper';
 import {
   LinkIcon,
   SaveIcon,
@@ -27,6 +28,11 @@ export const CAMPAIGN_CATEGORIES = [
     icon: Icons.ForYouIcon,
   },
   {
+    id: 'PRODUCTS',
+    label: 'Products',
+    icon: Icons.ProductionSectionIcon,
+  },
+  {
     id: 'HOTELS',
     label: 'Hotels',
     icon: Icons.HotelIcon,
@@ -43,7 +49,10 @@ export const CAMPAIGN_CATEGORIES = [
   },
 ];
 
-export const CAMPAIGN_TYPES = ['BARTER', 'OFFER'];
+export const CAMPAIGN_TYPES = [
+  {label: 'Collabs', value: 'BARTER'},
+  {label: 'Offers', value: 'OFFER'},
+];
 
 export const CAMPAIGN_DETAILS_TABS = ['ABOUT', 'PHOTOS', 'REFERENCES'];
 
@@ -206,3 +215,121 @@ export const campaignsPlans = {
     ],
   },
 };
+
+export const cityOptions = [
+  {label: 'Delhi NCR', value: 'delhi-ncr'},
+  {label: 'Mumbai', value: 'mumbai'},
+  {label: 'Pune', value: 'pune'},
+  {label: 'Bengaluru', value: 'bengaluru'},
+  {label: 'Hyderabad', value: 'hyderabad'},
+  {label: 'Jaipur', value: 'jaipur'},
+  {label: 'Surat', value: 'surat'},
+  {label: 'Ahmedabad', value: 'ahmedabad'},
+  {label: 'Chandigarh', value: 'chandigarh'},
+  {label: 'Mohali', value: 'mohali'},
+  {label: 'Panchkula', value: 'panchkula'},
+  {label: 'Lucknow', value: 'lucknow'},
+  {label: 'Goa', value: 'goa'},
+  {label: 'Chennai', value: 'chennai'},
+  {label: 'Kolkata', value: 'kolkata'},
+  {label: 'Nagpur', value: 'nagpur'},
+  {label: 'Indore', value: 'indore'},
+  {label: 'Bhopal', value: 'bhopal'},
+  {label: 'Ludhiana', value: 'ludhiana'},
+  {label: 'Vadodara', value: 'vadodara'},
+  {label: 'Nashik', value: 'nashik'},
+  {label: 'Faridabad', value: 'faridabad'},
+  {label: 'Rajkot', value: 'rajkot'},
+  {label: 'Agra', value: 'agra'},
+  {label: 'Varanasi', value: 'varanasi'},
+  {label: 'Coimbatore', value: 'coimbatore'},
+  {label: 'Jodhpur', value: 'jodhpur'},
+  {label: 'Dehradun', value: 'dehradun'},
+  {label: 'Noida', value: 'noida'},
+  {label: 'Ghaziabad', value: 'ghaziabad'},
+  {label: 'Udaipur', value: 'udaipur'},
+  {label: 'Aurangabad', value: 'aurangabad'},
+  {label: 'Jammu', value: 'jammu'},
+  {label: 'Raipur', value: 'raipur'},
+  {label: 'Srinagar', value: 'srinagar'},
+  {label: 'Siliguri', value: 'siliguri'},
+  {label: 'Rishikesh', value: 'rishikesh'},
+  {label: 'Manali', value: 'manali'},
+  {label: 'Kochi', value: 'kochi'},
+  {label: 'Munnar', value: 'munnar'},
+  {label: 'Shillong', value: 'shillong'},
+  {label: 'Port Blair', value: 'port-blair'},
+];
+
+export const allStateOptions = [
+  {label: 'Assam', value: 'assam'},
+  {label: 'Bihar', value: 'bihar'},
+  {label: 'Chhattisgarh', value: 'chhattisgarh'},
+  {label: 'Goa', value: 'goa'},
+  {label: 'Gujarat', value: 'gujarat'},
+  {label: 'Haryana', value: 'haryana'},
+  {label: 'Himachal Pradesh', value: 'himachal pradesh'},
+  {label: 'Jharkhand', value: 'jharkhand'},
+  {label: 'Karnataka', value: 'karnataka'},
+  {label: 'Kerala', value: 'kerala'},
+  {label: 'Madhya Pradesh', value: 'madhya pradesh'},
+  {label: 'Maharashtra', value: 'maharashtra'},
+  {label: 'Manipur', value: 'manipur'},
+  {label: 'Odisha', value: 'odisha'},
+  {label: 'Punjab', value: 'punjab'},
+  {label: 'Rajasthan', value: 'rajasthan'},
+  {label: 'Sikkim', value: 'sikkim'},
+  {label: 'Tamil Nadu', value: 'tamil nadu'},
+  {label: 'Telangana', value: 'telangana'},
+  {label: 'Uttar Pradesh', value: 'uttar pradesh'},
+  {label: 'Uttarakhand', value: 'uttarakhand'},
+  {label: 'West Bengal', value: 'west bengal'},
+  {
+    label: 'Andaman and Nicobar Islands',
+    value: 'andaman and nicobar islands',
+  },
+  {label: 'Chandigarh', value: 'chandigarh'},
+  {label: 'Delhi', value: 'delhi'},
+  {label: 'Jammu and Kashmir', value: 'jammu and kashmir'},
+  {label: 'Ladakh', value: 'ladakh'},
+  {label: 'Lakshadweep', value: 'lakshadweep'},
+];
+
+export const productCategories = [
+  {
+    id: 1,
+    name: 'Fashion',
+    category: 'fashion',
+    image: getMediaURL('public/static-assets/fashion.png'),
+  },
+  // {
+  //   id: 2,
+  //   name: "Home decor",
+  //   category: "home-decor",
+  //   image: getMediaURL("public/static-assets/home-decor.png"),
+  // },
+  // {
+  //   id: 3,
+  //   name: "Health & Fitness",
+  //   category: "health-fitness",
+  //   image: getMediaURL("public/static-assets/fitness.png"),
+  // },
+  // {
+  //   id: 4,
+  //   name: "Lifestyle",
+  //   category: "lifestyle",
+  //   image: getMediaURL("public/static-assets/lifestyle.png"),
+  // },
+  {
+    id: 2,
+    name: 'Electronics',
+    category: 'electronics',
+    image: getMediaURL('public/static-assets/electronics.png'),
+  },
+  {
+    id: 3,
+    name: 'Beauty & Skin Care',
+    category: 'beauty-skin-care',
+    image: getMediaURL('public/static-assets/beauty.png'),
+  },
+];

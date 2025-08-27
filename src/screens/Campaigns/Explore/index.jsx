@@ -6,14 +6,25 @@ import RestaurantsCampaignsSection from '../../../components/sections/Restaurant
 import SalonsCampaignsSection from '../../../components/sections/SalonsCampaigns';
 import TrendingCampaignsSection from '../../../components/sections/TrendingCampaigns';
 import {CAMPAIGN_CATEGORIES} from '../../../utility/common';
+import ProductsCampaignsSection from '../../../components/sections/ProductsCampaignsSection';
 
 const CategoryButton = ({category, isSelected, onPress}) => (
-  <TouchableOpacity className="flex-col items-center gap-2" onPress={onPress}>
+  <TouchableOpacity
+    className="flex-col items-center gap-2 relative"
+    onPress={onPress}>
     <View
       className={`border p-3 rounded-full ${
         isSelected ? 'border-[#0033e6]' : 'border-gray-100'
       }`}>
       <category.icon height={48} width={48} />
+      {category.id === 'PRODUCTS' && (
+        <Text
+          className={
+            'text-center w-[70px] absolute bottom-[-4px] self-center text-[6px] bg-[#ffedf1] px-2 py-1 rounded-full text-[#ff7a00]'
+          }>
+          Newly Launched
+        </Text>
+      )}
     </View>
     <Text className={`text-center ${isSelected ? 'text-[#0033e6]' : ''}`}>
       {category.label}
@@ -48,6 +59,7 @@ const ExploreScreen = () => {
         </View>
         {selectedCategory === 'TRENDING' && <TrendingCampaignsSection />}
         {selectedCategory === 'FOR_YOU' && <ForYouCampaignsSection />}
+        {selectedCategory === 'PRODUCTS' && <ProductsCampaignsSection />}
         {selectedCategory === 'HOTELS' && <HotelsCampaignsSection />}
         {selectedCategory === 'SALONS' && <SalonsCampaignsSection />}
         {selectedCategory === 'RESTAURANTS' && <RestaurantsCampaignsSection />}

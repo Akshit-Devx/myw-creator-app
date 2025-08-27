@@ -12,28 +12,30 @@ import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
 import FeaturedCampaignBarterCardSkeleton from '../../skeletons/FeaturedCampaignBarterCard';
 import FeaturedCampaignOfferCardSkeleton from '../../skeletons/FeaturedCampaignOfferCard';
 import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
+import {CAMPAIGN_TYPES} from '../../../utility/common';
+import Filters from '../Filters';
 
 const SalonsCampaignsSection = () => {
-  const [selectedType, setSelectedType] = useState('BARTER');
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);
   const [isLoadingCampaigns, setIsLoadingCampaigns] = useState(true);
-
-  useEffect(() => {
-    fetchFeaturedCampaigns();
-    fetchNonFeaturedCampaigns();
-  }, [selectedType]);
+  const [collabsFilterParams, setCollabsFilterParams] = useState({});
+  const [offerFilterParams, setOfferFilterParams] = useState({});
 
   const fetchFeaturedCampaigns = async () => {
     setIsLoadingFeatured(true);
     try {
       const featuredCampaignsResponse = await filterCampaignAPI({
-        type: selectedType || 'BARTER',
+        type: selectedType?.value || 'BARTER',
         category: 'SALONS',
         isFeatured: true,
         size: 50,
         page: 1,
+        ...(selectedType?.value === 'BARTER'
+          ? {...collabsFilterParams}
+          : {...offerFilterParams}),
       });
 
       const transformedFeaturedCampaigns =
@@ -56,11 +58,14 @@ const SalonsCampaignsSection = () => {
     setIsLoadingCampaigns(true);
     try {
       const campaignsResponse = await filterCampaignAPI({
-        type: selectedType || 'BARTER',
+        type: selectedType?.value || 'BARTER',
         category: 'SALONS',
         isFeatured: false,
         size: 50,
         page: 1,
+        ...(selectedType?.value === 'BARTER'
+          ? {...collabsFilterParams}
+          : {...offerFilterParams}),
       });
 
       const transformedCampaigns = campaignsResponse.items.flatMap(campaign => {
@@ -78,18 +83,33 @@ const SalonsCampaignsSection = () => {
     }
   };
 
+  useEffect(() => {
+    fetchFeaturedCampaigns();
+    fetchNonFeaturedCampaigns();
+  }, [selectedType, collabsFilterParams, offerFilterParams]);
+
   return (
     <View className="flex-col gap-8">
       <CampaignTypeButton
         selectedType={selectedType}
         setSelectedType={setSelectedType}
       />
-
+      {selectedType?.value === 'BARTER' ? (
+        <Filters
+          setFiltersParams={setCollabsFilterParams}
+          filtersParams={collabsFilterParams}
+        />
+      ) : (
+        <Filters
+          setFiltersParams={setOfferFilterParams}
+          filtersParams={offerFilterParams}
+        />
+      )}
       <View className="flex-col gap-8">
         <View className="flex-row justify-center items-center gap-2">
           <Icons.LeftGradientLine height={24} width={60} />
           <Text className="text-center text-xl font-semibold">
-            Featured {convertToTitleCase(selectedType)}s
+            Featured {convertToTitleCase(selectedType?.label)}s
           </Text>
           <Icons.RightGradientLine height={24} width={60} />
         </View>
@@ -103,16 +123,23 @@ const SalonsCampaignsSection = () => {
           }
           renderItem={({item: campaign}) =>
             isLoadingFeatured ? (
-              selectedType === 'BARTER' ? (
+              selectedType?.value === 'BARTER' ? (
                 <FeaturedCampaignBarterCardSkeleton />
               ) : (
                 <FeaturedCampaignOfferCardSkeleton />
               )
-            ) : selectedType === 'BARTER' ? (
+            ) : selectedType?.value === 'BARTER' ? (
               <FeaturedCampaignBarterCard campaign={campaign} />
             ) : (
               <FeaturedCampaignOfferCard campaign={campaign} />
             )
+          }
+          ListEmptyComponent={
+            <View className="w-full flex-1 items-center justify-center">
+              <Text className="text-center text-gray-700 font-semibold text-lg">
+                No campaigns found
+              </Text>
+            </View>
           }
         />
       </View>
@@ -121,7 +148,7 @@ const SalonsCampaignsSection = () => {
         <View className="flex-row justify-center items-center gap-2">
           <Icons.LeftGradientLine height={24} width={60} />
           <Text className="text-center text-xl font-semibold">
-            {convertToTitleCase(selectedType)}s
+            {convertToTitleCase(selectedType?.label)}s
           </Text>
           <Icons.RightGradientLine height={24} width={60} />
         </View>
@@ -135,16 +162,23 @@ const SalonsCampaignsSection = () => {
           }
           renderItem={({item: campaign}) =>
             isLoadingCampaigns ? (
-              selectedType === 'BARTER' ? (
+              selectedType?.value === 'BARTER' ? (
                 <BarterCampaignCardSkeleton />
               ) : (
                 <OfferCampaignCardSkeleton />
               )
-            ) : selectedType === 'BARTER' ? (
+            ) : selectedType?.value === 'BARTER' ? (
               <BarterCampaignCard campaign={campaign} />
             ) : (
               <OfferCampaignCard campaign={campaign} />
             )
+          }
+          ListEmptyComponent={
+            <View className="w-full flex-1 items-center justify-center">
+              <Text className="text-center text-gray-700 font-semibold text-lg">
+                No campaigns found
+              </Text>
+            </View>
           }
         />
       </View>
