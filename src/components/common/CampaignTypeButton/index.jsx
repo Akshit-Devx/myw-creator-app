@@ -1,11 +1,11 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import {CAMPAIGN_TYPES} from '../../../utility/common';
+import {CAMPAIGN_TYPES_TAB} from '../../../utility/common';
 import LinearGradient from 'react-native-linear-gradient';
 
 const CampaignTypeButton = ({selectedType, setSelectedType}) => {
   return (
     <View className="flex-row gap-3 border border-gray-100 rounded-full p-1">
-      {CAMPAIGN_TYPES?.map(item => {
+      {CAMPAIGN_TYPES_TAB?.map(item => {
         if (item?.value === selectedType?.value) {
           return (
             <TouchableOpacity className="flex-1">

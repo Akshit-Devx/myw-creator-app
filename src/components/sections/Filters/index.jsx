@@ -50,7 +50,12 @@ const Filters = ({
         placeholder="Follower Range"
         onApply={value => {
           Object.keys(value).forEach(key => {
-            handleFilterParams(key, value[key]);
+            value[key] && handleFilterParams(key, value[key]);
+          });
+        }}
+        onClear={value => {
+          Object.keys(value).forEach(key => {
+            handleFilterParams(key, null);
           });
         }}
         selected={

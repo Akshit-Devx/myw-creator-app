@@ -49,12 +49,39 @@ export const CAMPAIGN_CATEGORIES = [
   },
 ];
 
-export const CAMPAIGN_TYPES = [
-  {label: 'Collabs', value: 'BARTER'},
+export const CAMPAIGN_TYPES_TAB = [
+  {label: 'Collab', value: 'BARTER'},
   {label: 'Offers', value: 'OFFER'},
 ];
 
-export const CAMPAIGN_DETAILS_TABS = ['ABOUT', 'PHOTOS', 'REFERENCES'];
+export const CAMPAIGN_TYPES = {
+  SALONS: 'SALONS',
+  RESTAURANTS: 'RESTAURANTS',
+  RESORTS: 'RESORTS',
+  PRODUCTS: 'PRODUCTS',
+};
+
+export const PLATFORMS = {
+  INSTAGRAM: 'INSTAGRAM',
+};
+
+export const MESSAGES = {
+  ALREADY_APPLIED: 'ALREADY_APPLIED',
+  ELIGIBLE_FROM_SUGGESTION: 'ELIGIBLE_FROM_SUGGESTION',
+  ELIGIBLE_FROM_INVITATION: 'ELIGIBLE_FROM_INVITATION',
+};
+
+export const REFS = {
+  SUGGESTIONS: 'SUGGESTIONS',
+  INVITE_LINK: 'INVITE_LINK',
+};
+
+export const STATUSES = {
+  REQUESTED: 'REQUESTED',
+  ACCEPTED: 'ACCEPTED',
+};
+
+export const CAMPAIGN_DETAILS_TABS = ['ABOUT', 'PHOTOS'];
 
 export const PAYOUT_METHOD = ['BANK', 'UPI'];
 

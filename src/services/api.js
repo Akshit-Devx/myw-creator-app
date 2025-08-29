@@ -1204,3 +1204,717 @@ export const createSubscriptionPurchasedItem = /* GraphQL */ `
     }
   }
 `;
+
+export const checkInfluencerApplyEligibility = /* GraphQL */ `
+  query CheckInfluencerApplyEligibility(
+    $influencerId: String
+    $campaignId: String
+    $campaignType: String
+  ) {
+    checkInfluencerApplyEligibility(
+      influencerId: $influencerId
+      campaignId: $campaignId
+      campaignType: $campaignType
+    ) {
+      code
+      message
+      data
+      session
+      ref
+      collaborationId
+      isFirstCollab
+    }
+  }
+`;
+
+export const getWhitelistByInfluencerId = /* GraphQL */ `
+  query GetWhitelistByInfluencerId(
+    $influencerId: String!
+    $limit: Int
+    $nextToken: String
+  ) {
+    getWhitelistByInfluencerId(
+      influencerId: $influencerId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdBy
+        isActive
+        influencerId
+        startDate
+        endDate
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const updateCollaborationByInfluencer = /* GraphQL */ `
+  mutation UpdateCollaborationByInfluencer($input: UpdateCollaborationInput) {
+    updateCollaborationByInfluencer(input: $input) {
+      id
+      campaignId
+      influencerId
+      brandId
+      campaignType
+      platform
+      campaignCategory
+      influencerOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        stayDuration {
+          days
+          nights
+          __typename
+        }
+        offerPercentage
+        isAmtLimit
+        uptoAmount
+        uptoLimit
+        autoRequestApproval
+        autoDeliverablesApproval
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      brandOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        stayDuration {
+          days
+          nights
+          __typename
+        }
+        offerPercentage
+        isAmtLimit
+        uptoAmount
+        uptoLimit
+        autoRequestApproval
+        autoDeliverablesApproval
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      acceptedOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        stayDuration {
+          days
+          nights
+          __typename
+        }
+        offerPercentage
+        isAmtLimit
+        uptoAmount
+        uptoLimit
+        autoRequestApproval
+        autoDeliverablesApproval
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      message {
+        id
+        sender
+        message
+        sentAt
+        __typename
+      }
+      status
+      ref
+      timeLine {
+        state
+        date
+        __typename
+      }
+      isAgreementAccepted
+      isFirstCollab
+      hasNegotiated
+      scheduleHistory {
+        selectedDate
+        selectedTime
+        source
+        date
+      }
+      dateChangeRequested
+      source
+      selectedStore
+      selectedDate
+      selectedTime
+      qrLink
+      isLinkVerified
+      isInviteNotified
+      invitedAt
+      linkExpiresAt
+      liveLinks {
+        type
+        link
+        igMediaId
+        permaLink
+        mediaType
+        stats {
+          views
+          likes
+          comments
+          engagementRate
+          __typename
+        }
+        __typename
+      }
+      collabReport {
+        totalComments
+        totalLikes
+        totalLiveContent
+        totalPayment
+        totalViews
+        __typename
+      }
+      influencerFollowersCount
+      influencersCity
+      influencersAvgViews
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+
+export const getCollaborationDetailsById = /* GraphQL */ `
+  query GetCollaborationDetailsById($id: ID!) {
+    getCollaborationDetailsById(id: $id) {
+      id
+      campaignId
+      influencerId
+      brandId
+      brandDetails {
+        id
+        name
+        email
+        phoneNo
+        brandAffiliateId
+        website
+        description
+        category
+        logo
+        message
+        rating
+        ratingCount
+        verificationStatus
+        verifiedAt
+        createdAt
+        updatedAt
+      }
+      campaignType
+      campaignCategory
+      campaignDetails {
+        id
+        brandId
+        brandName
+        brandLogo
+        banner
+        featuredBanner
+        hasFastApproval
+        type
+        storesData {
+          id
+          website
+          storeType
+          name
+          address
+          locality
+          city
+          state
+          country
+          pincode
+          logo
+          avgPrice
+          storeType
+          categories
+          services
+          establishmentType
+          availability {
+            day
+            openTime
+            closeTime
+          }
+          storeMedia {
+            name
+            media
+          }
+        }
+        name
+        category
+        description
+        maxInfluencersPerDay
+        status
+        isAgreementAccepted
+        verificationStatus
+        verifiedAt
+        isArchived
+        isFeatured
+        suggestionListId
+        createdAt
+        updatedAt
+        requirements {
+          platform
+          creatorType {
+            minFollowers
+            maxFollowers
+            allowedGuests
+            autoRequestApproval
+            autoDeliverablesApproval
+            offerPercentage
+            isAmtLimit
+            uptoAmount
+            offerings {
+              id
+              name
+              description
+              type
+              price
+              link
+              categories
+              media {
+                type
+                link
+              }
+            }
+            stayDuration {
+              days
+              nights
+            }
+            deliverables {
+              reels
+              posts
+              stories
+              shorts
+              videos
+            }
+          }
+          references {
+            name
+            description
+            links
+          }
+          isNegotiable
+        }
+      }
+      influencerDetails {
+        id
+        name
+        slug
+        email
+        profilePic
+        bio
+        igUsername
+        category
+        followers
+        utm_source
+        hasApplied
+        avgViews
+        avgLikes
+        avgComments
+        engagementRate
+      }
+      influencerOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        offerPercentage
+        isAmtLimit
+        uptoLimit
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+          }
+        }
+        stayDuration {
+          days
+          nights
+        }
+        uptoAmount
+        autoRequestApproval
+        autoDeliverablesApproval
+      }
+      brandOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        offerPercentage
+        isAmtLimit
+        uptoLimit
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+          }
+        }
+        stayDuration {
+          days
+          nights
+        }
+        uptoAmount
+        autoRequestApproval
+        autoDeliverablesApproval
+      }
+      acceptedOffer {
+        reels
+        posts
+        stories
+        shorts
+        videos
+        allowedGuests
+        offerPercentage
+        isAmtLimit
+        uptoLimit
+        offerings {
+          id
+          name
+          description
+          type
+          price
+          link
+          categories
+          media {
+            type
+            link
+          }
+        }
+        stayDuration {
+          days
+          nights
+        }
+        uptoAmount
+        autoRequestApproval
+        autoDeliverablesApproval
+      }
+      message {
+        id
+        sender
+        message
+        sentAt
+      }
+      status
+      ref
+      timeLine {
+        state
+        date
+      }
+      paymentDetails {
+        id
+        brandId
+        brandPayment
+        campaignId
+        collaborationId
+        discount
+        finalAmt
+        influencerId
+        mywallCharges
+        paymentId
+        paymentStatus
+        totalAmt
+        transferId
+        transferStatus
+        type
+        createdAt
+        updatedAt
+      }
+      deliverablesData {
+        id
+        campaignId
+        influencerId
+        collaborationId
+        brandId
+        status
+        brandMessage
+        createdAt
+        updatedAt
+      }
+      isAgreementAccepted
+      isFirstCollab
+      scheduleHistory {
+        selectedDate
+        selectedTime
+        source
+        date
+      }
+      dateChangeRequested
+      source
+      selectedStore
+      selectedDate
+      selectedTime
+      qrLink
+      isLinkVerified
+      linkExpiresAt
+      isInviteNotified
+      invitedAt
+      liveLinks {
+        type
+        link
+        igMediaId
+        permaLink
+        mediaType
+      }
+      collabReport {
+        totalComments
+        totalLikes
+        totalLiveContent
+        totalPayment
+        totalViews
+      }
+      deliverables {
+        id
+        campaignId
+        influencerId
+        collaborationId
+        brandId
+        deliverableItems {
+          type
+          mediaUrl
+          uploadedAt
+        }
+        timeLine {
+          state
+          date
+        }
+        status
+        brandMessage
+        createdAt
+        updatedAt
+      }
+      ratings {
+        id
+        collaborationId
+        campaignId
+        brandId
+        influencerId
+        ratingToBrand
+        reviewToBrand
+        brandRatedAt
+        ratingToInfluencer
+        reviewToInfluencer
+        influencerRatedAt
+        createdAt
+        updatedAt
+      }
+      orderDetails {
+        id
+        influencerName
+        influencerPhone
+        influencerAddress
+        collabApprovedAmt
+        offeringType
+        anyProductLinks
+        trackingLink
+        totalOrderAmt
+        remainingAmt
+        status
+        timeLine {
+          state
+          date
+        }
+        products {
+          id
+          orderId
+          productId
+          productName
+          productImage
+          productPrice
+          productLink
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const updateSuggestionListData = /* GraphQL */ `
+  mutation UpdateSuggestionListData($input: SuggestionListInput) {
+    updateSuggestionListData(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const getCampaignDetailsById = /* GraphQL */ `
+  query GetCampaignDetailsById($id: ID!) {
+    getCampaignDetailsById(id: $id) {
+      id
+      brandId
+      brandName
+      brandLogo
+      isFeatured
+      hasFastApproval
+      type
+      banner
+      featuredBanner
+      type
+      stores
+      storesData {
+        id
+        name
+        website
+        address
+        locality
+        city
+        state
+        country
+        pincode
+        logo
+        avgPrice
+        storeType
+        categories
+        services
+        establishmentType
+        availability {
+          day
+          openTime
+          closeTime
+        }
+        storeMedia {
+          name
+          media
+        }
+      }
+      name
+      category
+      description
+      maxInfluencersPerDay
+      requirements {
+        platform
+        creatorType {
+          minFollowers
+          maxFollowers
+          allowedGuests
+          autoRequestApproval
+          autoDeliverablesApproval
+          offerPercentage
+          isAmtLimit
+          uptoAmount
+          uptoLimit
+          offerings {
+            id
+            name
+            description
+            type
+            price
+            link
+            categories
+            media {
+              type
+              link
+            }
+          }
+          stayDuration {
+            days
+            nights
+          }
+          deliverables {
+            reels
+            posts
+            stories
+            shorts
+            videos
+          }
+        }
+        references {
+          name
+          description
+          links
+        }
+        isNegotiable
+      }
+      status
+      isAgreementAccepted
+      verificationStatus
+      verifiedAt
+      isArchived
+      isFeatured
+      suggestionListId
+      createdAt
+      updatedAt
+    }
+  }
+`;
