@@ -15,6 +15,7 @@ import {Icons} from '../../../assets/icons';
 const AvgViewsFilterModal = ({
   placeholder = 'Location',
   onApply,
+  onClear,
   selected,
   icon,
 }) => {
@@ -40,7 +41,9 @@ const AvgViewsFilterModal = ({
   // Get display text (either from selected item or placeholder)
   const displayText = selected
     ? typeof selected === 'object'
-      ? `${selected?.minFollowers} - ${selected?.maxFollowers}`
+      ? `${selected?.minFollowers} - ${
+          selected?.maxFollowers ? selected?.maxFollowers : '-'
+        }`
       : selected
     : placeholder;
 
@@ -154,7 +157,12 @@ const AvgViewsFilterModal = ({
           {displayText}
         </Text>
         {selected ? (
-          <TouchableOpacity onPress={() => onApply({minFollowers: null, maxFollowers: null})}>
+          <TouchableOpacity
+            onPress={() => {
+              onClear?.({minFollowers: null, maxFollowers: null});
+              setMinValue('');
+              setMaxValue('');
+            }}>
             <Icons.CrossIcon width={18} height={18} />
           </TouchableOpacity>
         ) : (

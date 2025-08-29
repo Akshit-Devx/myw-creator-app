@@ -11,7 +11,7 @@ import {useSelector} from 'react-redux';
 
 import Filters from '../Filters';
 import {Icons} from '../../../assets/icons';
-import {CAMPAIGN_TYPES} from '../../../utility/common';
+import {CAMPAIGN_TYPES_TAB} from '../../../utility/common';
 import OfferCampaignCard from '../../cards/OfferCampaign';
 import BarterCampaignCard from '../../cards/BarterCampaign';
 import {filterCampaignAPI} from '../../../services/handleApi';
@@ -23,7 +23,7 @@ const {width: WINDOW_WIDTH} = Dimensions.get('window');
 
 const ForYouCampaignsSection = () => {
   const {onBoarding} = useSelector(state => state.onBoarding);
-  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES_TAB[0]);
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [offerFilterParams, setOfferFilterParams] = useState({});
