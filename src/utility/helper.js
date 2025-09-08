@@ -527,3 +527,80 @@ export const stepsData = data => {
     data: formattedTimeline,
   };
 };
+
+export const updateDateFormat = dateString => {
+  // Parse the input date string
+  const date = new Date(dateString);
+
+  // Get the day of the month
+  const day = date.getDate();
+
+  // Get the month name
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const month = monthNames[date.getMonth()];
+
+  // Add the ordinal suffix to the day
+  const getOrdinalSuffix = day => {
+    if (day > 3 && day < 21) return 'th';
+
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
+
+  const ordinalDay = `${day}${getOrdinalSuffix(day)}`;
+
+  // Return the formatted date
+  return `${ordinalDay} ${month}`;
+};
+
+export const formatFileSize = sizeInBytes => {
+  if (sizeInBytes < 1024) {
+    return `${sizeInBytes} bytes`;
+  } else if (sizeInBytes < 1024 * 1024) {
+    return `${Math.round(sizeInBytes / 1024)}KB`;
+  } else {
+    return `${(sizeInBytes / (1024 * 1024)).toFixed(1)}MB`;
+  }
+};
+
+export const calculateMakePaymentAmount = (
+  totalAmount,
+  offerPercentage,
+  uptoAmount,
+) => {
+  if (totalAmount < 0 || offerPercentage < 0 || uptoAmount < 0) {
+    throw new Error('All parameters must be non-negative values');
+  }
+
+  const percentageDiscountAmount = (totalAmount * offerPercentage) / 100;
+  return uptoAmount > 0
+    ? Math.min(percentageDiscountAmount, uptoAmount)
+    : percentageDiscountAmount;
+};
+
+export const extractFileIdentifier = path => {
+  const regex = /\/([^\/]+)-\d+$/;
+  const match = path.match(regex);
+  return match ? match[1] : null;
+};

@@ -1,5 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {View, Text} from 'react-native';
+
+import {twMerge} from 'tailwind-merge';
 
 const CustomStepper = ({steps, currentStep, className = ''}) => {
   const stepsToUse = steps || [];
@@ -13,16 +15,18 @@ const CustomStepper = ({steps, currentStep, className = ''}) => {
       {stepsToUse?.map((step, index) => (
         <View key={index} className="flex-col gap-1 items-center flex-1">
           <View
-            className={`w-6 h-6 rounded-full bg-white border z-10 border-[#406AFF] ${
-              index <= currentStepIndex ? 'bg-[#406AFF]' : ''
-            }`}
+            className={twMerge(
+              `w-6 h-6 rounded-full bg-white border z-10 border-[#406AFF] ${
+                index <= currentStepIndex ? 'bg-[#406AFF]' : ''
+              }`,
+            )}
           />
           <Text
-            className={`text-sm ${
+            className={twMerge(`text-sm ${
               index <= currentStepIndex
                 ? 'text-neutral-800 font-bold'
                 : 'text-neutral-400 font-normal'
-            }`}>
+            }`)}>
             {step.label}
           </Text>
           {index < stepsToUse.length - 1 && (

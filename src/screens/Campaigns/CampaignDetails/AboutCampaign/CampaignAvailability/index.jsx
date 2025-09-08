@@ -33,8 +33,6 @@ const CampaignAvailability = memo(({type, campaignData, selectedStore}) => {
     );
   };
 
-  console.log('selectedStore?.availability ', selectedStore?.availability);
-
   return (
     <TouchableOpacity
       activeOpacity={0.8}

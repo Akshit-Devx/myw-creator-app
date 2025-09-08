@@ -1918,3 +1918,114 @@ export const getCampaignDetailsById = /* GraphQL */ `
     }
   }
 `;
+
+export const createOrderForProductCollab = /* GraphQL */ `
+  mutation CreateOrderForProductCollab(
+    $input: CreateOrderForProductCollabInput!
+  ) {
+    createOrderForProductCollab(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const createDeliverable = /* GraphQL */ `
+  mutation CreateDeliverable($input: CreateDeliverableInput!) {
+    createDeliverable(input: $input) {
+      id
+      campaignId
+      influencerId
+      collaborationId
+      brandId
+      deliverableItems {
+        type
+        mediaUrl
+        link
+        uploadedAt
+      }
+      uploadedLiveLinks {
+        type
+        link
+        igMediaId
+        permaLink
+        mediaType
+      }
+      timeLine {
+        state
+        date
+      }
+      status
+      brandMessage
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const updatePaymentLogs = /* GraphQL */ `
+  mutation updatePaymentLogs($input: SyncUpdatePaymentLogs!) {
+    updatePaymentLogs(input: $input) {
+      code
+      message
+    }
+  }
+`;
+
+export const createRazorpayOrder = /* GraphQL */ `
+  mutation createRazorpayOrder($input: SyncRazorpayOrder!) {
+    createRazorpayOrder(input: $input) {
+      code
+      message
+      session
+      customerId
+    }
+  }
+`;
+
+export const updateDeliverable = /* GraphQL */ `
+  mutation UpdateDeliverable($input: UpdateDeliverableInput!) {
+    updateDeliverable(input: $input) {
+      id
+      campaignId
+      influencerId
+      collaborationId
+      brandId
+      deliverableItems {
+        type
+        mediaUrl
+        link
+        uploadedAt
+      }
+      uploadedLiveLinks {
+        type
+        link
+        igMediaId
+        permaLink
+        mediaType
+      }
+      timeLine {
+        state
+        date
+      }
+      status
+      brandMessage
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const updateCollabRatings = /* GraphQL */ `
+  mutation UpdateCollabRatings($input: CollabRatingsInput) {
+    updateCollabRatings(input: $input) {
+      code
+      message
+      data
+      session
+      ref
+      collaborationId
+      isFirstCollab
+    }
+  }
+`;

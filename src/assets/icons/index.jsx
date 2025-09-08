@@ -80,6 +80,17 @@ import ErrorIcon from './ErrorIcon.svg';
 import DayCalenderIcon from './DayCalenderIcon.svg';
 import LinkIcon from './LinkIcon.svg';
 import ShareIcon from './ShareIcon.svg';
+import GuestsIcon from './guests.svg';
+import ThreeDotMenuIcon from './ThreeDotMenuIcon.svg';
+import AcceptedIcon from './AcceptedIcon.svg';
+import AlertIcon from './AlertIcon.svg';
+import OrderDispatchedIcon from './OrderDispatchedIcon.svg';
+import OrderDeliveredIcon from './OrderDeliveredIcon.svg';
+import CheckoutIcon from './CheckoutIcon.svg';
+import UploadFileIcon from './UploadFile.svg';
+import DiscountIcon from './DiscountIcon.svg';
+import FileIcon from './FileIcon.svg';
+import DoubleTickIcon from './DoubleTickIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -163,5 +174,16 @@ export const Icons = {
   ErrorIcon,
   DayCalenderIcon,
   LinkIcon,
-  ShareIcon
+  ShareIcon,
+  GuestsIcon,
+  ThreeDotMenuIcon,
+  AcceptedIcon,
+  AlertIcon,
+  OrderDispatchedIcon,
+  OrderDeliveredIcon,
+  CheckoutIcon,
+  UploadFileIcon,
+  DiscountIcon,
+  FileIcon,
+  DoubleTickIcon,
 };
