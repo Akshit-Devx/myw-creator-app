@@ -27,7 +27,6 @@ const VisitDateSelector = ({
     type !== 'RESORTS' && selectedDay
       ? generateTimeSlots(availability, selectedDay)
       : [];
-
   const getDatesForSelectedMonth = useCallback(
     value => {
       const selectedOption = options.find(option => option.value === value);
@@ -72,9 +71,9 @@ const VisitDateSelector = ({
     setCheckoutDay(checkOutDate);
     setSelectedTimeSlot(null);
     if (type === 'RESORTS') {
-      onSubmit({selectedDate: date, checkOutDate});
+      onSubmit?.({selectedDate: date, checkOutDate});
     } else {
-      onSubmit({
+      onSubmit?.({
         selectedDate: date,
         selectedTimeSlot: selectedTimeSlot,
       });
@@ -95,9 +94,9 @@ const VisitDateSelector = ({
     setSelectedTimeSlot(timeSlot?.displayTime);
     if (selectedDay) {
       if (type === 'RESORTS') {
-        onSubmit({selectedDate: selectedDay, checkOutDate: checkoutDay});
+        onSubmit?.({selectedDate: selectedDay, checkOutDate: checkoutDay});
       } else {
-        onSubmit({
+        onSubmit?.({
           selectedDate: selectedDay,
           selectedTimeSlot: timeSlot?.displayTime,
         });

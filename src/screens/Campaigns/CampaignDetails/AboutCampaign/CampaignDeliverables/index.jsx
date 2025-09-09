@@ -79,7 +79,6 @@ const CampaignDeliverables = memo(
     ].filter(({count, key}) => key === 'allowedGuests' || count);
 
     const renderCountOrCounter = item => {
-      console.log('campaignNegotiationOffers[item.key]', campaignNegotiationOffers[item.key])
       if (
         wantToCounter &&
         isNegotiable &&

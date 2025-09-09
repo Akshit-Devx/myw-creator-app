@@ -38,7 +38,7 @@ const StayDurationBadge = memo(({stayDuration}) => {
   );
 });
 
-const OfferBadge = memo(({benefits, category}) => {
+export const OfferBadge = memo(({benefits, category}) => {
   const hasOffer =
     (benefits?.offerPercentage ?? 0) > 0 || (benefits?.uptoAmount ?? 0) > 0;
 

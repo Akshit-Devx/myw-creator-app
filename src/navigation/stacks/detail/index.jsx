@@ -24,6 +24,7 @@ import EditCategoryScreen from '../../../screens/Account/MyProfile/EditCategory'
 import EditSelectedReelScreen from '../../../screens/Account/MyProfile/EditSelectedReel';
 import Pricing from '../../../screens/Account/Subscription/Pricing';
 import ApplyCampaignScreen from '../../../screens/Campaigns/ApplyCampaign';
+import MyCampaignDetailsScreen from '../../../screens/Campaigns/MyCampaignDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -89,6 +90,10 @@ const DetailStack = () => {
       />
       <Stack.Screen name="Pricing" component={Pricing} />
       <Stack.Screen name="ApplyCampaign" component={ApplyCampaignScreen} />
+      <Stack.Screen
+        name="MyCampaignDetails"
+        component={MyCampaignDetailsScreen}
+      />
     </Stack.Navigator>
   );
 };
