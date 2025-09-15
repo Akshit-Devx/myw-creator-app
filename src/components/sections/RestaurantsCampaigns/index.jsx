@@ -17,10 +17,10 @@ import FeaturedCampaignBarterCardSkeleton from '../../skeletons/FeaturedCampaign
 import FeaturedCampaignOfferCardSkeleton from '../../skeletons/FeaturedCampaignOfferCard';
 import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
 import Filters from '../Filters';
-import {CAMPAIGN_TYPES} from '../../../utility/common';
+import {CAMPAIGN_TYPES_TAB} from '../../../utility/common';
 
 const RestaurantsCampaignsSection = () => {
-  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES_TAB[0]);
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);

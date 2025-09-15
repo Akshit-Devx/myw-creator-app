@@ -12,11 +12,11 @@ import BarterCampaignCardSkeleton from '../../skeletons/BarterCampaignCard';
 import FeaturedCampaignBarterCardSkeleton from '../../skeletons/FeaturedCampaignBarterCard';
 import FeaturedCampaignOfferCardSkeleton from '../../skeletons/FeaturedCampaignOfferCard';
 import OfferCampaignCardSkeleton from '../../skeletons/OfferCampaignCard';
-import {CAMPAIGN_TYPES} from '../../../utility/common';
+import {CAMPAIGN_TYPES_TAB} from '../../../utility/common';
 import Filters from '../Filters';
 
 const SalonsCampaignsSection = () => {
-  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES[0]);
+  const [selectedType, setSelectedType] = useState(CAMPAIGN_TYPES_TAB[0]);
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true);

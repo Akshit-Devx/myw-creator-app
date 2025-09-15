@@ -61,6 +61,36 @@ import ClockIcon from './ClockIcon.svg';
 import PinLocationIcon from './PinLocationIcon.svg';
 import YoutubeIcon from './YoutubeIcon.svg';
 import ProductionSectionIcon from './ProductionSectionIcon.svg';
+import WorkspacePremiumIcon from './WorkspacePremiumIcon.svg';
+import AwardStarIcon from './AwardStarIcon.svg';
+import YTIcon from './yt.svg';
+import CalendarIcon from './Calendar.svg';
+import CalendarTodayIcon from './CalendarTodayIcon.svg';
+import AlarmIcon from './AlarmIcon.svg';
+import DistanceIcon from './DistanceIcon.svg';
+import ArrowTopRight from './ArrowTopRight.svg';
+import UsersIcon from './users.svg';
+import PlatformIcon from './PlatformIcon.svg';
+import PlayIcon from './PlayIcon.svg';
+import ShortsIcon from './ShortsIcon.svg';
+import ArrowSelector from './arrowSelector.svg';
+import SubscriptionsModalIcon from './SubscriptionsModalIcon.svg';
+import AdsClick from './AdsClick.svg';
+import ErrorIcon from './ErrorIcon.svg';
+import DayCalenderIcon from './DayCalenderIcon.svg';
+import LinkIcon from './LinkIcon.svg';
+import ShareIcon from './ShareIcon.svg';
+import GuestsIcon from './guests.svg';
+import ThreeDotMenuIcon from './ThreeDotMenuIcon.svg';
+import AcceptedIcon from './AcceptedIcon.svg';
+import AlertIcon from './AlertIcon.svg';
+import OrderDispatchedIcon from './OrderDispatchedIcon.svg';
+import OrderDeliveredIcon from './OrderDeliveredIcon.svg';
+import CheckoutIcon from './CheckoutIcon.svg';
+import UploadFileIcon from './UploadFile.svg';
+import DiscountIcon from './DiscountIcon.svg';
+import FileIcon from './FileIcon.svg';
+import DoubleTickIcon from './DoubleTickIcon.svg';
 
 export const Icons = {
   BackIcon,
@@ -126,4 +156,34 @@ export const Icons = {
   PinLocationIcon,
   YoutubeIcon,
   ProductionSectionIcon,
+  WorkspacePremiumIcon,
+  AwardStarIcon,
+  YTIcon,
+  CalendarIcon,
+  CalendarTodayIcon,
+  AlarmIcon,
+  DistanceIcon,
+  ArrowTopRight,
+  UsersIcon,
+  PlatformIcon,
+  PlayIcon,
+  ShortsIcon,
+  ArrowSelector,
+  SubscriptionsModalIcon,
+  AdsClick,
+  ErrorIcon,
+  DayCalenderIcon,
+  LinkIcon,
+  ShareIcon,
+  GuestsIcon,
+  ThreeDotMenuIcon,
+  AcceptedIcon,
+  AlertIcon,
+  OrderDispatchedIcon,
+  OrderDeliveredIcon,
+  CheckoutIcon,
+  UploadFileIcon,
+  DiscountIcon,
+  FileIcon,
+  DoubleTickIcon,
 };

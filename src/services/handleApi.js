@@ -1,14 +1,20 @@
 import {generateClient} from 'aws-amplify/api';
 import {
+  checkInfluencerApplyEligibility,
+  createDeliverable,
   createInfluencerAddress,
+  createOrderForProductCollab,
   createPortfolioCategory,
   createPortfolioVideo,
   createRazorpayCheckout,
+  createRazorpayOrder,
   createSubscriptionPurchasedItem,
   createWithdrawRequest,
   filterCampaign,
   getCampaign,
+  getCampaignDetailsById,
   getCampaignInvitationsByInfluencerId,
+  getCollaborationDetailsById,
   getCollabRatingsByGSI,
   getIgData,
   getInfluencer,
@@ -22,15 +28,22 @@ import {
   getReferralTrackingByInfluencerId,
   getSocialInsightsByInfluencerIdApi,
   getSubscriptionPurchasedByInfluencerId,
+  getWhitelistByInfluencerId,
+  updateCollaborationByInfluencer,
+  updateCollabRatings,
+  updateDeliverable,
   updateInfluencer,
   updateInfluencerAddress,
   updateInstagramDM,
   updateInstagramDMItems,
+  updatePaymentLogs,
   updatePortfolioCategory,
   updatePortfolioVideo,
   updateReferralTracking,
   updateSocialsToken,
+  updateSuggestionListData,
 } from './api';
+import fetchData from '../utility/fetchData';
 
 const client = generateClient();
 
@@ -511,6 +524,173 @@ export const createSubscriptionPurchasedAPI = async data => {
       authMode: 'userPool',
     });
     return response?.data?.createSubscriptionPurchasedItem;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const checkInfluencerApplyEligibilityAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: checkInfluencerApplyEligibility,
+      variables: data,
+      authMode: 'userPool',
+    });
+    return response?.data?.checkInfluencerApplyEligibility;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const getWhitelistByInfluencerIdAPI = async influencerId => {
+  try {
+    const response = await client.graphql({
+      query: getWhitelistByInfluencerId,
+      variables: {influencerId},
+      authMode: 'userPool',
+    });
+    return response?.data?.getWhitelistByInfluencerId?.items;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const updateCollaborationAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateCollaborationByInfluencer,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateCollaborationByInfluencer;
+  } catch (error) {
+    console.log('Error:', error);
+    return error?.errors[0];
+  }
+};
+
+export const getCollaborationByIdAPI = async id => {
+  try {
+    const response = await client.graphql({
+      query: getCollaborationDetailsById,
+      variables: {id},
+      authMode: 'userPool',
+    });
+    return response?.data?.getCollaborationDetailsById;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const updateSuggestionListDataAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateSuggestionListData,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateSuggestionListData;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const getPublishedCampaign = async ({
+  id,
+  revalidate = 0,
+  tags = ['campaign-data', `campaign-${id}`],
+}) => {
+  try {
+    const data = await fetchData(
+      getCampaignDetailsById,
+      {id},
+      {
+        next: {revalidate, tags},
+      },
+    );
+
+    return data?.getCampaignDetailsById;
+  } catch (error) {
+    console.error('Error fetching campaign data:', error);
+    return null;
+  }
+};
+
+export const createOrderForProductCollabAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createOrderForProductCollab,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createOrderForProductCollab;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const createDeliverableAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createDeliverable,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createDeliverable;
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export const updatePaymentLogsAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updatePaymentLogs,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updatePaymentLogs;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const createRazorpayOrderAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: createRazorpayOrder,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.createRazorpayOrder;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
+
+export const updateDeliverableAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateDeliverable,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateDeliverable;
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export const updateCollabRatingAPI = async data => {
+  try {
+    const response = await client.graphql({
+      query: updateCollabRatings,
+      variables: {input: data},
+      authMode: 'userPool',
+    });
+    return response?.data?.updateCollabRatings;
   } catch (error) {
     console.log('Error:', error);
   }

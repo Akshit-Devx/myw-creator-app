@@ -1,7 +1,11 @@
-import {MEDIA_URL} from '../config/envConfig';
+import {BRANDS_MEDIA_URL, MEDIA_URL} from '../config/envConfig';
 
 export const getMediaURL = key => {
   return `${MEDIA_URL}/${key}`;
+};
+
+export const getBrandMediaUrl = key => {
+  return `https://${BRANDS_MEDIA_URL}/${key}?optimizer=image`;
 };
 
 export const formatPhoneNumber = input => {
@@ -255,4 +259,348 @@ export const formatDate = isoDate => {
 
 export const checkSubscriptionStatus = subscription => {
   return Boolean(subscription?.id && subscription?.isActive);
+};
+
+export const getVisitMonth = (availability, type) => {
+  // Get current year
+  const currentYear = new Date().getFullYear();
+
+  // Get current month (0-11)
+  const currentMonth = new Date().getMonth();
+
+  // Get current day of month (1-31)
+  const currentDay = new Date().getDate();
+
+  // Month names
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  // Function to get number of days in a month
+  const getDaysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  // Map day names to match availability format
+  const dayNameToAvailabilityFormat = dayName => {
+    const map = {
+      Mon: 'MONDAY',
+      Tue: 'TUESDAY',
+      Wed: 'WEDNESDAY',
+      Thu: 'THURSDAY',
+      Fri: 'FRIDAY',
+      Sat: 'SATURDAY',
+      Sun: 'SUNDAY',
+    };
+    return map[dayName];
+  };
+
+  // Check if a day is available based on the availability array
+  const isDayAvailable = dayName => {
+    const formattedDay = dayNameToAvailabilityFormat(dayName);
+
+    // Check if availability has "ALL" days
+    const hasAllDays = availability?.some(slot => slot?.day === 'ALL');
+
+    // If "ALL" is present and type is RESORTS, disable Friday, Saturday, and Sunday
+    if (hasAllDays && type === 'RESORTS') {
+      const disabledDays = ['FRIDAY', 'SATURDAY', 'SUNDAY'];
+      if (disabledDays.includes(formattedDay)) {
+        return false;
+      }
+    }
+
+    return availability?.some(
+      slot => slot?.day === 'ALL' || slot?.day === formattedDay,
+    );
+  };
+  // Function to generate dates for a specific month
+  const getDatesForMonth = (month, year) => {
+    const daysCount = getDaysInMonth(month, year);
+    const dates = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset hours to compare dates properly
+
+    for (let day = 1; day <= daysCount; day++) {
+      // Create date object for this specific day
+      const date = new Date(year, month, day);
+      const dayOfWeek = date.toLocaleDateString('en-US', {weekday: 'short'});
+
+      // Check if this day is available based on the availability array
+      const isAvailable = isDayAvailable(dayOfWeek);
+
+      // Check if this date is in the past
+      const isPastDate = date < today;
+
+      // Format options
+      const dateObj = {
+        dateObj: date,
+        value: day, // day number (1-31)
+        date: new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+          .toISOString()
+          .split('T')[0], // YYYY-MM-DD format
+        dayOfWeek: dayOfWeek, // Mon, Tue, etc.
+        fullDate: date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }), // Monday, January 1, 2025
+        isAvailable: isAvailable && !isPastDate, // Only available if not in the past
+        isPastDate: isPastDate, // Flag to indicate if this date is in the past
+      };
+
+      dates.push(dateObj);
+    }
+
+    return dates;
+  };
+
+  // For non-RESORT campaigns, only show current month
+  // For RESORT campaigns, show 3 months from current month
+  const monthsToShow = type === 'RESORTS' ? 3 : 1;
+
+  // Generate options array based on campaign type
+  const options = months
+    .slice(currentMonth, currentMonth + monthsToShow) // Show only specified number of months
+    .map((month, index) => {
+      // Adjust index to match actual month (current month + index)
+      const actualMonthIndex = currentMonth + index;
+
+      const daysInMonth = getDaysInMonth(actualMonthIndex, currentYear);
+      const dates = getDatesForMonth(actualMonthIndex, currentYear);
+
+      return {
+        value: `${month.toLowerCase()}${currentYear}`,
+        label: `${month} ${currentYear}`,
+        days: daysInMonth,
+        dates: dates,
+      };
+    });
+
+  // Set default value to current month
+  const defaultValue = `${months[currentMonth].toLowerCase()}${currentYear}`;
+
+  // Get days in the current month
+  const daysInCurrentMonth = getDaysInMonth(currentMonth, currentYear);
+
+  // Get dates for the current month
+  const datesInCurrentMonth = getDatesForMonth(currentMonth, currentYear);
+
+  return {
+    defaultValue,
+    options,
+    daysInCurrentMonth,
+    datesInCurrentMonth,
+    currentMonth,
+    currentYear,
+    currentDay,
+    months: months.slice(currentMonth, currentMonth + monthsToShow), // Only include specified number of months
+  };
+};
+
+export const generateTimeSlots = (availability, selectedDate) => {
+  if (!availability || !selectedDate) return [];
+
+  // Find the availability for the selected date
+  const dateAvailability = availability.find(slot => {
+    const dayName = new Date(selectedDate)
+      .toLocaleDateString('en-US', {weekday: 'long'})
+      .toUpperCase();
+    return slot.day === 'ALL' || slot.day === dayName;
+  });
+
+  if (!dateAvailability) return [];
+
+  const {openTime, closeTime} = dateAvailability;
+
+  // Convert time strings to minutes for easier calculation
+  const convertTimeToMinutes = timeStr => {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  const openMinutes = convertTimeToMinutes(openTime);
+  const closeMinutes = convertTimeToMinutes(closeTime);
+
+  // Generate 3-hour slots
+  const slots = [];
+  const slotDuration = 3 * 60; // 3 hours in minutes
+
+  for (
+    let startMinutes = openMinutes;
+    startMinutes + slotDuration <= closeMinutes;
+    startMinutes += slotDuration
+  ) {
+    const endMinutes = startMinutes + slotDuration;
+
+    // Convert back to time format
+    const startHours = Math.floor(startMinutes / 60);
+    const startMins = startMinutes % 60;
+    const endHours = Math.floor(endMinutes / 60);
+    const endMins = endMinutes % 60;
+
+    const startTime = `${startHours.toString().padStart(2, '0')}:${startMins
+      .toString()
+      .padStart(2, '0')}`;
+    const endTime = `${endHours.toString().padStart(2, '0')}:${endMins
+      .toString()
+      .padStart(2, '0')}`;
+
+    // Format time to 12-hour format without seconds
+    const formatTimeTo12Hour = timeStr => {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+
+      if (hours === 0) return `12 AM`;
+      if (hours === 12) return `12 PM`;
+
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = hours > 12 ? hours - 12 : hours;
+
+      return `${hours12} ${period}`;
+    };
+
+    slots.push({
+      id: `${startTime}-${endTime}`,
+      startTime,
+      endTime,
+      displayTime: `${formatTimeTo12Hour(startTime)} - ${formatTimeTo12Hour(
+        endTime,
+      )}`,
+      startMinutes,
+      endMinutes,
+    });
+  }
+
+  return slots;
+};
+
+export const stepsData = data => {
+  if (!data || !data?.timeLine) {
+    return {data: []};
+  }
+
+  const collaborationState = {
+    REQUESTED: 'Request Sent',
+    REJECTED: 'Request Rejected',
+    ACCEPTED: 'Accepted',
+    NEGOTIATION: 'Negotiation',
+    AGREEMENT_ACCEPTED: 'Agreement Accepted',
+    VISITED: 'Visited',
+    BILL_PAID: 'Bill Paid',
+    DELIVERABLES_SUBMITTED: 'Deliverables Submitted',
+    DELIVERABLES_RESUBMITTED: 'Deliverables ReSubmitted',
+    DELIVERABLES_REJECTED: 'Deliverables Rejected',
+    DELIVERABLES_ACCEPTED: 'Deliverables Accepted',
+    DELIVERABLES_REVISION: 'Deliverables Revision',
+    LIVE_LINK: 'Submit Live Link',
+    COMPLETED: 'Completed',
+  };
+
+  const formattedTimeline = data?.timeLine?.map(item => ({
+    state: collaborationState[item?.state] || item?.state,
+    date: item?.date ? formatDate(item?.date) : undefined,
+  }));
+
+  if (
+    data.status === 'REQUESTED' ||
+    data.status === 'NEGOTIATION' ||
+    data.status === 'ACCEPTED'
+  ) {
+    return {
+      data: [...formattedTimeline, {state: 'Completed'}],
+    };
+  }
+
+  return {
+    data: formattedTimeline,
+  };
+};
+
+export const updateDateFormat = dateString => {
+  // Parse the input date string
+  const date = new Date(dateString);
+
+  // Get the day of the month
+  const day = date.getDate();
+
+  // Get the month name
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const month = monthNames[date.getMonth()];
+
+  // Add the ordinal suffix to the day
+  const getOrdinalSuffix = day => {
+    if (day > 3 && day < 21) return 'th';
+
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
+
+  const ordinalDay = `${day}${getOrdinalSuffix(day)}`;
+
+  // Return the formatted date
+  return `${ordinalDay} ${month}`;
+};
+
+export const formatFileSize = sizeInBytes => {
+  if (sizeInBytes < 1024) {
+    return `${sizeInBytes} bytes`;
+  } else if (sizeInBytes < 1024 * 1024) {
+    return `${Math.round(sizeInBytes / 1024)}KB`;
+  } else {
+    return `${(sizeInBytes / (1024 * 1024)).toFixed(1)}MB`;
+  }
+};
+
+export const calculateMakePaymentAmount = (
+  totalAmount,
+  offerPercentage,
+  uptoAmount,
+) => {
+  if (totalAmount < 0 || offerPercentage < 0 || uptoAmount < 0) {
+    throw new Error('All parameters must be non-negative values');
+  }
+
+  const percentageDiscountAmount = (totalAmount * offerPercentage) / 100;
+  return uptoAmount > 0
+    ? Math.min(percentageDiscountAmount, uptoAmount)
+    : percentageDiscountAmount;
+};
+
+export const extractFileIdentifier = path => {
+  const regex = /\/([^\/]+)-\d+$/;
+  const match = path.match(regex);
+  return match ? match[1] : null;
 };
